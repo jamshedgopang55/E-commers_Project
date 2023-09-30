@@ -1,0 +1,62 @@
+[
+    {
+      "name": "T-Shirts",
+      "slug": "t-shirts",
+      "category_id": 1,
+      "status": 0
+    },
+    {
+      "name": "Jeans",
+      "slug": "jeans",
+      "category_id": 1,
+      "status": 1
+    },
+    {
+      "name": "Sneakers",
+      "slug": "sneakers",
+      "category_id": 2,
+      "status": 0
+    },
+    {
+      "name": "Boots",
+      "slug": "boots",
+      "category_id": 2,
+      "status": 1
+    },
+    {
+      "name": "Smartphones",
+      "slug": "smartphones",
+      "category_id": 3,
+      "status": 0
+    },
+    {
+      "name": "Laptops",
+      "slug": "laptops",
+      "category_id": 3,
+      "status": 1
+    },
+    {
+      "name": "Sofas",
+      "slug": "sofas",
+      "category_id": 4,
+      "status": 0
+    },
+    {
+      "name": "Chairs",
+      "slug": "chairs",
+      "category_id": 4,
+      "status": 1
+    },
+    {
+      "name": "Mystery",
+      "slug": "mystery",
+      "category_id": 5,
+      "status": 0
+    },
+    {
+      "name": "Fantasy",
+      "slug": "fantasy",
+      "category_id": 5,
+      "status": 1
+    }
+  ]

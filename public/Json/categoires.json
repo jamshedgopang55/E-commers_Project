@@ -1,0 +1,63 @@
+[
+      {
+        "id": 1,
+        "name": "Clothes",
+        "slug": "clothes",
+        "status": 0
+      },
+      {
+        "id": 2,
+        "name": "Shoes",
+        "slug": "shoes",
+        "status": 1
+      },
+      {
+        "id": 3,
+        "name": "Electronics",
+        "slug": "electronics",
+        "status": 0
+      },
+      {
+        "id": 4,
+        "name": "Furniture",
+        "slug": "furniture",
+        "status": 1
+      },
+      {
+        "id": 5,
+        "name": "Books",
+        "slug": "books",
+        "status": 0
+      },
+      {
+        "id": 6,
+        "name": "Toys",
+        "slug": "toys",
+        "status": 1
+      },
+      {
+        "id": 7,
+        "name": "Jewelry",
+        "slug": "jewelry",
+        "status": 0
+      },
+      {
+        "id": 8,
+        "name": "Sports",
+        "slug": "sports",
+        "status": 1
+      },
+      {
+        "id": 9,
+        "name": "Food",
+        "slug": "food",
+        "status": 0
+      },
+      {
+        "id": 10,
+        "name": "Beauty",
+        "slug": "beauty",
+        "status": 1
+      }
+    ]
+

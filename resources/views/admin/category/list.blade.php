@@ -48,6 +48,7 @@
                                 <th width="60">ID</th>
                                 <th>Name</th>
                                 <th>Slug</th>
+                                <th width="100">Show On Home</th>
                                 <th width="100">Status</th>
                                 <th width="100">Action</th>
                             </tr>
@@ -59,6 +60,7 @@
                                         <td>{{ $category->id }}</td>
                                         <td>{{ $category->name }}</td>
                                         <td>{{ $category->slug }}</td>
+                                        <td>{{ $category->showOnHome }}</td>
                                         <td>
                                             @if ($category->status == true)
                                                 <svg class="text-success-500 h-6 w-6 text-success"
@@ -77,6 +79,7 @@
                                                 </svg>
                                             @endif
                                         </td>
+
                                         <td>
                                             <a href="{{ route('category.edit', $category->id) }}">
                                                 <svg class="filament-link-icon w-4 h-4 mr-1"

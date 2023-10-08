@@ -62,8 +62,18 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div  class="mb-3">
-                                   <img width="200px" height="200px" src="{{asset('uploads/category/'.$category->image)}}" alt="">
+                                <div class="mb-3">
+                                    <label for="showOnHome">Show On Home</label>
+                                    <select name="showOnHome" id="status" class="form-control" id="">
+                                        <option value="Yes" {{($category->showOnHome=='Yes') ? 'selected' : ''}}>Yes</option>
+                                        <option value="No" {{($category->showOnHome=='No') ? 'selected' : ''}} >No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div  class="mb-3">                                       @if ($category->image!='NULL')
+                                        <img width="200px" height="200px" src="{{asset('uploads/category/'.$category->image)}}" alt="">
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -83,6 +93,7 @@
     <script>
         $(document).ready(function() {
             $('#categoryForm').submit('click', function(e) {
+                $('#btn').attr('disabled', true)
                 const data = $(this).serializeArray()
                 let name = document.getElementById('name').value;
                 let slug = document.getElementById('slug').value;
@@ -94,7 +105,7 @@
                     data: data,
                     success: function(response) {
                         if (response['status'] == true) {
-
+                            $('#btn').attr('disabled', false)
                             window.location.href = "{{ route('category.index') }}"
                             $('#name').removeClass('is-invalid').siblings('p').removeClass(
                                 'invalid-feedback').html("")

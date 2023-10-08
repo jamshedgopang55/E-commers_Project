@@ -27,7 +27,7 @@
                     <div class="card-body">
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="mb-3">
                                     <label for="name">Category</label>
                                     <select name="category" id="category" class="form-control">
@@ -64,12 +64,21 @@
                                        <p></p>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="showOnHome">Show On Home</label>
+                                    <select name="showOnHome" id="status" class="form-control" id="">
+                                        <option value="Yes" {{($subCategory->showOnHome=='Yes') ? 'selected' : ''}}>Yes</option>
+                                        <option value="No" {{($subCategory->showOnHome=='No') ? 'selected' : ''}} >No</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                 </div>
                 <div class="pb-5 pt-3">
-                    <button class="btn btn-primary">Update</button>
+                    <button id="btn" class="btn btn-primary">Update</button>
                     <a href="{{route('sub-Category.index')}}" class="btn btn-outline-dark ml-3">Cancel</a>
                 </div>
             </div>
@@ -82,6 +91,7 @@
     <script>
      $(document).ready(function() {
             $('#subcategoryForm').submit('click', function(e) {
+                $('#btn').attr('disabled', true)
                 const data = $(this).serializeArray()
                 let name = document.getElementById('name').value;
                 let slug = document.getElementById('slug').value;
@@ -91,6 +101,7 @@
                     type: 'PUT',
                     data: data,
                     success: function(response) {
+                        $('#btn').attr('disabled', false)
                         if (response['status'] == true) {
                             window.location.href = " {{ route('sub-Category.index') }}"
                             $('#name').removeClass('is-invalid').siblings('p').removeClass(

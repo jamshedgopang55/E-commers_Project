@@ -3,11 +3,15 @@
 use Illuminate\Support\Facades\Route;
 // use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request;
+use App\Http\Controllers\FrontController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\subCategoryController;
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\adminCategoryController;
 use App\Http\Controllers\Admin\brandController;
+use App\Http\Controllers\Admin\productController;
+use App\Http\Controllers\Admin\productSubCategoryController;
 use App\Http\Controllers\Admin\TempController;
 
 /*
@@ -21,9 +25,16 @@ use App\Http\Controllers\Admin\TempController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::controller(FrontController::class)->group( function(){
+    Route::get('/','index')->name('front.home');
 });
+
+Route::controller(ShopController::class)->group( function(){
+    Route::get('shop','index')->name('front.shop');
+    Route::get('/shop/{categorySlug?}/{subCategorySlug?}','index')->name('front.shop');
+});
+
+Route::get('/',[FrontController::class,'index']);
 
 Route::prefix('admin')->group(function () {
 
@@ -74,11 +85,24 @@ Route::prefix('admin')->group(function () {
             Route::post('/brand{brand}', 'destroy')->name('brand.delete');
         });
 
+        //Products Routes
+        Route::controller(productController::class)->group(function () {
+            Route::get('/products', 'index')->name('products.list');
+            Route::get('/product/create', 'create')->name('product.create');
+            Route::post('/product/store', 'store')->name('product.store');
+            Route::get('/product/{product}/edit', 'edit')->name('product.edit');
+            Route::post('/product{product}/update', 'update')->name('product.update');
+            Route::post('/product/delete', 'imageDelete')->name('product.imageDelete');
+            Route::post('/product{product}', 'destroy')->name('product.delete');
+        });
+
         // temp-images.create
         Route::controller(TempController::class)->group(function () {
             Route::post('/upload-temp-img', 'create')->name('temp-images.create');
         });
-
+        Route::controller(productSubCategoryController::class)->group(function () {
+            Route::get('/product-subCategory/create', 'index')->name('product.subCategory.index');
+        });
 
         ///Slug Routes
         Route::get('getSlug', function (Request $request) {

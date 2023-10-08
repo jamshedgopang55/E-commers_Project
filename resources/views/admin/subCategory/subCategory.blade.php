@@ -9,7 +9,7 @@
                     <h1>Create Sub Category</h1>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a href="subcategory.html" class="btn btn-primary">Back</a>
+                    <a href="{{route('sub-Category.index')}}" class="btn btn-primary">Back</a>
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
                     <div class="card-body">
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="mb-3">
                                     <label for="name">Category</label>
                                     <select name="category" id="category" class="form-control">
@@ -68,13 +68,23 @@
                                        <p></p>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="status">Show On Home</label>
+                                    <select name="showOnHome" id="status" class="form-control" id="">
+                                        <option value="Yes">Yes</option>
+                                        <option selected value="No">No</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
+
                 </div>
                 <div class="pb-5 pt-3">
-                    <button class="btn btn-primary">Create</button>
-                    <a href="subcategory.html" class="btn btn-outline-dark ml-3">Cancel</a>
+                    <button id="btn" class="btn btn-primary">Create</button>
+                    <a href="{{route('sub-Category.index')}}" class="btn btn-outline-dark ml-3">Cancel</a>
                 </div>
             </div>
         </form>
@@ -86,6 +96,7 @@
     <script>
      $(document).ready(function() {
             $('#subcategoryForm').submit('click', function(e) {
+                $('#btn').attr('disabled', true)
                 const data = $(this).serializeArray()
                 let name = document.getElementById('name').value;
                 let slug = document.getElementById('slug').value;
@@ -95,6 +106,7 @@
                     type: 'POST',
                     data: data,
                     success: function(response) {
+                        $('#btn').attr('disabled', false)
                         if (response['status'] == true) {
                             window.location.href = " {{ route('sub-Category.index') }}"
                             $('#name').removeClass('is-invalid').siblings('p').removeClass(

@@ -60,6 +60,15 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="status">Show On Home</label>
+                                    <select name="showOnHome" id="status" class="form-control" id="">
+                                        <option value="Yes">Yes</option>
+                                        <option selected value="No">No</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -77,6 +86,7 @@
     <script>
         $(document).ready(function() {
             $('#categoryForm').submit('click', function(e) {
+                $('#btn').attr('disabled', true)
                 const data = $(this).serializeArray()
                 let name = document.getElementById('name').value;
                 let slug = document.getElementById('slug').value;
@@ -87,6 +97,7 @@
                     type: 'POST',
                     data: data,
                     success: function(response) {
+                        $('#btn').attr('disabled', false)
                         if (response['status'] == true) {
                             window.location.href = " {{ route('category.index') }}"
                             $('#name').removeClass('is-invalid').siblings('p').removeClass(

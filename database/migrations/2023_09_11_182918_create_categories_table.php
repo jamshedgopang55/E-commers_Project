@@ -17,8 +17,7 @@ return new class extends Migration
             $table->string('slug');
             $table->string('image')->default('NULL');
             $table->integer('status')->default(1);
-
-
+            $table->enum('showOnHome',['Yes','No'])->default('No');
             $table->timestamps();
         });
     }

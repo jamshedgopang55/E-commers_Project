@@ -17,12 +17,13 @@ return new class extends Migration
             $table->string('slug');
             $table->unsignedBigInteger('category_id');
             $table->integer('status');
+            $table->enum('showOnHome',['Yes','No'])->default('No');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
-    
+
     /**
      * Reverse the migrations.
      */

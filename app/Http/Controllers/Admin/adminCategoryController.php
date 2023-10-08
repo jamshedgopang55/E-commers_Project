@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Image;
 
 class adminCategoryController extends Controller
 {
@@ -35,20 +36,25 @@ class adminCategoryController extends Controller
             $category->name =  $req->name;
             $category->slug =  $req->slug;
             $category->status =  $req->status;
+            $category->showOnHome =  $req->showOnHome;
             $category->save();
 
             if(!empty($req->image_id)){
-                // $category->image =  $req->image_id;
-                $tempImage = tmp_image::find($req->image_id);
 
+                $tempImage = tmp_image::find($req->image_id);
                 $ext =  last(explode('.',$tempImage->name));
                 $newName =  $category->id .".". $ext;
-
                 $sPath  = public_path('temp/'.$tempImage->name);
                 $dPath  = public_path('uploads/category/'.$newName);
                 File::copy($sPath,$dPath);
                 $category->image = $newName;
                 $category->save();
+                $dPath  = public_path('uploads/category/thumb/'.$newName);
+
+                $img = Image::make($sPath);
+                $img->resize(650,650);
+                $img->save($dPath);
+
             }
 
             $req->session()->flash('success','Category added successfully');
@@ -87,10 +93,13 @@ class adminCategoryController extends Controller
             'slug' => 'required|unique:categories,slug,'.$id.',id'
         ]);
         if($validator->passes()){
+            // return $req->showOnHome;
             $category->name =  $req->name;
             $category->slug =  $req->slug;
             $category->status =  $req->status;
+            $category->showOnHome =  $req->showOnHome;
             $category->save();
+
             $oldImage = $category->image;
 
             if(!empty($req->image_id)){
@@ -103,7 +112,15 @@ class adminCategoryController extends Controller
                 File::copy($sPath,$dPath);
                 $category->image = $newName;
                 $category->save();
+                
+                $dPath  = public_path('uploads/category/thumb/'.$newName);
+                $img = Image::make($sPath);
+                $img->resize(650,650);
+                $img->save($dPath);
+
                 File::delete(public_path().'/uploads/category/'.$oldImage);
+
+
             }
 
             $req->session()->flash('success','Category added successfully');

@@ -97,14 +97,19 @@
                         <div class="col-12 pb-1">
                             <div class="d-flex align-items-center justify-content-end mb-4">
                                 <div class="ml-2">
-                                    <div class="btn-group">
+                                    <select name="sort" id="sort" class="form-control">
+                                        <option {{($sort === 'latest') ? 'selected' : ''}} value="latest">Latest</option>
+                                        <option {{($sort === 'price_desc') ? 'selected' : ''}} value="price_desc">Price High</option>
+                                        <option {{($sort === 'price_asc') ? 'selected' : ''}} value="price_asc">Price Low</option>
+                                    </select>
+                                    {{-- <div class="btn-group">
                                         <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown">Sorting</button>
                                         <div class="dropdown-menu dropdown-menu-right">
                                             <a class="dropdown-item" href="#">Latest</a>
                                             <a class="dropdown-item" href="#">Price High</a>
                                             <a class="dropdown-item" href="#">Price Low</a>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -173,8 +178,8 @@
         type: "double",
         min: 0,
         max: 5000,
-        from: 0,
-        to: 3000,
+        from: {{$priceMin}},
+        to: {{$priceMax}},
         grid: true,
         step:10,
 
@@ -191,6 +196,9 @@
         $('.brand-label').change(function(){
             apply_filters()
         });
+        $('#sort').change(function(){
+            apply_filters()
+        });
 
         function apply_filters(){
 
@@ -202,9 +210,19 @@
             })
 
             let url = "{{url()->current()}}?"
+            //Brand Filter
+            if(brands.length >0 ){
+                url+='&brand='+brands.toString()
+            }
+            //Price Filter
+            url+= '&price_min='+slider.result.from+'&price_max='+slider.result.to
 
-            // url+= '&price_min='+slider.result.from+'&price_max='+slider.result.to
-            window.location.href = url+'&brand='+brands.toString();
+
+            //Sorting Filter
+
+            url+= '&sort='+$('#sort').val()
+
+            window.location.href = url;
 
         }
     </script>

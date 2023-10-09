@@ -18,33 +18,69 @@ class ShopController extends Controller
         $brandArray = [];
 
         $brands = brand::orderBy('name','ASC')->where('status',1)->get();
-        $products =  product::where('status',1)->get();
+        $products =  product::where('status',1);
 
         // Apply Filter
-        if(!empty($categorySlug)){
-         $category = category::where('slug',$categorySlug)->first();
-         $products =  product::where('category_id',$category->id)->get();
-         $categorySelected =$category->id;
-        }
-        if(!empty($subCategorySlug)){
-            $subCategory = subCategory::where('slug',$subCategorySlug)->first();
-            $products =  product::where('sub_category_id',$subCategory->id)->get();
-            $SubCategorySelected = $subCategory->id;
-           }
-           if ($req->get('brand')) {
-            $brandArray = explode(',', $req->get('brand'));
-            $products =  product::whereIn('brand_id',$brandArray)->get();
+
+
+        if (!empty($categorySlug)) {
+            $category = category::where('slug', $categorySlug)->first();
+            $products = $products->where('category_id', $category->id);
+            $categorySelected = $category->id;
         }
 
-        if($req->get('price_min')!= '' && $req->get('price_max')!= ''){
-            $products =  product::whereBetween('price',[intval($req->get('price_min')),intval($req->get('price_max'))])->get();
+        if (!empty($subCategorySlug)) {
+            $subCategory = subCategory::where('slug', $subCategorySlug)->first();
+            $products = $products->where('sub_category_id', $subCategory->id);
+            $SubCategorySelected = $subCategory->id;
         }
-        // die();
+
+        if ($req->get('brand')) {
+            $brandArray = explode(',', $req->get('brand'));
+            $products = $products->whereIn('brand_id', $brandArray);
+        }
+
+        if ($req->get('price_min') != '' && $req->get('price_max') != '') {
+            if($req->get('price_max')==5000){
+            $products = $products->whereBetween('price', [intval($req->get('price_min')),100000000]);
+
+            }else{
+            $products = $products->whereBetween('price', [intval($req->get('price_min')), intval($req->get('price_max'))]);
+
+            }
+
+        }
+
+        if ($req->get('sort')!='') {
+            if($req->get('sort')=='latest'){
+             $products = $products->orderBy('id','DESC');
+            }
+           else if($req->get('sort')=='price_asc'){
+             $products = $products->orderBy('price','ASC');
+            }
+            else {
+             $products = $products->orderBy('price','DESC');
+            }
+         }
+         else{
+             $products = $products->orderBy('id','DESC');
+         }
+         // Finally, retrieve the filtered products
+         $products = $products->get();
+
+
+
+
+
         $data['categorySelected'] = $categorySelected;
         $data['SubCategorySelected'] = $SubCategorySelected;
         $data['brandArray'] = $brandArray;
         $data['products'] = $products;
         $data['brands'] = $brands;
+        $data['priceMin'] =  intval($req->get('price_min'));
+        $data['priceMax'] =  (intval($req->get('price_max'))==0) ? 2500 : intval($req->get('price_max'));;
+        $data['sort'] =  $req->get('sort');
+
         return view('front.shop',$data);
     }
 }

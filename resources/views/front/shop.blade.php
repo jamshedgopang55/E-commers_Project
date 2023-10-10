@@ -1,14 +1,12 @@
 @extends('front.layout.app')
 @section('content')
 <main>
-
-
     <section class="section-5 pt-3 pb-3 mb-3 bg-white">
         <div class="container">
             <div class="light-font">
                 <ol class="breadcrumb primary-color mb-0">
-                    <li class="breadcrumb-item"><a class="white-text" href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Shop</li>
+                    <li class="breadcrumb-item"><a class="white-text" href="/">Home</a></li>
+                    <li class="breadcrumb-item active" ><a href='{{route('front.shop')}}'></a>Shop</li>
                 </ol>
             </div>
         </div>
@@ -102,14 +100,6 @@
                                         <option {{($sort === 'price_desc') ? 'selected' : ''}} value="price_desc">Price High</option>
                                         <option {{($sort === 'price_asc') ? 'selected' : ''}} value="price_asc">Price Low</option>
                                     </select>
-                                    {{-- <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown">Sorting</button>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#">Latest</a>
-                                            <a class="dropdown-item" href="#">Price High</a>
-                                            <a class="dropdown-item" href="#">Price Low</a>
-                                        </div>
-                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -120,6 +110,7 @@
                             @endphp
                         <div class="col-md-4">
                             <div class="card product-card">
+                                <a  href="{{route('front.product',$Product->slug)}}">
                                 <div class="product-image position-relative">
                                     @if (!empty($product_images->image))
                                     <td><img  class="card-img-top" src="{{ asset('uploads/product/small/' . $product_images->image) }}"
@@ -143,32 +134,20 @@
                                         <span class="h6 text-underline"><del>{{$Product->compare_price}}</del></span>
                                     </div>
                                 </div>
+                            </a>
                             </div>
                         </div>
                         @endforeach
                         @endif
 
                         <div class="col-md-12 pt-5">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-end">
-                                    <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                    <a class="page-link" href="#">Next</a>
-                                    </li>
-                                </ul>
-                            </nav>
+                           {{$products->withQueryString()->links('pagination::bootstrap-5')}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
 
 </main>
 @endsection
@@ -182,7 +161,6 @@
         to: {{$priceMax}},
         grid: true,
         step:10,
-
         prefix:"$",
         skin : "round",
         max_postfix: "+",

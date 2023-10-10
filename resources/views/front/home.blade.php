@@ -159,7 +159,7 @@
                     <div class="col-md-3">
                         <div class="card product-card">
                             <div class="product-image position-relative">
-                                <a href="" class="product-img">
+                                <a href="{{route('front.product',$Product->slug)}}" class="product-img">
                                     @if (!empty($product_images->image))
                                         <td><img  class="card-img-top" src="{{ asset('uploads/product/small/' . $product_images->image) }}"
                                                 class="img-thumbnail" ></td>
@@ -212,13 +212,18 @@
             <div class="col-md-3">
                 <div class="card product-card">
                     <div class="product-image position-relative">
+                        <a href="{{route('front.product',$Product->slug)}}" class="product-img">
                         @if (!empty($product_images->image))
+
                                         <td><img  class="card-img-top" src="{{ asset('uploads/product/small/' . $product_images->image) }}"
                                                 class="img-thumbnail" ></td>
                                     @else
                                         <td><img  class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}"
                                                 class="img-thumbnail" ></td>
                                     @endif
+                        </a>
+
+
                         <a class="whishlist" href="222"><i class="far fa-heart"></i></a>
 
                         <div class="product-action">
@@ -230,7 +235,7 @@
                     <div class="card-body text-center mt-3">
                         <a class="h6 link" href="product.php">{{ $Product->tittle }}</a>
                         <div class="price mt-2">
-                            <span class="h5"><strong>${{ $Product->price }}</strong></span>
+                            <span class="h5"><strong>${{$Product->price }}</strong></span>
                             @if ($Product->compare_price > 0)
                                 <span
                                     class="h6 text-underline"><del>{{ $Product->compare_price }}</del></span>

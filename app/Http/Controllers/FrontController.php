@@ -13,7 +13,7 @@ use App\Models\subCategory;
 class FrontController extends Controller
 {
     public function index(){
-        $featured =  product::where('is_featured','YES')->where('status',1)->get();
+        $featured =  product::where('is_featured','YES')->where('status',1)->take(8)->get();
         $latestProducts =  product::orderBy('id','ASC')->where('status',1)->take(8)->get();
         $data['featuredProducts'] = $featured;
         $data['latestProducts'] = $latestProducts;

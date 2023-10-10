@@ -7,14 +7,14 @@
                     <h1>Edit Product</h1>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a href="{{route('products.list')}}" class="btn btn-primary">Back</a>
+                    <a href="{{ route('products.list') }}" class="btn btn-primary">Back</a>
                 </div>
             </div>
         </div>
         <!-- /.container-fluid -->
     </section>
     <style>
-        .copyright{
+        .copyright {
             display: none
         }
     </style>
@@ -32,24 +32,38 @@
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="title">Title*</label>
-                                            <input type="text" value="{{$product->tittle}}" name="title" id="title" class="form-control"
-                                                placeholder="Title">
+                                            <input type="text" value="{{ $product->tittle }}" name="title"
+                                                id="title" class="form-control" placeholder="Title">
                                             <p></p>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="slug">Slug*</label>
-                                            <input  value="{{$product->tittle}}" type="text" readonly name="slug" id="slug"
-                                                class="form-control" placeholder="slug">
+                                            <input value="{{ $product->tittle }}" type="text" readonly name="slug"
+                                                id="slug" class="form-control" placeholder="slug">
                                             <p></p>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
-                                            <label   for="description">Description</label>
+                                            <label for="short_description">Short Description</label>
+                                            <textarea name="short_description" id="short_description&Returns" cols="30" rows="10" class="summernote"
+                                                placeholder="Short Description">{{ $product->short_description }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="description">Description</label>
                                             <textarea value='dfd' name="description" id="description" cols="30" rows="10" class="summernote"
-                                                placeholder="Description">{{$product->description}}</textarea>
+                                                placeholder="Description">{{ $product->description }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="Shipping_Returns">Shipping & Returns</label>
+                                            <textarea name="Shipping_Returns" id="Shipping_Returns" cols="30" rows="10" class="summernote"
+                                                placeholder="Shipping & Returns">{{ $product->Shipping_Returns }}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -68,14 +82,17 @@
                         {{-- /testing --}}
                         <div class="row" id="product-gallery">
                             @if ($productImages->isNotEmpty())
-                            @foreach ($productImages as $productImage )
-                            <div class="col-md-3 card img_div" id="image-row-{{$productImage->id}}">
-                                <img src="{{asset('uploads/product/small/'.$productImage->image)}}"  class="card-img-top product_image" alt="...">
-                                <div class="card-body">
-                                    <a  value='{{$productImage->image}}' onclick="deleteOldImage({{$productImage->id}})" class="btn btn-danger">Delete</a>
-                                </div>
-                                </div>
-                            @endforeach
+                                @foreach ($productImages as $productImage)
+                                    <div class="col-md-3 card img_div" id="image-row-{{ $productImage->id }}">
+                                        <img src="{{ asset('uploads/product/small/' . $productImage->image) }}"
+                                            class="card-img-top product_image" alt="...">
+                                        <div class="card-body">
+                                            <a value='{{ $productImage->image }}'
+                                                onclick="deleteOldImage({{ $productImage->id }})"
+                                                class="btn btn-danger">Delete</a>
+                                        </div>
+                                    </div>
+                                @endforeach
                             @endif
                         </div>
                         {{-- /testing --}}
@@ -86,16 +103,17 @@
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="price">Price*</label>
-                                            <input type="text" name="price" id="price" class="form-control" value="{{$product->price}}"
-                                                placeholder="Price">
+                                            <input type="text" name="price" id="price" class="form-control"
+                                                value="{{ $product->price }}" placeholder="Price">
                                             <p></p>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="compare_price">Compare at Price</label>
-                                            <input value="{{$product->compare_price}}"  type="text" name="compare_price" id="compare_price"
-                                                class="form-control" placeholder="Compare Price">
+                                            <input value="{{ $product->compare_price }}" type="text"
+                                                name="compare_price" id="compare_price" class="form-control"
+                                                placeholder="Compare Price">
                                             <p class="text-muted mt-3">
                                                 To show a reduced price, move the product’s original price into Compare at
                                                 price. Enter a lower value into Price.
@@ -113,16 +131,16 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="sku">SKU (Stock Keeping Unit)*</label>
-                                            <input type="text" value="{{$product->sku}}"  name="sku" id="sku" class="form-control"
-                                                placeholder="sku">
+                                            <input type="text" value="{{ $product->sku }}" name="sku"
+                                                id="sku" class="form-control" placeholder="sku">
                                             <p></p>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="barcode">Barcode</label>
-                                            <input type="text" value="{{$product->barcode}}"  name="barcode" id="barcode" class="form-control"
-                                                placeholder="Barcode">
+                                            <input type="text" value="{{ $product->barcode }}" name="barcode"
+                                                id="barcode" class="form-control" placeholder="Barcode">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -130,20 +148,42 @@
                                             <div class="custom-control custom-checkbox">
                                                 <input type="text" name="track_qty" value="No" hidden>
                                                 <input class="custom-control-input" type="checkbox" id="track_qty"
-                                                    value="Yes" name="track_qty" {{($product->track_qty == 'Yes')? 'checked' : '' }}>
+                                                    value="Yes" name="track_qty"
+                                                    {{ $product->track_qty == 'Yes' ? 'checked' : '' }}>
                                                 <p></p>
                                                 <label for="track_qty" class="custom-control-label">Track Quantity</label>
                                             </div>
                                         </div>
                                         <div class="mb-3">
-                                            <input type="number"  value="{{$product->qty}}" min="0" name="qty" id="qty"
-                                                class="form-control" placeholder="Qty">
+                                            <input type="number" value="{{ $product->qty }}" min="0"
+                                                name="qty" id="qty" class="form-control" placeholder="Qty">
                                             <p></p>
                                         </div>
                                     </div>
                                 </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h2 class="h4 mb-3">Related Products</h2>
+                                <div class="mb-3">
+                                    <select multiple class="related_products w-100" name="related_products[]"
+                                        id="related_products">
+                                        @if(isset($related_products))
+                                        @if ($related_products->isNotEmpty())
+                                            @foreach ($related_products as $related_product)
+                                            <option selected value="{{$related_product->id}}">{{$related_product->tittle}}</option>
+                                            @endforeach
+                                        @endif
+                                        @endif
+                                    </select>
+                                </div>
                             </div>
                         </div>
+
                     </div>
                     <div class="col-md-4">
                         <div class="card mb-3">
@@ -151,8 +191,10 @@
                                 <h2 class="h4 mb-3">Product status</h2>
                                 <div class="mb-3">
                                     <select name="status" id="status" class="form-control">
-                                        <option value="1" {{( $product->status==1) ? 'selected' : ''}} >Active</option>
-                                        <option value="0" {{( $product->status==0) ? 'selected' : ''}}>Block</option>
+                                        <option value="1" {{ $product->status == 1 ? 'selected' : '' }}>Active
+                                        </option>
+                                        <option value="0" {{ $product->status == 0 ? 'selected' : '' }}>Block
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -167,7 +209,8 @@
                                         @if ($categories->isNotEmpty())
                                             {
                                             @foreach ($categories as $category)
-                                                <option {{($product->category_id ==$category->id)? 'selected' : ''}} value="{{ $category->id }}"> {{ $category->name }}</option>
+                                                <option {{ $product->category_id == $category->id ? 'selected' : '' }}
+                                                    value="{{ $category->id }}"> {{ $category->name }}</option>
                                             @endforeach
                                             }
                                         @endif
@@ -184,7 +227,9 @@
                                             {
 
                                             @foreach ($subCategories as $subCategory)
-                                                <option {{($product->sub_category_id ==$subCategory->id)? 'selected' : ''}} value="{{ $subCategory->id }}"> {{ $subCategory->name }}</option>
+                                                <option
+                                                    {{ $product->sub_category_id == $subCategory->id ? 'selected' : '' }}
+                                                    value="{{ $subCategory->id }}"> {{ $subCategory->name }}</option>
                                             @endforeach
                                             }
                                         @endif
@@ -200,12 +245,13 @@
                                     <select name="brand" id="brand" class="form-control">
                                         <option value="">Please Select Brand</option>
                                         @if ($brands->isNotEmpty())
-                                        {
+                                            {
 
-                                        @foreach ($brands as $brand)
-                                            <option {{($brand->id ==$product->brand_id)? 'selected' : ''}} value="{{ $brand->id }}"> {{ $brand->name }}</option>
-                                        @endforeach
-                                        }
+                                            @foreach ($brands as $brand)
+                                                <option {{ $brand->id == $product->brand_id ? 'selected' : '' }}
+                                                    value="{{ $brand->id }}"> {{ $brand->name }}</option>
+                                            @endforeach
+                                            }
                                         @endif
                                     </select>
                                 </div>
@@ -216,17 +262,22 @@
                                 <h2 class="h4 mb-3">Featured product</h2>
                                 <div class="mb-3">
                                     <select name="featured" id="featured" class="form-control">
-                                        <option value="Yes" {{( $product->is_featured=='Yes') ? 'selected' : ''}}>Yes</option>
-                                        <option value="No" {{( $product->is_featured=='No') ? 'selected' : ''}} >No</option>
-                                    </select >
+                                        <option value="Yes" {{ $product->is_featured == 'Yes' ? 'selected' : '' }}>Yes
+                                        </option>
+                                        <option value="No" {{ $product->is_featured == 'No' ? 'selected' : '' }}>No
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
+
+
+
                     </div>
                 </div>
                 <div class="pb-5 pt-3">
-                    <button type="submit" id="btn" class="btn btn-primary">Create</button>
-                    <a href="{{route('products.list')}}" class="btn btn-outline-dark ml-3">Cancel</a>
+                    <button type="submit" id="btn" class="btn btn-primary">Update</button>
+                    <a href="{{ route('products.list') }}" class="btn btn-outline-dark ml-3">Cancel</a>
                 </div>
 
         </div>
@@ -236,9 +287,25 @@
 @endsection
 @section('customJs')
     <script>
-        function deleteOldImage(id){
+        $('#related_products').select2({
+            ajax: {
+                url: '{{ route('front.getProducts') }}',
+                dataType: 'json',
+                tags: true,
+                multiple: true,
+                minimumInputLength: 3,
+                processResults: function(data) {
+                    return {
+
+                        results: data.tags
+                    };
+                }
+            }
+        });
+
+        function deleteOldImage(id) {
             $.ajax({
-                url: "{{ route('product.imageDelete',) }}",
+                url: "{{ route('product.imageDelete') }}",
                 type: 'POST',
                 data: {
                     id: id
@@ -249,7 +316,7 @@
                 success: function(response) {
                     console.log(response)
                     if (response['status'] == true) {
-                        $('#image-row-'+id).remove();
+                        $('#image-row-' + id).remove();
                     }
                 }
             })
@@ -259,11 +326,11 @@
                 height: 250
             })
             $('#ProductForm').submit('click', function(e) {
-                $('#btn').attr('disabled',true)
+                $('#btn').attr('disabled', true)
                 const data = $(this).serializeArray()
                 e.preventDefault();
                 $.ajax({
-                    url: "{{ route('product.update',$product->id) }}",
+                    url: "{{ route('product.update', $product->id) }}",
                     type: 'POST',
                     data: data,
 
@@ -328,8 +395,9 @@
                                 $('#category').addClass('is-invalid').siblings('p').addClass(
                                     'invalid-feedback').html(errors['category'])
                             } else {
-                                $('#category').removeClass('is-invalid').siblings('p').removeClass(
-                                    'invalid-feedback').html("")
+                                $('#category').removeClass('is-invalid').siblings('p')
+                                    .removeClass(
+                                        'invalid-feedback').html("")
                             }
                         }
 
@@ -405,14 +473,15 @@
                     $('#product-gallery').append(html)
 
                 },
-                complete: function (file) {
+                complete: function(file) {
                     this.removeFile(file)
                 }
             });
         });
-        function deleteImae(id) {
-               $('#image-row-'+id).remove();
 
-            }
+        function deleteImae(id) {
+            $('#image-row-' + id).remove();
+
+        }
     </script>
 @endsection

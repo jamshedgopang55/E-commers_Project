@@ -66,11 +66,7 @@ class ShopController extends Controller
              $products = $products->orderBy('id','DESC');
          }
          // Finally, retrieve the filtered products
-         $products = $products->get();
-
-
-
-
+         $products = $products->paginate(6);
 
         $data['categorySelected'] = $categorySelected;
         $data['SubCategorySelected'] = $SubCategorySelected;
@@ -78,9 +74,29 @@ class ShopController extends Controller
         $data['products'] = $products;
         $data['brands'] = $brands;
         $data['priceMin'] =  intval($req->get('price_min'));
-        $data['priceMax'] =  (intval($req->get('price_max'))==0) ? 2500 : intval($req->get('price_max'));;
+        $data['priceMax'] =  (intval($req->get('price_max'))==0) ? 5000 : intval($req->get('price_max'));;
         $data['sort'] =  $req->get('sort');
 
         return view('front.shop',$data);
+    }
+    public function product($slug){
+        $product = product::where('slug',$slug)->with('product_images')->first();
+
+
+        if($product== NULL ){
+            abort(404);
+        }
+
+        $related_products = [];
+        $productArray = [];
+        if($product->related_products != null){
+            $productArray = explode(',',$product->related_products);
+            $related_products = product::whereIn('id',$productArray)->with('product_images')->get();
+        };
+        $data['related_products'] = $related_products;
+
+        $data['product'] = $product;
+        return view('front.product',$data);
+
     }
 }

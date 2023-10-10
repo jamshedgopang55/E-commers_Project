@@ -34,7 +34,6 @@ class productController extends Controller
     }
 
     public function store(Request  $req){
-        // return $req->track_qty;
         $rules = [
             'title' => 'required',
             'slug' => 'required|unique:products,slug',
@@ -56,6 +55,8 @@ class productController extends Controller
            $product->tittle = $req->title;
            $product->slug = $req->slug;
            $product->description = $req->description;
+           $product->short_description = $req->short_description;
+           $product->Shipping_Returns = $req->Shipping_Returns;
            $product->price = $req->price;
            $product->compare_price = $req->compare_price;
            $product->sku = $req->sku;
@@ -67,6 +68,7 @@ class productController extends Controller
            $product->is_featured = $req->featured;
            $product->sub_category_id = $req->sub_category;
            $product->brand_id = $req->brand;
+           $product->related_products = (!empty($req->related_products) ? implode(',',$req->related_products) : '');
            $product->save();
 
 
@@ -118,6 +120,17 @@ class productController extends Controller
     }
     public function edit($id){
         $product = product::find($id);
+
+        $productArray = [];
+        
+        $related_products = [];
+        if($product->related_products != null){
+            $productArray = explode(',',$product->related_products);
+            $related_products = product::whereIn('id',$productArray)->get();
+            // return $related_products;
+            $data['related_products'] = $related_products;
+        };
+
         if(empty($product)){
             session()->flash('error','Recorde not Found');
             return redirect()->route('products.list');
@@ -165,6 +178,8 @@ class productController extends Controller
            $product->tittle = $req->title;
            $product->slug = $req->slug;
            $product->description = $req->description;
+           $product->short_description = $req->short_description;
+           $product->Shipping_Returns = $req->Shipping_Returns;
            $product->price = $req->price;
            $product->compare_price = $req->compare_price;
            $product->sku = $req->sku;
@@ -176,6 +191,7 @@ class productController extends Controller
            $product->is_featured = $req->featured;
            $product->sub_category_id = $req->sub_category;
            $product->brand_id = $req->brand;
+           $product->related_products = (!empty($req->related_products) ? implode(',',$req->related_products) : '');
            $product->save();
 
         //    if(!empty($req->old_images)){
@@ -273,5 +289,25 @@ class productController extends Controller
                 'errors' => "Image Deleted Failed"
             ]);
         }
+    }
+    public function getProducts(Request $req){
+        $tempProducts = [];
+        $products = null;
+        if($req->term !=""){
+            $products = product::where('tittle','like','%'.$req->term.'%')->get();
+        }
+
+        if($products != null){
+            foreach($products as $product){
+                $tempProducts[] = array('id' => $product->id,'text' => $product->tittle);
+                // $tempProducts[] = array();
+            }
+            // return $tempProducts;
+            return response()->json([
+                'tags' => $tempProducts,
+                'status' => true
+            ]);
+        }
+
     }
 }

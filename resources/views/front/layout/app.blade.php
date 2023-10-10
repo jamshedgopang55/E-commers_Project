@@ -55,7 +55,7 @@
         <div class="container">
             <div class="row align-items-center py-3 d-none d-lg-flex justify-content-between">
                 <div class="col-lg-4 logo">
-                    <a href="index.php" class="text-decoration-none">
+                    <a href="/" class="text-decoration-none">
                         <span class="h1 text-uppercase text-primary bg-dark px-2">Online</span>
                         <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">SHOP</span>
                     </a>
@@ -97,20 +97,33 @@
                         @if (getCategories()->isNotEmpty())
                             @foreach (getCategories() as $category)
                                 <li class="nav-item dropdown">
+                                    @if ($category->subCategory->isNotEmpty())
                                     <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
                                         aria-expanded="false">
                                         {{ $category->name }}
                                     </button>
+                                    @else
+                                    <a class="btn btn-dark"
+                                    aria-expanded="false" href='{{ route('front.shop', $category->slug) }}'>
+                                    {{ $category->name }}
 
+                                </a>
+
+                                    @endif
                                     <ul class="dropdown-menu dropdown-menu-dark">
                                         @if ($category->subCategory->isNotEmpty())
+
                                             @foreach ($category->subCategory as $subCategory)
                                                 <li><a class="dropdown-item nav-link"
-                                                        href="#">{{ $subCategory->name }}</a></li>
+                                                        href="{{route('front.shop',[$category->slug,$subCategory->slug])}}">{{ $subCategory->name }}</a></li>
                                             @endforeach
+                                            @else
                                         @endif
 
                                     </ul>
+
+
+
                                 </li>
                             @endforeach
                         @endif

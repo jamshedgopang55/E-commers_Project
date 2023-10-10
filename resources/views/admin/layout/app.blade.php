@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ asset('admin-assets/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin-assets/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('admin-assets/plugins/summernote/summernote-bs4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin-assets/plugins/select2/css/select2.min.css') }}">
 
     <!-- DropZone Links -->
     <link rel="stylesheet" href="{{ asset('admin-assets/plugins/dropzone/min/dropzone.min.css') }}">
@@ -92,7 +93,8 @@
     <!-- AdminLTE App -->
     <script src="{{ asset('admin-assets/js/adminlte.min.js') }}"></script>
     <script src="{{ asset('admin-assets/plugins/summernote/summernote-bs4.min.js') }}"></script>
-    <script src=""></script>
+    <script src="{{ asset('admin-assets/plugins/select2/js/select2.min.js') }}"></script>
+
 
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('admin-assets/js/demo.js') }}"></script>

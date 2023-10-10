@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('tittle');
             $table->string('slug');
             $table->text('description')->nullable();
+            $table->text('short_description')->nullable();
+            $table->text('Shipping_Returns')->nullable();
+            $table->string('related_products')->nullable();
             $table->double('price',10,2);
             $table->double('compare_price')->nullable();
             $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade');

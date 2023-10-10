@@ -32,6 +32,7 @@ Route::controller(FrontController::class)->group( function(){
 Route::controller(ShopController::class)->group( function(){
     Route::get('shop','index')->name('front.shop');
     Route::get('/shop/{categorySlug?}/{subCategorySlug?}','index')->name('front.shop');
+    Route::get('product/{slug}','product')->name('front.product');
 });
 
 Route::get('/',[FrontController::class,'index']);
@@ -63,7 +64,6 @@ Route::prefix('admin')->group(function () {
             Route::get('/categories/{category}/edit', 'edit')->name('category.edit');
             Route::put('/categories{category}/update', 'update')->name('category.update');
             Route::delete('/categories{category}', 'destroy')->name('category.delete');
-
         });
 
         //Sub Category Controller
@@ -94,6 +94,7 @@ Route::prefix('admin')->group(function () {
             Route::post('/product{product}/update', 'update')->name('product.update');
             Route::post('/product/delete', 'imageDelete')->name('product.imageDelete');
             Route::post('/product{product}', 'destroy')->name('product.delete');
+            Route::get('getProducts/','getProducts')->name('front.getProducts');
         });
 
         // temp-images.create
@@ -103,6 +104,7 @@ Route::prefix('admin')->group(function () {
         Route::controller(productSubCategoryController::class)->group(function () {
             Route::get('/product-subCategory/create', 'index')->name('product.subCategory.index');
         });
+
 
         ///Slug Routes
         Route::get('getSlug', function (Request $request) {

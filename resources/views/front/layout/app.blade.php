@@ -4,6 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title></title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no" />
@@ -98,26 +99,25 @@
                             @foreach (getCategories() as $category)
                                 <li class="nav-item dropdown">
                                     @if ($category->subCategory->isNotEmpty())
-                                    <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        {{ $category->name }}
-                                    </button>
+                                        <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                            {{ $category->name }}
+                                        </button>
                                     @else
-                                    <a class="btn btn-dark"
-                                    aria-expanded="false" href='{{ route('front.shop', $category->slug) }}'>
-                                    {{ $category->name }}
+                                        <a class="btn btn-dark" aria-expanded="false"
+                                            href='{{ route('front.shop', $category->slug) }}'>
+                                            {{ $category->name }}
 
-                                </a>
-
+                                        </a>
                                     @endif
                                     <ul class="dropdown-menu dropdown-menu-dark">
                                         @if ($category->subCategory->isNotEmpty())
-
                                             @foreach ($category->subCategory as $subCategory)
                                                 <li><a class="dropdown-item nav-link"
-                                                        href="{{route('front.shop',[$category->slug,$subCategory->slug])}}">{{ $subCategory->name }}</a></li>
+                                                        href="{{ route('front.shop', [$category->slug, $subCategory->slug]) }}">{{ $subCategory->name }}</a>
+                                                </li>
                                             @endforeach
-                                            @else
+                                        @else
                                         @endif
 
                                     </ul>
@@ -131,7 +131,7 @@
                     </ul>
                 </div>
                 <div class="right-nav py-0">
-                    <a href="cart.php" class="ml-3 d-flex pt-2">
+                    <a href="{{route('front.cart')}}" class="ml-3 d-flex pt-2">
                         <i class="fas fa-shopping-cart text-primary"></i>
                     </a>
                 </div>
@@ -142,7 +142,7 @@
 
 
     <main>
-       @yield('content')
+        @yield('content')
     </main>
 
     <footer class="bg-dark mt-5">
@@ -218,6 +218,30 @@
                 navbar.classList.remove("sticky");
             }
         }
+
+        function addToCart(id) {
+
+            $.ajax({
+                url: "{{ route('front.addToCart') }}",
+                type: "post",
+                data: {
+                    id: id
+                },
+                dataType: "json",
+                success: function(response) {
+                    if (response.status == true) {
+                        window.location.href = '{{ route('front.cart') }}'
+                    } else {
+                        alert(response.message)
+                    }
+                }
+            })
+        }
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        })
     </script>
     @yield('customJs')
 </body>

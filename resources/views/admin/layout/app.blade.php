@@ -100,8 +100,8 @@
     <script src="{{ asset('admin-assets/js/demo.js') }}"></script>
     <script src="{{ asset('admin-assets/plugins/dropzone/min/dropzone.min.js') }}"></script>
     <script type="text/javascript">
-        $.ajax({
-            header: {
+        $.ajaxSetup({
+            headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         })

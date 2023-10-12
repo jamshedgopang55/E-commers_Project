@@ -59,7 +59,7 @@
                         <h2 class="price ">${{ $product->price }}</h2>
 
                         <p>{!! $product->short_description !!}</p>
-                        <a href="cart.php" class="btn btn-dark"><i class="fas fa-shopping-cart"></i> &nbsp;ADD TO CART</a>
+                        <a href="javascript:void(0)" onclick="addToCart({{$product->id}})" class="btn btn-dark"><i class="fas fa-shopping-cart"></i> &nbsp;ADD TO CART</a>
                     </div>
                 </div>
 
@@ -131,7 +131,7 @@
                                 </a>
 
                                     <div class="product-action">
-                                        <a class="btn btn-dark" href="#">
+                                        <a class="btn btn-dark" href="javascript:void(0)" onclick="addToCart({{$product->id}})">
                                             <i class="fa fa-shopping-cart"></i> Add To Cart
                                         </a>
                                     </div>
@@ -154,4 +154,9 @@
         </div>
     </section>
     @endif
+@endsection
+@section('customJs')
+<script type="text/javascript">
+
+</script>
 @endsection

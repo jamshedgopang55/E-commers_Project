@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\subCategoryController;
 use App\Http\Controllers\Admin\AdminLoginController;
@@ -33,6 +34,13 @@ Route::controller(ShopController::class)->group( function(){
     Route::get('shop','index')->name('front.shop');
     Route::get('/shop/{categorySlug?}/{subCategorySlug?}','index')->name('front.shop');
     Route::get('product/{slug}','product')->name('front.product');
+});
+
+Route::controller(CartController::class)->group(function () {
+    Route::get('/cart', 'cart')->name('front.cart');
+    Route::post('/add-to-cart', 'addToCart')->name('front.addToCart');
+    Route::post('/update-cart', 'updateCart')->name('front.updateCart');
+    Route::post('/delete-cart', 'deleteCart')->name('front.deleteCart');
 });
 
 Route::get('/',[FrontController::class,'index']);

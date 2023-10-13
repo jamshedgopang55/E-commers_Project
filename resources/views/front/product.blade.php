@@ -131,7 +131,7 @@
                                 </a>
 
                                     <div class="product-action">
-                                        <a class="btn btn-dark" href="javascript:void(0)" onclick="addToCart({{$product->id}})">
+                                        <a class="btn btn-dark" href="javascript:void(0)" onclick="addToCart({{$related_product->id}})">
                                             <i class="fa fa-shopping-cart"></i> Add To Cart
                                         </a>
                                     </div>

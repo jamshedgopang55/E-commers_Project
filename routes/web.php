@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\subCategoryController;
 use App\Http\Controllers\Admin\AdminLoginController;
@@ -25,25 +26,47 @@ use App\Http\Controllers\Admin\TempController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::controller(FrontController::class)->group( function(){
-    Route::get('/','index')->name('front.home');
+////Front Controller Routes
+Route::controller(FrontController::class)->group(function () {
+    Route::get('/', 'index')->name('front.home');
 });
 
-Route::controller(ShopController::class)->group( function(){
-    Route::get('shop','index')->name('front.shop');
-    Route::get('/shop/{categorySlug?}/{subCategorySlug?}','index')->name('front.shop');
-    Route::get('product/{slug}','product')->name('front.product');
+Route::controller(ShopController::class)->group(function () {
+    Route::get('shop', 'index')->name('front.shop');
+    Route::get('/shop/{categorySlug?}/{subCategorySlug?}', 'index')->name('front.shop');
+    Route::get('product/{slug}', 'product')->name('front.product');
 });
-
+///Cart Routes
 Route::controller(CartController::class)->group(function () {
     Route::get('/cart', 'cart')->name('front.cart');
     Route::post('/add-to-cart', 'addToCart')->name('front.addToCart');
     Route::post('/update-cart', 'updateCart')->name('front.updateCart');
     Route::post('/delete-cart', 'deleteCart')->name('front.deleteCart');
 });
+// Route::controller(AuthController::class)->group(function () {
+//     // Route::get('/login', 'login')->name('account.login');
+// });
 
-Route::get('/',[FrontController::class,'index']);
+Route::prefix('account')->group(function () {
+
+    Route::group(['middleware' => 'guest'], function () {
+        Route::controller(AuthController::class)->group(function () {
+            Route::get('/register', 'register')->name('account.register');
+            Route::get('/login', 'login')->name('account.login');
+            Route::post('/login', 'authenticate')->name('account.authenticate');
+            Route::post('/processRegister', 'processRegister')->name('account.processRegister');
+        });
+    });
+
+    Route::group(['middleware' => 'auth'], function () {
+        Route::controller(AuthController::class)->group(function () {
+            Route::get('/profile', 'profile')->name('account.profile');
+            Route::get('/logout', 'logout')->name('account.logout');
+        });
+    });
+
+});
+
 
 Route::prefix('admin')->group(function () {
 
@@ -102,7 +125,7 @@ Route::prefix('admin')->group(function () {
             Route::post('/product{product}/update', 'update')->name('product.update');
             Route::post('/product/delete', 'imageDelete')->name('product.imageDelete');
             Route::post('/product{product}', 'destroy')->name('product.delete');
-            Route::get('getProducts/','getProducts')->name('front.getProducts');
+            Route::get('getProducts/', 'getProducts')->name('front.getProducts');
         });
 
         // temp-images.create

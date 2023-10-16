@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\shippingController;
 use Illuminate\Support\Facades\Route;
 // use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request;
@@ -38,11 +39,15 @@ Route::controller(ShopController::class)->group(function () {
 });
 ///Cart Routes
 Route::controller(CartController::class)->group(function () {
+    Route::get('/thanks/{orderId}', 'thankYou')->name('front.thankYou');
     Route::get('/cart', 'cart')->name('front.cart');
+    Route::get('/checkout', 'checkout')->name('account.checkout');
     Route::post('/add-to-cart', 'addToCart')->name('front.addToCart');
     Route::post('/update-cart', 'updateCart')->name('front.updateCart');
     Route::post('/delete-cart', 'deleteCart')->name('front.deleteCart');
+    Route::post('/process-checkout', 'processCheckout')->name('front.processCheckout');
 });
+
 // Route::controller(AuthController::class)->group(function () {
 //     // Route::get('/login', 'login')->name('account.login');
 // });
@@ -63,6 +68,7 @@ Route::prefix('account')->group(function () {
             Route::get('/profile', 'profile')->name('account.profile');
             Route::get('/logout', 'logout')->name('account.logout');
         });
+
     });
 
 });
@@ -135,7 +141,14 @@ Route::prefix('admin')->group(function () {
         Route::controller(productSubCategoryController::class)->group(function () {
             Route::get('/product-subCategory/create', 'index')->name('product.subCategory.index');
         });
-
+        ///Shipping Rutes
+        Route::controller(shippingController::class)->group(function () {
+            Route::get('/shipping/create', 'create')->name('shipping.create');
+            Route::get('/shipping/{id}', 'edit')->name('shipping.edit');
+            Route::post('/shipping/store', 'store')->name('shipping.store');
+            Route::post('/shipping{id}/update', 'update')->name('shipping.update');
+            Route::post('/shipping{id}', 'destroy')->name('shipping.delete');
+        });
 
         ///Slug Routes
         Route::get('getSlug', function (Request $request) {

@@ -8,7 +8,7 @@
                     <h1>Create Brand</h1>
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a href="brands.html" class="btn btn-primary">Back</a>
+                    <a href="{{route('brand.index')}}" class="btn btn-primary">Back</a>
                 </div>
             </div>
         </div>

@@ -6,6 +6,7 @@ use App\Models\country;
 use App\Models\product;
 use App\Models\order;
 use App\Models\order_item;
+use App\Models\shipping;
 use Illuminate\Http\Request;
 use App\Models\CustomerAddress;
 use Illuminate\Support\Facades\Auth;
@@ -125,22 +126,61 @@ class CartController extends Controller
         //If User is not Login Redirect TO Login Page
 
         if (Auth::check() == false) {
-                session(['url.intended' => url()->current()]);
+            session(['url.intended' => url()->current()]);
 
             return redirect()->route('account.login');
         }
 
         session()->forget('url.intended');
+        $totalQty = 0;
+        $totalShipping = 0;
+        $shippingAmount = 0;
+        $grandTotal = 0;
 
         $countries = country::orderBy('name', 'asc')->get();
 
-        $customerAddress = CustomerAddress::where('user_id' , Auth::user()->id)->first();
+        $shippingCounrty = CustomerAddress::where('user_id', Auth::user()->id)->first();
+
+        if ($shippingCounrty != null) {
+            $shipping = shipping::where('country_id', $shippingCounrty->country_id)->first();
+
+            if ($shipping == null) {
+                $restAmount = shipping::where('country_id', 'rest_of_world')->first();
+                $shippingAmount = $restAmount->amount;
+                foreach (Cart::content() as $item) {
+                    $totalQty += $item->qty;
+                }
+
+                $totalShipping = $shippingAmount * $totalQty;
+                $grandTotal = $totalShipping + Cart::subtotal(2, '.', '');
+
+            } else {
+                $shippingAmount = $shipping->amount;
+                foreach (Cart::content() as $item) {
+                    $totalQty += $item->qty;
+                }
+
+                $totalShipping = $shippingAmount * $totalQty;
+                $grandTotal = $totalShipping + Cart::subtotal(2, '.', '');
+
+
+            }
+        } else {
+            
+            $grandTotal = Cart::subtotal(2, '.', '');
+            $$totalShipping = 0;
+        }
+
+        $customerAddress = CustomerAddress::where('user_id', Auth::user()->id)->first();
+        $data['totalShipping'] = $totalShipping;
         $data['customerAddress'] = $customerAddress;
         $data['countries'] = $countries;
+        $data['grandTotal'] = $grandTotal;
 
-        return view('front.ckeckout',$data);
+        return view('front.ckeckout', $data);
     }
-    public function processCheckout(Request $req){
+    public function processCheckout(Request $req)
+    {
         $validator = Validator::make($req->all(), [
             'first_name' => 'required|min:5',
             'last_name' => 'required',
@@ -156,12 +196,12 @@ class CartController extends Controller
             // 'expiry_date' => 'required'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'status' => false,
                 'errors' => $validator->errors()
             ]);
-        }else{
+        } else {
             /// Save User Address
             $user = Auth::user();
             CustomerAddress::updateOrcreate(
@@ -182,11 +222,29 @@ class CartController extends Controller
             );
 
             /// Store data in Order Table
-            if($req->payment_method == 'cod'){
+            if ($req->payment_method == 'cod') {
                 $shipping = 0;
                 $discount = 0;
-                $subTotal = Cart::subtotal(2,'.','');
-                $grandTotal = $shipping+$subTotal;
+                $subTotal = Cart::subtotal(2, '.', '');
+
+                $totalQty = 0;
+                $subTotal = Cart::subtotal(2, '.', '');
+                foreach (Cart::content() as $item) {
+                    $totalQty += $item->qty;
+                }
+
+                $shippingInfo = shipping::where('country_id', $req->country)->first();
+
+                if ($shippingInfo != null) {
+                    $shipping = $totalQty * $shippingInfo->amount;
+                    $grandTotal = $subTotal + $shipping;
+                } else {
+                    $shippingInfo = shipping::where('country_id', 'rest_of_world')->first();
+                    $shipping = $totalQty * $shippingInfo->amount;
+                    $grandTotal = $subTotal + $shipping;
+                }
+
+
 
                 $order = new order;
                 $order->user_id = $user->id;
@@ -195,7 +253,7 @@ class CartController extends Controller
                 $order->grand_total = $grandTotal;
 
 
-                $order->first_name =$req->first_name;
+                $order->first_name = $req->first_name;
                 $order->last_name = $req->last_name;
                 $order->email = $req->email;
                 $order->mobile = $req->mobile;
@@ -208,19 +266,19 @@ class CartController extends Controller
                 $order->notes = $req->order_notes;
                 $order->save();
 
-             /// Store data in Order Item Table
+                /// Store data in Order Item Table
 
                 $orderItem = new order_item;
-                foreach (Cart::content() as  $item) {
+                foreach (Cart::content() as $item) {
                     $orderItem->product_id = $item->id;
                     $orderItem->order_id = $order->id;
                     $orderItem->name = $item->name;
                     $orderItem->qty = $item->qty;
                     $orderItem->price = $item->price;
-                    $orderItem->total = $item->price*$item->qty;
+                    $orderItem->total = $item->price * $item->qty;
                     $orderItem->save();
                 }
-                session()->flash('success','You have successfully placed your Order.');
+                session()->flash('success', 'You have successfully placed your Order.');
                 Cart::destroy();
                 return response()->json([
                     'status' => true,
@@ -232,8 +290,58 @@ class CartController extends Controller
         }
 
     }
-    public function thankYou($id){
-        return view('front.thankyou',[
+
+    public function getOrderSummery(Request $req)
+    {
+        $subTotal = Cart::subtotal(2, '.', '');
+
+        // return $req->country_id;
+        if ($req->country_id > 0) {
+            $shippingInfo = shipping::where('country_id', $req->country_id)->first();
+
+            if ($shippingInfo != null) {
+                $totalQty = 0;
+
+                foreach (Cart::content() as $item) {
+                    $totalQty += $item->qty;
+                }
+
+                $shippingCharge = $totalQty * $shippingInfo->amount;
+                $grandTotal = $subTotal + $shippingCharge;
+
+                return response()->json([
+                    'status' => true,
+                    'shippingCharge' => number_format($shippingCharge, 2),
+                    'grandTotal' => number_format($grandTotal, 2)
+                ]);
+            } else {
+                $totalQty = 0;
+                foreach (Cart::content() as $item) {
+                    $totalQty += $item->qty;
+                }
+
+                $shippingInfo = shipping::where('country_id', 'rest_of_world')->first();
+
+
+                $shippingCharge = $totalQty * $shippingInfo->amount;
+                $grandTotal = $subTotal + $shippingCharge;
+                return response()->json([
+                    'status' => true,
+                    'shippingCharge' => number_format($shippingCharge, 2),
+                    'grandTotal' => number_format($grandTotal, 2)
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => true,
+                'shippingCharge' => number_format(0, 2),
+                'grandTotal' => number_format($subTotal, 2)
+            ]);
+        }
+    }
+    public function thankYou($id)
+    {
+        return view('front.thankyou', [
             'id' => $id
         ]);
     }

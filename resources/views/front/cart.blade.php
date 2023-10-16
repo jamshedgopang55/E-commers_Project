@@ -104,19 +104,12 @@
                             <h2 class="bg-white">Cart Summery</h3>
                         </div>
                         <div class="card-body">
-                            <div class="d-flex justify-content-between pb-2">
-                                <div>Subtotal</div>
-                                <div>${{Cart::subtotal()}}</div>
-                            </div>
-                            <div class="d-flex justify-content-between pb-2">
-                                <div>Shipping</div>
-                                <div>$0</div>
-                            </div>
+
                             <div class="d-flex justify-content-between summery-end">
-                                <div>Total</div>
+                                <div>SubTotal</div>
                                 <div>${{Cart::subtotal()}}</div>
                             </div>
-                            <div class="pt-5">
+                            <div class="pt-3">
                                 <a href="{{route('account.checkout')}}" class="btn-dark btn btn-block w-100">Proceed to Checkout</a>
                             </div>
                         </div>

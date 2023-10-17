@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\discountCodeController;
 use App\Http\Controllers\Admin\shippingController;
 use Illuminate\Support\Facades\Route;
 // use Illuminate\Support\Facades\Request;
@@ -86,7 +87,7 @@ Route::prefix('admin')->group(function () {
         });
     });
 
-    ///Routes For  Users authenticated Users
+    ///Routes For  authenticated Users
     Route::group(['middleware' => 'admin.auth'], function () {
         //Routes For HomeController
         Route::controller(HomeController::class)->group(function () {
@@ -149,6 +150,15 @@ Route::prefix('admin')->group(function () {
             Route::post('/shipping/store', 'store')->name('shipping.store');
             Route::post('/shipping{id}/update', 'update')->name('shipping.update');
             Route::post('/shipping{id}', 'destroy')->name('shipping.delete');
+        });
+        Route::controller(discountCodeController::class)->group(function () {
+            Route::get('/coupons', 'index')->name('coupons.index');
+            Route::get('/coupons/create', 'create')->name('coupons.create');
+            Route::post('/coupons/store', 'store')->name('coupons.store');
+            Route::get('/coupons/{id}', 'edit')->name('coupons.edit');
+            Route::post('/coupons/{id}', 'update')->name('coupons.update');
+            Route::post('/coupons{id}', 'destroy')->name('coupons.delete');
+
         });
 
         ///Slug Routes

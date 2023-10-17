@@ -258,7 +258,7 @@ class productController extends Controller
         $productImages = productImage::where('product_id',$id)->get();
 
         if(empty($product)){
-            $req->session()->flash('error','Category product Failed');
+            $req->session()->flash('error','Category Delete Failed');
             return redirect()->route('products.list');
         };
         if(!empty($productImages))

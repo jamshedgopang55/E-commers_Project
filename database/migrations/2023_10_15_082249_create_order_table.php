@@ -17,10 +17,10 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->double('subtotal', 10,2);
             $table->double('shipping', 10,2);
+            $table->integer('coupon_code_id')->nullable();
             $table->string('coupon_code')->nullable();
             $table->double('discount', 10,2)->nullable();
             $table->double('grand_total', 10,2);
-
             //User Address related Columns
             $table->string('first_name');
             $table->string('last_name');

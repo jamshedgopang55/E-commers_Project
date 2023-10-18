@@ -180,7 +180,7 @@
                             <div class="card-body text-center mt-3">
                                 <a class="h6 link" href="product.php">{{ $Product->tittle }}</a>
                                 <div class="price mt-2">
-                                    <span class="h5"><strong>{{ $Product->price }}</strong></span>
+                                    <span class="h5"><strong>${{ $Product->price }}</strong></span>
                                     @if ($Product->compare_price > 0)
                                         <span
                                             class="h6 text-underline"><del>{{ $Product->compare_price }}</del></span>

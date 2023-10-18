@@ -156,9 +156,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
                 success : function(response){
-
-                    window.location.href = "{{ route('coupons.index') }}"                 }
-                
+                    window.location.href = "{{ route('coupons.index') }}"}
             })
         }
     </script>

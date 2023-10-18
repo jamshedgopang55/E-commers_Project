@@ -48,6 +48,7 @@ Route::controller(CartController::class)->group(function () {
     Route::post('/delete-cart', 'deleteCart')->name('front.deleteCart');
     Route::post('/process-checkout', 'processCheckout')->name('front.processCheckout');
     Route::post('/get-oreder-summery', 'getOrderSummery')->name('front.getOrderSummery');
+    Route::post('/Apply-discount', 'applyDiscount')->name('front.applyDiscount');
 });
 
 // Route::controller(AuthController::class)->group(function () {

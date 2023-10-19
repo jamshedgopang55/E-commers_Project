@@ -105,7 +105,7 @@
                                                 <!-- Title -->
                                                 <p class="mb-4 fs-sm fw-bold">
                                                     <a class="text-body"
-                                                        href="product.html">{{ $item->name }} x {{ $item->qty }}</a> <br>
+                                                        href="">{{ $item->name }} x {{ $item->qty }}</a> <br>
                                                     <span class="text-muted">{{ number_format($item->total, 2) }}</span>
                                                 </p>
                                             </div>

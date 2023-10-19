@@ -239,7 +239,7 @@ class CartController extends Controller
 
             $discount = 0;
             $promoCode = null;
-            $couponId = '';
+            $coupenId = null;
             ///Apply Discount Here
             if (session()->has('code')) {
                 $code = session()->get('code');
@@ -250,7 +250,7 @@ class CartController extends Controller
                 }
                 $promoCode = $code->code;
 
-                $couponId = $code->id;
+                $coupenId = $code->id;
             }
 
             /// Store data in Order Table
@@ -276,16 +276,13 @@ class CartController extends Controller
                     $grandTotal = $subTotal + $shipping;
                 }
 
-
-                $couponId = null;
-
                 $order = new order;
                 $order->user_id = $user->id;
                 $order->subtotal = $subTotal;
                 $order->shipping = $shipping;
                 $order->grand_total = $grandTotal-$discount;
                 $order->discount = $discount;
-                $order->coupon_code_id = $couponId;
+                $order->coupon_code_id = $coupenId;
                 $order->coupon_code = $promoCode;
 
                 $order->payment_status = 'not paid';
@@ -359,7 +356,7 @@ class CartController extends Controller
                 return response()->json([
                     'status' => true,
                     'shippingCharge' => number_format($shippingCharge, 2),
-                    'discount' => number_format($discount),
+                    'discount' => number_format($discount,2),
                     'grandTotal' => number_format($grandTotal, 2)
                 ]);
             } else {
@@ -406,9 +403,12 @@ class CartController extends Controller
                 'message' => 'Invalid Discount Coupon'
             ]);
         } else {
-            $now = Carbon::now();
+            $now = Carbon::now()->format('d-m-Y');
+            $now = Carbon::parse($now);
+
+
             if ($code->start_at != '') {
-                $startDate = Carbon::createFromFormat('Y-m-d H:i:s', $code->start_at);
+                $startDate = Carbon::createFromFormat('Y-m-d H:i:s', $code->start_at)->format('d-m-Y');;
                 if ($now->lt($startDate)) {
                     return response()->json([
                         'status' => false,
@@ -417,11 +417,12 @@ class CartController extends Controller
                 }
             }
             if ($code->expires_at != '') {
-                $expiresDate = Carbon::createFromFormat('Y-m-d H:i:s', $code->expires_at);
+                $expiresDate = Carbon::createFromFormat('Y-m-d H:i:s', $code->expires_at)->format('d-m-Y');
+                
                 if ($now->gt($expiresDate)) {
                     return response()->json([
                         'status' => false,
-                        'message' => 'Invalid Discount Coupon'
+                        'message' => 'The coupon has expired'
                     ]);
                 }
             }

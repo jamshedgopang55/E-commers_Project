@@ -112,7 +112,7 @@ class discountCodeController extends Controller
         ]);
         if ($validator->passes()) {
 
-            
+
 
             //expire date must be gratert than Start Date
 
@@ -163,7 +163,7 @@ class discountCodeController extends Controller
                 'errors' => "Record Not Found"
             ]);
         };
-       
+
         $discountCoupon->delete();
 
         $req->session()->flash('success','Coupon Deleted successfully');

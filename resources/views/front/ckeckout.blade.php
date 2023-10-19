@@ -152,7 +152,7 @@
 
                                 <div class="d-flex justify-content-between summery-end">
                                     <div class="h6"><strong>Discount</strong></div>
-                                    <div class="h6">$<strong id="discount">{{$discount}}</strong></div>
+                                    <div class="h6">$<strong id="discount">{{number_format($discount, 2)}}</strong></div>
                                 </div>
 
                                 <div class="d-flex justify-content-between mt-2">
@@ -317,7 +317,8 @@
                             $('#mobile').removeClass('is-invalid').siblings('p').removeClass(
                                 'invalid-feedback').html("")
                         }
-                    } else {
+                    }
+                    else {
                         window.location.href = '{{ url('thanks') }}/' + response.orderId;
                         console.log(response)
                     }

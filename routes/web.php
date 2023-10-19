@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\discountCodeController;
+use App\Http\Controllers\Admin\oderContoller;
+use App\Http\Controllers\Admin\orderContoller;
 use App\Http\Controllers\Admin\shippingController;
 use Illuminate\Support\Facades\Route;
 // use Illuminate\Support\Facades\Request;
@@ -154,6 +156,7 @@ Route::prefix('admin')->group(function () {
             Route::post('/shipping{id}/update', 'update')->name('shipping.update');
             Route::post('/shipping{id}', 'destroy')->name('shipping.delete');
         });
+        ///Discount Coupons Routes
         Route::controller(discountCodeController::class)->group(function () {
             Route::get('/coupons', 'index')->name('coupons.index');
             Route::get('/coupons/create', 'create')->name('coupons.create');
@@ -161,9 +164,11 @@ Route::prefix('admin')->group(function () {
             Route::get('/coupons/{id}', 'edit')->name('coupons.edit');
             Route::post('/coupons/{id}', 'update')->name('coupons.update');
             Route::post('/coupons{id}', 'destroy')->name('coupons.delete');
-
         });
-
+        ///
+        Route::controller(orderContoller::class)->group(function(){
+            Route::get('orders' , 'index')->name('orders.index');
+        });
         ///Slug Routes
         Route::get('getSlug', function (Request $request) {
             $slug = '';

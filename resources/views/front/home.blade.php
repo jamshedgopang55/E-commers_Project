@@ -178,7 +178,7 @@
                                 </div>
                             </div>
                             <div class="card-body text-center mt-3">
-                                <a class="h6 link" href="product.php">{{ $Product->tittle }}</a>
+                                <a class="h6 link">{{ $Product->tittle }}</a>
                                 <div class="price mt-2">
                                     <span class="h5"><strong>${{ $Product->price }}</strong></span>
                                     @if ($Product->compare_price > 0)

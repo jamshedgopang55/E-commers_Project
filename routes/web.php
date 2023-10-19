@@ -70,6 +70,8 @@ Route::prefix('account')->group(function () {
         Route::controller(AuthController::class)->group(function () {
             Route::get('/profile', 'profile')->name('account.profile');
             Route::get('/logout', 'logout')->name('account.logout');
+            Route::get('/my-orders', 'orders')->name('account.orders');
+            Route::get('/order-detail/{id}', 'orderDetail')->name('account.orderDetail');
         });
 
     });

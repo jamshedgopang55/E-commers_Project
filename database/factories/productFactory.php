@@ -29,7 +29,7 @@ class productFactory extends Factory
             'slug' =>$slug,
             'category_id' => 5,
             'sub_category_id' => $sub[$subRand],
-            'brand_id' => $brand[$brandRand],
+            // 'brand_id' => $brand[$brandRand],
             'price' => rand(10,5000),
             'sku' => rand(100,1000),
             'track_qty' => 'Yes',

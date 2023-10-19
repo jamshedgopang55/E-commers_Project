@@ -236,6 +236,7 @@ class CartController extends Controller
                     'zip' => $req->zip,
                 ]
             );
+
             $discount = 0;
             $promoCode = null;
             $couponId = '';
@@ -276,7 +277,7 @@ class CartController extends Controller
                 }
 
 
-
+                $couponId = null;
 
                 $order = new order;
                 $order->user_id = $user->id;
@@ -286,6 +287,10 @@ class CartController extends Controller
                 $order->discount = $discount;
                 $order->coupon_code_id = $couponId;
                 $order->coupon_code = $promoCode;
+
+                $order->payment_status = 'not paid';
+                $order->status = 'pending';
+
                 $order->first_name = $req->first_name;
                 $order->last_name = $req->last_name;
                 $order->email = $req->email;
@@ -301,8 +306,8 @@ class CartController extends Controller
 
                 /// Store data in Order Item Table
 
-                $orderItem = new order_item;
                 foreach (Cart::content() as $item) {
+                    $orderItem = new order_item;
                     $orderItem->product_id = $item->id;
                     $orderItem->order_id = $order->id;
                     $orderItem->name = $item->name;

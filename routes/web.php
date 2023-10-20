@@ -30,6 +30,8 @@ use App\Http\Controllers\Admin\TempController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
 ////Front Controller Routes
 Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index')->name('front.home');
@@ -155,6 +157,7 @@ Route::prefix('admin')->group(function () {
             Route::post('/shipping/store', 'store')->name('shipping.store');
             Route::post('/shipping{id}/update', 'update')->name('shipping.update');
             Route::post('/shipping{id}', 'destroy')->name('shipping.delete');
+
         });
         ///Discount Coupons Routes
         Route::controller(discountCodeController::class)->group(function () {
@@ -170,6 +173,8 @@ Route::prefix('admin')->group(function () {
             Route::get('orders' , 'index')->name('orders.index');
             Route::get('orders/{id}' , 'detail')->name('orders.detail');
             Route::post('orders/{id}' , 'changeOrderStatus')->name('orders.changeOrderStatus');
+            Route::post('/send-email/{id}' , 'sendInvoiceEmail')->name('orders.sendInvoiceEmail');
+
         });
         ///Slug Routes
         Route::get('getSlug', function (Request $request) {

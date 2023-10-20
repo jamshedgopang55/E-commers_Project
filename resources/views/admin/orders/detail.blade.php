@@ -20,7 +20,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-9">
-                @include('admin.message')
+                    @include('admin.message')
                     <div class="card">
                         <div class="card-header pt-3">
                             <div class="row invoice-info">
@@ -125,7 +125,8 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="shipped_date">Shipped Date</label>
-                                    <input autocomplete="off" type="text" value="{{$order->shipped_date}}" name="shipped_date" id="shipped_date" placeholder="Shipped Date"
+                                    <input autocomplete="off" type="text" value="{{ $order->shipped_date }}"
+                                        name="shipped_date" id="shipped_date" placeholder="Shipped Date"
                                         class="form-control">
                                 </div>
                                 <div class="mb-3">
@@ -136,16 +137,18 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="h4 mb-3">Send Inovice Email</h2>
-                            <div class="mb-3">
-                                <select name="status" id="status" class="form-control">
-                                    <option value="">Customer</option>
-                                    <option value="">Admin</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <button class="btn btn-primary">Send</button>
-                            </div>
+                            <form action="" name="sendInvoiceEmail" id="sendInvoiceEmail" method="POST">
+                                <h2 class="h4 mb-3">Send Inovice Email</h2>
+                                <div class="mb-3">
+                                    <select name="usertype" id="usertype" class="form-control">
+                                        <option value="customer">Customer</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <button id="EmailBtn" class="btn btn-primary">Send</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -162,17 +165,41 @@
                 format: 'Y-m-d H:i:s',
             });
         });
-        $('#changeStatusForm').submit(function(e){
+        ///Change Order Status
+
+        $('#changeStatusForm').submit(function(e) {
             e.preventDefault();
+            if(confirm('Are You Sure You want to Change Status?')){
             $.ajax({
-                url : '{{ route('orders.changeOrderStatus',$order->id) }}',
-                type : 'POST',
-                data : $(this).serializeArray(),
-                dataType :'json',
-                success : function (response) {
-                    window.location.href = '{{route('orders.detail',$order->id)}}'
+                url: '{{ route('orders.changeOrderStatus', $order->id) }}',
+                type: 'POST',
+                data: $(this).serializeArray(),
+                dataType: 'json',
+                success: function(response) {
+                    window.location.href = '{{ route('orders.detail', $order->id) }}'
                 }
             })
+        }
         })
+
+        /// Send Invoice Email
+
+        $('#sendInvoiceEmail').submit(function(e) {
+            e.preventDefault();
+            if(confirm('Are You Sure You want to send Email?')){
+                $('#EmailBtn').attr('disabled',true)
+            $.ajax({
+                url: '{{ route('orders.sendInvoiceEmail', $order->id) }}',
+                type: 'POST',
+                data: $(this).serializeArray(),
+                dataType: 'json',
+                success: function(response) {
+                    $('#EmailBtn').attr('disabled',false)
+                    window.location.href = '{{ route('orders.detail', $order->id) }}'
+                }
+            })
+        }
+        })
+
     </script>
 @endsection

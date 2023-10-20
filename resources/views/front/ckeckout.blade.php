@@ -214,7 +214,7 @@
 
                             </div>
                             <div class="pt-4">
-                                <button type="submit" class="btn-dark btn btn-block w-100">Pay Now</button>
+                                <button id="btn" type="submit" class="btn-dark btn btn-block w-100">Pay Now</button>
                             </div>
                         </div>
 
@@ -242,7 +242,7 @@
             }
         })
         $('#orderForm').submit(function(e) {
-            $('#btn').prop('disabled', true)
+            $('#btn').attr('disabled', true)
             e.preventDefault();
             $.ajax({
                 url: "{{ route('front.processCheckout') }}",
@@ -250,7 +250,8 @@
                 data: $(this).serializeArray(),
                 dataType: "json",
                 success: function(response) {
-                    $('#btn').prop('disabled', false)
+
+                    $('#btn').attr('disabled', false)
                     if (response.status == false) {
                         let errors = response.errors
                         if (errors.first_name) {

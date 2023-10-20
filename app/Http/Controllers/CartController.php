@@ -313,6 +313,11 @@ class CartController extends Controller
                     $orderItem->total = $item->price * $item->qty;
                     $orderItem->save();
                 }
+
+                ///Sending Email
+                // orderEmail($order->id ,'customer'); 
+
+
                 session()->flash('success', 'You have successfully placed your Order.');
                 Cart::destroy();
                 return response()->json([
@@ -465,4 +470,5 @@ class CartController extends Controller
 
         }
     }
+
 }

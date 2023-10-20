@@ -33,7 +33,7 @@
                                             <h6 class="heading-xxxs text-muted">Order No: {{ $order->id }}</h6>
                                             <!-- Text -->
                                             <p class="mb-lg-0 fs-sm fw-bold">
-                                                {{ $order->id }}
+                                                ORD#{{ $order->id }}
                                             </p>
                                         </div>
                                         <div class="col-6 col-lg-3">
@@ -42,7 +42,11 @@
                                             <!-- Text -->
                                             <p class="mb-lg-0 fs-sm fw-bold">
                                                 <time datetime="2019-10-01">
-                                                    01 Oct, 2019
+                                                    @if (!empty($order->shipped_date))
+                                                        {{ \Carbon\Carbon::parse($order->shipped_date)->format('d M, Y') }}
+                                                    @else
+                                                        n/a
+                                                    @endif
                                                 </time>
                                             </p>
                                         </div>
@@ -56,6 +60,8 @@
                                                     <span class="badge bg-danger">Pending</span>
                                                 @elseif ($order->status == 'shipped')
                                                     <span class="badge bg-info">Shipped</span>
+                                                @elseif($order->status == 'cancelled')
+                                                    <span class="badge bg-danger">cancelled</span>
                                                 @else
                                                     <span class="badge bg-success">Delivered</span>
                                                 @endif
@@ -78,7 +84,7 @@
                         <div class="card-footer p-3">
 
                             <!-- Heading -->
-                            <h6 class="mb-7 h5 mt-4">Order Items </h6>
+                            <h6 class="mb-7 h5 mt-4">Order Items ({{$count}}) </h6>
 
                             <!-- Divider -->
                             <hr class="my-3">
@@ -98,14 +104,15 @@
                                                     <img class="img-fluid"
                                                         src="{{ asset('uploads/product/small/' . $product_image->image) }}">
                                                 @else
-                                                    <img src="{{ asset('admin-assets/img/default-150x150.png') }}" class="img-fluid">
+                                                    <img src="{{ asset('admin-assets/img/default-150x150.png') }}"
+                                                        class="img-fluid">
                                                 @endif
                                             </div>
                                             <div class="col">
                                                 <!-- Title -->
                                                 <p class="mb-4 fs-sm fw-bold">
-                                                    <a class="text-body"
-                                                        href="">{{ $item->name }} x {{ $item->qty }}</a> <br>
+                                                    <a class="text-body" href="">{{ $item->name }} x
+                                                        {{ $item->qty }}</a> <br>
                                                     <span class="text-muted">{{ number_format($item->total, 2) }}</span>
                                                 </p>
                                             </div>
@@ -127,19 +134,20 @@
                             <ul>
                                 <li class="list-group-item d-flex">
                                     <span>Subtotal</span>
-                                    <span class="ms-auto">${{number_format($order->subtotal,2)}}</span>
+                                    <span class="ms-auto">${{ number_format($order->subtotal, 2) }}</span>
                                 </li>
                                 <li class="list-group-item d-flex">
-                                    <span>Discount {{!empty($order->coupon_code) ? '('.$order->coupon_code.')' : ''}}</span>
-                                    <span class="ms-auto">${{number_format($order->discount,2)}}</span>
+                                    <span>Discount
+                                        {{ !empty($order->coupon_code) ? '(' . $order->coupon_code . ')' : '' }}</span>
+                                    <span class="ms-auto">${{ number_format($order->discount, 2) }}</span>
                                 </li>
                                 <li class="list-group-item d-flex">
                                     <span>Shipping</span>
-                                    <span class="ms-auto">${{number_format($order->shipping,2)}}</span>
+                                    <span class="ms-auto">${{ number_format($order->shipping, 2) }}</span>
                                 </li>
                                 <li class="list-group-item d-flex fs-lg fw-bold">
                                     <span>Grand Total</span>
-                                    <span class="ms-auto">${{number_format($order->grand_total,2)}}</span>
+                                    <span class="ms-auto">${{ number_format($order->grand_total, 2) }}</span>
                                 </li>
                             </ul>
                         </div>

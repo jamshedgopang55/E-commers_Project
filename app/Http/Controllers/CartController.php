@@ -205,7 +205,7 @@ class CartController extends Controller
             'last_name' => 'required',
             'email' => 'required|email',
             'country' => 'required',
-            'address' => 'required|min:30',
+            'address' => 'required|min:15',
             'city' => 'required',
             'state' => 'required',
             'zip' => 'required',
@@ -418,7 +418,7 @@ class CartController extends Controller
             }
             if ($code->expires_at != '') {
                 $expiresDate = Carbon::createFromFormat('Y-m-d H:i:s', $code->expires_at)->format('d-m-Y');
-                
+
                 if ($now->gt($expiresDate)) {
                     return response()->json([
                         'status' => false,

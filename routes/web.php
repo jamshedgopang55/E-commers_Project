@@ -168,6 +168,8 @@ Route::prefix('admin')->group(function () {
         ///
         Route::controller(orderContoller::class)->group(function(){
             Route::get('orders' , 'index')->name('orders.index');
+            Route::get('orders/{id}' , 'detail')->name('orders.detail');
+            Route::post('orders/{id}' , 'changeOrderStatus')->name('orders.changeOrderStatus');
         });
         ///Slug Routes
         Route::get('getSlug', function (Request $request) {

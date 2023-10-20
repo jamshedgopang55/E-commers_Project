@@ -38,7 +38,7 @@
                                             @foreach ($orders as $order)
                                                 <tr>
                                                     <td>
-                                                        <a href="{{route('account.orderDetail',$order->id)}}">{{ $order->id }}</a>
+                                                        <a href="{{route('account.orderDetail',$order->id)}}">ORD#{{ $order->id }}</a>
                                                     </td>
                                                     <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M, Y') }}</td>
                                                     <td>
@@ -46,6 +46,8 @@
                                                         <span class="badge bg-danger">Pending</span>
                                                         @elseif ($order->status == 'shipped')
                                                         <span class="badge bg-info">Shipped</span>
+                                                        @elseif($order->status =='cancelled')
+                                                        <span class="badge bg-danger">cancelled</span>
                                                         @else
                                                         <span class="badge bg-success">Delivered</span>
                                                         @endif

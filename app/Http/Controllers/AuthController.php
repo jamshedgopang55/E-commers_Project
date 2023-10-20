@@ -90,16 +90,22 @@ class AuthController extends Controller
     }
     public function orderDetail($id){
         $userId = Auth()->User()->id;
+
         $order = order::where('user_id',$userId)->where('id',$id)->first();
+        if($order == null){
+            session()->flash('error', 'record not found ');
+            return redirect()->route('account.orders');
+        }
 
         $items = order_item::where('order_id',$order->id)->get();
 
+        $count = order_item::where('order_id',$order->id)->count();
 
-        if($order == null){
 
-        }
+
         $data['order'] = $order;
         $data['items'] = $items;
+        $data['count'] = $count;
         return view('front.account.orderDetail',$data);
     }
 

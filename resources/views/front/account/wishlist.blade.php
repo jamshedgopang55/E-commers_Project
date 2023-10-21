@@ -90,12 +90,10 @@
                 if (response.status == true) {
                     $('#wishlist_modal .modal-body').html(response.message)
                     $('#wishlist_modal').modal('show')
-                } else {
-                    // window.location.href = '{{ route('account.login') }}'
                 }
             }
         })
-        
+
     }
 </script>
 @endsection

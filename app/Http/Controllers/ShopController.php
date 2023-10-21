@@ -40,6 +40,8 @@ class ShopController extends Controller
             $products = $products->whereIn('brand_id', $brandArray);
         }
 
+
+
         if ($req->get('price_min') != '' && $req->get('price_max') != '') {
             if($req->get('price_max')==5000){
             $products = $products->whereBetween('price', [intval($req->get('price_min')),100000000]);
@@ -49,6 +51,9 @@ class ShopController extends Controller
 
             }
 
+        }
+        if ($req->get('search')) {
+            $products = $products->where('tittle','like','%'.$req->get('search').'%');
         }
 
         if ($req->get('sort')!='') {
@@ -91,7 +96,7 @@ class ShopController extends Controller
         $productArray = [];
         if($product->related_products != null){
             $productArray = explode(',',$product->related_products);
-            $related_products = product::whereIn('id',$productArray)->with('product_images')->get();
+            $related_products = product::whereIn('id',$productArray)->where('status',1)->with('product_images')->get();
         };
         $data['related_products'] = $related_products;
 

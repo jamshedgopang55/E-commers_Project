@@ -186,8 +186,8 @@ class CartController extends Controller
             $grandTotal = ($totalShipping - $discount);
             $$totalShipping = 0;
         }
-        if($grandTotal== 0){
-            $grandTotal = Cart::subtotal(2,'.','');
+        if ($grandTotal == 0) {
+            $grandTotal = Cart::subtotal(2, '.', '');
         }
         $customerAddress = CustomerAddress::where('user_id', Auth::user()->id)->first();
         $data['totalShipping'] = $totalShipping;
@@ -280,7 +280,7 @@ class CartController extends Controller
                 $order->user_id = $user->id;
                 $order->subtotal = $subTotal;
                 $order->shipping = $shipping;
-                $order->grand_total = $grandTotal-$discount;
+                $order->grand_total = $grandTotal - $discount;
                 $order->discount = $discount;
                 $order->coupon_code_id = $coupenId;
                 $order->coupon_code = $promoCode;
@@ -312,10 +312,22 @@ class CartController extends Controller
                     $orderItem->price = $item->price;
                     $orderItem->total = $item->price * $item->qty;
                     $orderItem->save();
+
+                    //// Update Product Stock
+                    $productData = product::find($item->id);
+                    if ($productData->track_qty == 'Yes') {
+                        $currentQty = $productData->qty;
+                        $updatedQty = $currentQty - $item->qty;
+                        $productData->qty = $updatedQty;
+                        $productData->save();
+                    }
+
+
                 }
 
+
                 ///Sending Email
-                // orderEmail($order->id ,'customer'); 
+                // orderEmail($order->id ,'customer');
 
 
                 session()->flash('success', 'You have successfully placed your Order.');
@@ -361,7 +373,7 @@ class CartController extends Controller
                 return response()->json([
                     'status' => true,
                     'shippingCharge' => number_format($shippingCharge, 2),
-                    'discount' => number_format($discount,2),
+                    'discount' => number_format($discount, 2),
                     'grandTotal' => number_format($grandTotal, 2)
                 ]);
             } else {
@@ -378,7 +390,7 @@ class CartController extends Controller
                 return response()->json([
                     'status' => true,
                     'shippingCharge' => number_format($shippingCharge, 2),
-                    'discount' => number_format($discount,2),
+                    'discount' => number_format($discount, 2),
                     'grandTotal' => number_format($grandTotal, 2)
                 ]);
             }
@@ -386,7 +398,7 @@ class CartController extends Controller
             return response()->json([
                 'status' => true,
                 'shippingCharge' => number_format(0, 2),
-                'discount' => number_format($discount,2),
+                'discount' => number_format($discount, 2),
                 'grandTotal' => number_format(($subTotal - $discount), 2)
             ]);
         }
@@ -413,7 +425,8 @@ class CartController extends Controller
 
 
             if ($code->start_at != '') {
-                $startDate = Carbon::createFromFormat('Y-m-d H:i:s', $code->start_at)->format('d-m-Y');;
+                $startDate = Carbon::createFromFormat('Y-m-d H:i:s', $code->start_at)->format('d-m-Y');
+                ;
                 if ($now->lt($startDate)) {
                     return response()->json([
                         'status' => false,
@@ -432,9 +445,9 @@ class CartController extends Controller
                 }
             }
             //Coupons Used
-            if($code->max_uses > 0){
-                $couponUsed = order::where('coupon_code_id',$code->id)->count();
-                if($couponUsed >= $code->max_uses){
+            if ($code->max_uses > 0) {
+                $couponUsed = order::where('coupon_code_id', $code->id)->count();
+                if ($couponUsed >= $code->max_uses) {
                     return response()->json([
                         'status' => false,
                         'message' => 'Sorry, the coupon limit has been reached. You can no longer use this coupon.'
@@ -444,23 +457,23 @@ class CartController extends Controller
 
             ///Max Uses User Check
 
-            if($code->max_uses_user > 0){
-                $couponUsedByUser = order::where(['coupon_code_id'=>$code->id,'user_id'=>Auth::user()->id])->count();
-                if($couponUsedByUser >= $code->max_uses_user){
+            if ($code->max_uses_user > 0) {
+                $couponUsedByUser = order::where(['coupon_code_id' => $code->id, 'user_id' => Auth::user()->id])->count();
+                if ($couponUsedByUser >= $code->max_uses_user) {
                     return response()->json([
                         'status' => false,
                         'message' => 'youve already used this coupon.'
                     ]);
                 }
             }
-             $code->min_amount;
+            $code->min_amount;
             ///Mix Amount Check
-           $subTotal = Cart::subtotal(2,'.','');
-            if($code->min_amount > 0){
-                if($subTotal < $code->min_amount){
+            $subTotal = Cart::subtotal(2, '.', '');
+            if ($code->min_amount > 0) {
+                if ($subTotal < $code->min_amount) {
                     return response()->json([
                         'status' => false,
-                        'message' => 'Your min Amount must Be $'.$code->min_amount.'.'
+                        'message' => 'Your min Amount must Be $' . $code->min_amount . '.'
                     ]);
                 }
             }

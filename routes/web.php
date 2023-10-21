@@ -35,6 +35,8 @@ use App\Http\Controllers\Admin\TempController;
 ////Front Controller Routes
 Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index')->name('front.home');
+    Route::post('/add-to-wishlist', 'addToWishList')->name('front.addToWishList');
+
 });
 
 Route::controller(ShopController::class)->group(function () {
@@ -76,6 +78,8 @@ Route::prefix('account')->group(function () {
             Route::get('/logout', 'logout')->name('account.logout');
             Route::get('/my-orders', 'orders')->name('account.orders');
             Route::get('/order-detail/{id}', 'orderDetail')->name('account.orderDetail');
+            Route::get('/my-wishlist', 'wishlist')->name('account.wishlist');
+            Route::post('/wishlist-remove-product', 'removeProductFromWishlist')->name('account.removeProductFromWishlist');
         });
 
     });

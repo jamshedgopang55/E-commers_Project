@@ -184,7 +184,7 @@ class CartController extends Controller
         } else {
 
             $grandTotal = ($totalShipping - $discount);
-            $$totalShipping = 0;
+            $totalShipping = 0;
         }
         if ($grandTotal == 0) {
             $grandTotal = Cart::subtotal(2, '.', '');

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\discountCodeController;
 use App\Http\Controllers\Admin\oderContoller;
 use App\Http\Controllers\Admin\orderContoller;
 use App\Http\Controllers\Admin\shippingController;
+use App\Http\Controllers\Admin\userController;
 use Illuminate\Support\Facades\Route;
 // use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request;
@@ -80,6 +81,7 @@ Route::prefix('account')->group(function () {
             Route::get('/order-detail/{id}', 'orderDetail')->name('account.orderDetail');
             Route::get('/my-wishlist', 'wishlist')->name('account.wishlist');
             Route::post('/wishlist-remove-product', 'removeProductFromWishlist')->name('account.removeProductFromWishlist');
+            Route::post('/update-profile', 'updateProfile')->name('account.updateProfile');
         });
 
     });
@@ -172,13 +174,17 @@ Route::prefix('admin')->group(function () {
             Route::post('/coupons/{id}', 'update')->name('coupons.update');
             Route::post('/coupons{id}', 'destroy')->name('coupons.delete');
         });
-        ///
+        ///Oder Controller
         Route::controller(orderContoller::class)->group(function(){
             Route::get('orders' , 'index')->name('orders.index');
             Route::get('orders/{id}' , 'detail')->name('orders.detail');
             Route::post('orders/{id}' , 'changeOrderStatus')->name('orders.changeOrderStatus');
             Route::post('/send-email/{id}' , 'sendInvoiceEmail')->name('orders.sendInvoiceEmail');
 
+        });
+        Route::controller(userController::class)->group(function(){
+            Route::get('users','index')->name('users.index');
+            Route::post('/user{id}', 'destroy')->name('users.delete');
         });
         ///Slug Routes
         Route::get('getSlug', function (Request $request) {

@@ -74,7 +74,11 @@ class AuthController extends Controller
     }
     public function profile()
     {
-        return view('front.account.profile');
+        $user = User::find(Auth::User()->id);
+
+        return view('front.account.profile',[
+            'user' => $user,
+        ]);
     }
     public function logout()
     {
@@ -98,13 +102,8 @@ class AuthController extends Controller
             session()->flash('error', 'record not found ');
             return redirect()->route('account.orders');
         }
-
         $items = order_item::where('order_id', $order->id)->get();
-
         $count = order_item::where('order_id', $order->id)->count();
-
-
-
         $data['order'] = $order;
         $data['items'] = $items;
         $data['count'] = $count;
@@ -131,6 +130,31 @@ class AuthController extends Controller
                 'message' =>"<div class='alert alert-success'>Product remove Successfully</div>"
             ]);
 
+        }
+    }
+    public function updateProfile(Request $req){
+        $userId = Auth()->user()->id;
+        $validator = Validator::make($req->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$userId.',id',
+            'phone' => 'required',
+        ]);
+        if( $validator->fails() ){
+            return response()->json([
+                'status'=> false,
+                'errors'=> $validator->errors()
+                ]);
+        }else{
+            $user = User::find($userId);
+            $user->name = $req->name;
+            $user->email = $req->email;
+            $user->phone = $req->phone;
+            $user->save();
+
+            return response()->json([
+                'status' => true,
+                'message' =>"<div class='alert alert-success'>Your Profile Updated Successfully</div>"
+            ]);
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\page;
 use App\Models\brand;
 use App\Models\product;
 use App\Models\category;
@@ -64,6 +65,14 @@ class FrontController extends Controller
                 'status' => true,
                 'message' =>"<div class='alert alert-success'>"."'<strong>'$product->tittle'</strong>'"." added In Your WishList</div>"
             ]);
+    }
+
+    public function page($slug){
+        $page = page::where("slug",$slug)->first();
+        if($page==null){
+            abort(404);
+        }
+        return view('front.page',compact('page'));
     }
 
 }

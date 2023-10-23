@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\discountCodeController;
 use App\Http\Controllers\Admin\oderContoller;
 use App\Http\Controllers\Admin\orderContoller;
+use App\Http\Controllers\Admin\pageController;
 use App\Http\Controllers\Admin\shippingController;
 use App\Http\Controllers\Admin\userController;
 use Illuminate\Support\Facades\Route;
@@ -36,7 +37,9 @@ use App\Http\Controllers\Admin\TempController;
 ////Front Controller Routes
 Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index')->name('front.home');
+    Route::get('/page/{slug}', 'page')->name('front.page');
     Route::post('/add-to-wishlist', 'addToWishList')->name('front.addToWishList');
+
 
 });
 
@@ -76,12 +79,14 @@ Route::prefix('account')->group(function () {
     Route::group(['middleware' => 'auth'], function () {
         Route::controller(AuthController::class)->group(function () {
             Route::get('/profile', 'profile')->name('account.profile');
+            Route::get('/change-password', 'changePassword')->name('account.changePassword');
             Route::get('/logout', 'logout')->name('account.logout');
             Route::get('/my-orders', 'orders')->name('account.orders');
             Route::get('/order-detail/{id}', 'orderDetail')->name('account.orderDetail');
             Route::get('/my-wishlist', 'wishlist')->name('account.wishlist');
             Route::post('/wishlist-remove-product', 'removeProductFromWishlist')->name('account.removeProductFromWishlist');
             Route::post('/update-profile', 'updateProfile')->name('account.updateProfile');
+            Route::post('/change-password', 'updatePassword')->name('account.updatePassword');
         });
 
     });
@@ -147,6 +152,19 @@ Route::prefix('admin')->group(function () {
             Route::post('/product/delete', 'imageDelete')->name('product.imageDelete');
             Route::post('/product{product}', 'destroy')->name('product.delete');
             Route::get('getProducts/', 'getProducts')->name('front.getProducts');
+        });
+
+
+        ///Static Pages Routes
+        Route::controller(pageController::class)->group(function () {
+            Route::get('/pages', 'index')->name('page.list');
+            Route::get('/page/create', 'create')->name('page.create');
+            Route::post('/product/store', 'store')->name('page.store');
+            Route::get('/page/{id}', 'edit')->name('page.edit');
+            Route::post('/page{id}', 'update')->name('page.update');
+            Route::post('/page/delete/{id}', 'destroy')->name('page.delete');
+            // Route::post('/product{product}', 'destroy')->name('product.delete');
+            // Route::get('getProducts/', 'getProducts')->name('front.getProducts');
         });
 
         // temp-images.create

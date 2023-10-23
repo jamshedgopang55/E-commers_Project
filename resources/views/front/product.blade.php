@@ -149,6 +149,9 @@
                                     @endif
                                 </a>
 
+                                <a class="whishlist" onclick="addToWishList({{ $related_product->id }})"
+                                    href="javascript:void(0)"><i class="far fa-heart"></i></a>
+
                                     <div class="product-action">
                                         @if ($related_product->track_qty == 'Yes')
                                         @if ($related_product->qty > 0)

@@ -62,6 +62,10 @@
                                         </div>
                                     </div>
                                 @endforeach
+                                @else
+                                <tr>
+                                    <td colspan="3">Orders Not Found</td>
+                                </tr>
                             @endif
 
                         </div>

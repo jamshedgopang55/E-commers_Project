@@ -76,7 +76,7 @@ class AuthController extends Controller
     {
         $user = User::find(Auth::User()->id);
 
-        return view('front.account.profile',[
+        return view('front.account.profile', [
             'user' => $user,
         ]);
     }
@@ -118,33 +118,34 @@ class AuthController extends Controller
     public function removeProductFromWishlist(Request $req)
     {
         $wishlist = Wishlist::where('user_id', Auth()->user()->id)->where('product_id', $req->id)->first();
-        if($wishlist == null){
-            session()->flash('error','Product not Found');
+        if ($wishlist == null) {
+            session()->flash('error', 'Product not Found');
             return response()->json([
-                'status'=> true,
-                ]);
-        }else{
+                'status' => true,
+            ]);
+        } else {
             $wishlist->delete();
             return response()->json([
                 'status' => true,
-                'message' =>"<div class='alert alert-success'>Product remove Successfully</div>"
+                'message' => "<div class='alert alert-success'>Product remove Successfully</div>"
             ]);
 
         }
     }
-    public function updateProfile(Request $req){
+    public function updateProfile(Request $req)
+    {
         $userId = Auth()->user()->id;
         $validator = Validator::make($req->all(), [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$userId.',id',
+            'email' => 'required|email|unique:users,email,' . $userId . ',id',
             'phone' => 'required',
         ]);
-        if( $validator->fails() ){
+        if ($validator->fails()) {
             return response()->json([
-                'status'=> false,
-                'errors'=> $validator->errors()
-                ]);
-        }else{
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        } else {
             $user = User::find($userId);
             $user->name = $req->name;
             $user->email = $req->email;
@@ -153,8 +154,53 @@ class AuthController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' =>"<div class='alert alert-success'>Your Profile Updated Successfully</div>"
+                'message' => "<div class='alert alert-success'>Your Profile Updated Successfully</div>"
             ]);
         }
     }
+    public function changePassword()
+    {
+
+        return view('front.account.changePassword');
+    }
+    public function updatePassword(Request $req)
+    {
+        $userId = Auth()->user()->id;
+        $validator = Validator::make($req->all(), [
+            'old_password' => 'required',
+            'new_password' => 'required|min:5',
+            'confirm_password' => 'required|same:new_password'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        }else{
+
+            $user = User::find($userId);
+            if(Hash::check($req->old_password,$user->password)){
+              User::where('id',$userId)->update([
+                'password'=> Hash::make($req->new_password)
+              ]);
+              return response()->json([
+                'status' => true,
+                'success' => true,
+                'message' => "<div class='alert alert-success'>Your Password Updated Successfully</div>"
+            ]);
+
+            }else{
+
+                return response()->json([
+                'status' => true,
+                'success' => false,
+                'message' => "<div class='alert alert-danger'>Your Old Password is incorrect</div>"
+            ]);
+
+            }
+
+        }
+    }
+
 }
+

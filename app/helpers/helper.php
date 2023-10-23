@@ -1,4 +1,5 @@
 <?php
+use App\Models\page;
 use App\Models\order;
 use App\Models\product;
 use App\Mail\orderEmail;
@@ -14,6 +15,10 @@ function  featuredProduct(){
 }
 function image($productId){
    return productImage::where('product_id',$productId)->first();
+}
+function staticPage(){
+    $pages =page::orderBy('name','ASC')->get();
+    return $pages;
 }
 function orderEmail($orderId,$user = 'customer'){
     $order = order::where('id',$orderId)->with('items')->first();

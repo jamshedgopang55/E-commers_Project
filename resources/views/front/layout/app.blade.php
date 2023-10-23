@@ -56,7 +56,7 @@
         <div class="container">
             <div class="row align-items-center py-3 d-none d-lg-flex justify-content-between">
                 <div class="col-lg-4 logo">
-                    <a href="" class="text-decoration-none">
+                    <a href="{{route('front.home')}}" class="text-decoration-none">
                         <span class="h1 text-uppercase text-primary bg-dark px-2">Online</span>
                         <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">SHOP</span>
                     </a>
@@ -167,11 +167,13 @@
                     <div class="footer-card">
                         <h3>Important Links</h3>
                         <ul>
-                            <li><a href="about-us.php" title="About">About</a></li>
-                            <li><a href="contact-us.php" title="Contact Us">Contact Us</a></li>
-                            <li><a href="#" title="Privacy">Privacy</a></li>
-                            <li><a href="#" title="Privacy">Terms & Conditions</a></li>
-                            <li><a href="#" title="Privacy">Refund Policy</a></li>
+                          @if (staticPage()->isNotEmpty())
+                          @foreach (staticPage() as $page )
+                           <li><a href="{{route('front.page',$page->slug)}}" title="{{$page->name}}">{{$page->name}}</a></li>
+                          @endforeach
+
+                          @endif
+
                         </ul>
                     </div>
                 </div>

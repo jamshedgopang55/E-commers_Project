@@ -78,66 +78,75 @@
 @section('customJs')
     <script>
         $('#contactForm').submit(function(e) {
-            $('#btn').attr('disabled', true)
-            e.preventDefault();
-            $('#name').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
-                        $('#email').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
-                        $('#msg_subject').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
-                        $('#message').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
-                        $('#message').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
-            $.ajax({
-                url: '{{ route('front.sendContectEmail') }}',
-                data: $(this).serializeArray(),
-                type: 'POST',
-                dataType: 'json',
-                success: function(response) {
-                    $('#btn').attr('disabled', false)
-                    if (response.status == true) {
+                    $('#btn').attr('disabled', true)
+                    e.preventDefault();
+                    $('#name').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
+                    $('#email').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
+                    $('#msg_subject').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
+                    $('#message').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
+                    $('#message').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
+                    $.ajax({
+                            url: '{{ route('front.sendContectEmail') }}',
+                            data: $(this).serializeArray(),
+                            type: 'POST',
+                            dataType: 'json',
+                            beforeSend: function() {
+                                $('#loader').removeClass('d-none');
+                            },
+                            complete: function() {
+                                // Hide the loader when the request is complete
+                                $('#loader').addClass('d-none');
+                            },
+                                success: function(response) {
+                                    $('#btn').attr('disabled', false)
+                                    if (response.status == true) {
 
-                        $('#name').val('')
-                        $('#email').val('')
-                        $('#msg_subject').val('')
-                        $('#message').val('')
+                                        $('#name').val('')
+                                        $('#email').val('')
+                                        $('#msg_subject').val('')
+                                        $('#message').val('')
 
 
-                        $('#wishlist_modal .modal-body').html(response.message)
-                        $('#wishlist_modal').modal('show')
+                                        $('#wishlist_modal .modal-body').html(response.message)
+                                        $('#wishlist_modal').modal('show')
 
-                    } else {
-                        let errors = response.errors
-                        if (errors['name']) {
-                            $('#name').addClass('is-invalid').siblings('p').addClass('invalid-feedback')
-                                .html(errors['name'])
-                        } else {
-                            $('#name').removeClass('is-invalid').siblings('p').removeClass(
-                                'invalid-feedback').html("")
-                        }
-                        if (errors['email']) {
-                            $('#email').addClass('is-invalid').siblings('p').addClass(
-                                'invalid-feedback').html(errors['email'])
-                        } else {
-                            $('#email').removeClass('is-invalid').siblings('p').removeClass(
-                                'invalid-feedback').html("")
-                        }
-                        if (errors['msg_subject']) {
-                            $('#msg_subject').addClass('is-invalid').siblings('p').addClass(
-                                'invalid-feedback').html(errors['msg_subject'])
-                        } else {
-                            $('#msg_subject').removeClass('is-invalid').siblings('p').removeClass(
-                                'invalid-feedback').html("")
-                        }
+                                    } else {
+                                        let errors = response.errors
+                                        if (errors['name']) {
+                                            $('#name').addClass('is-invalid').siblings('p').addClass(
+                                                    'invalid-feedback')
+                                                .html(errors['name'])
+                                        } else {
+                                            $('#name').removeClass('is-invalid').siblings('p').removeClass(
+                                                'invalid-feedback').html("")
+                                        }
+                                        if (errors['email']) {
+                                            $('#email').addClass('is-invalid').siblings('p').addClass(
+                                                'invalid-feedback').html(errors['email'])
+                                        } else {
+                                            $('#email').removeClass('is-invalid').siblings('p').removeClass(
+                                                'invalid-feedback').html("")
+                                        }
+                                        if (errors['msg_subject']) {
+                                            $('#msg_subject').addClass('is-invalid').siblings('p').addClass(
+                                                'invalid-feedback').html(errors['msg_subject'])
+                                        } else {
+                                            $('#msg_subject').removeClass('is-invalid').siblings('p')
+                                                .removeClass(
+                                                    'invalid-feedback').html("")
+                                        }
 
-                        if (errors['message']) {
-                            $('#message').addClass('is-invalid').siblings('p').addClass(
-                                'invalid-feedback').html(errors['message'])
-                        } else {
-                            $('#message').removeClass('is-invalid').siblings('p').removeClass(
-                                'invalid-feedback').html("")
-                        }
+                                        if (errors['message']) {
+                                            $('#message').addClass('is-invalid').siblings('p').addClass(
+                                                'invalid-feedback').html(errors['message'])
+                                        } else {
+                                            $('#message').removeClass('is-invalid').siblings('p').removeClass(
+                                                'invalid-feedback').html("")
+                                        }
 
-                    }
-                }
-            })
-        })
+                                    }
+                                }
+                            })
+                    })
     </script>
 @endsection

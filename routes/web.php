@@ -62,9 +62,12 @@ Route::controller(CartController::class)->group(function () {
     Route::post('/Apply-discount', 'applyDiscount')->name('front.applyDiscount');
 });
 
-// Route::controller(AuthController::class)->group(function () {
-//     // Route::get('/login', 'login')->name('account.login');
-// });
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/forget-password', 'forgetPassword')->name('front.forgetPassword');
+    Route::post('/process-forget-password', 'processForgetPassword')->name('front.processForgetPassword');
+    Route::get('/reset-password/{token}', 'resetPassword')->name('front.resetPassword');
+    Route::post('/process-reset-password', 'processResetPassword')->name('front.processResetPassword');
+});
 
 Route::prefix('account')->group(function () {
 
@@ -199,15 +202,15 @@ Route::prefix('admin')->group(function () {
             Route::post('/coupons{id}', 'destroy')->name('coupons.delete');
         });
         ///Oder Controller
-        Route::controller(orderContoller::class)->group(function(){
-            Route::get('orders' , 'index')->name('orders.index');
-            Route::get('orders/{id}' , 'detail')->name('orders.detail');
-            Route::post('orders/{id}' , 'changeOrderStatus')->name('orders.changeOrderStatus');
-            Route::post('/send-email/{id}' , 'sendInvoiceEmail')->name('orders.sendInvoiceEmail');
+        Route::controller(orderContoller::class)->group(function () {
+            Route::get('orders', 'index')->name('orders.index');
+            Route::get('orders/{id}', 'detail')->name('orders.detail');
+            Route::post('orders/{id}', 'changeOrderStatus')->name('orders.changeOrderStatus');
+            Route::post('/send-email/{id}', 'sendInvoiceEmail')->name('orders.sendInvoiceEmail');
 
         });
-        Route::controller(userController::class)->group(function(){
-            Route::get('users','index')->name('users.index');
+        Route::controller(userController::class)->group(function () {
+            Route::get('users', 'index')->name('users.index');
             Route::post('/user{id}', 'destroy')->name('users.delete');
         });
         ///Slug Routes
@@ -223,6 +226,6 @@ Route::prefix('admin')->group(function () {
 
         })->name('getSlug');
 
-        Route::get('/logout', [HomeController::class,'logout'])->name('admin.logout');
+        Route::get('/logout', [HomeController::class, 'logout'])->name('admin.logout');
     });
 });

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\discountCodeController;
 use App\Http\Controllers\Admin\oderContoller;
 use App\Http\Controllers\Admin\orderContoller;
 use App\Http\Controllers\Admin\pageController;
+use App\Http\Controllers\Admin\settingController;
 use App\Http\Controllers\Admin\shippingController;
 use App\Http\Controllers\Admin\userController;
 use Illuminate\Support\Facades\Route;
@@ -39,7 +40,7 @@ Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index')->name('front.home');
     Route::get('/page/{slug}', 'page')->name('front.page');
     Route::post('/add-to-wishlist', 'addToWishList')->name('front.addToWishList');
-
+    Route::post('/send-contect-mail', 'sendContectEmail')->name('front.sendContectEmail');
 
 });
 
@@ -111,6 +112,11 @@ Route::prefix('admin')->group(function () {
         Route::controller(HomeController::class)->group(function () {
             Route::get('/dashboard', 'index')->name('admin.dashboard');
             Route::get('/logout', 'logout')->name('admin.logout');
+        });
+        ///settings Routes
+        Route::controller(settingController::class)->group(function () {
+            Route::get('/change-password', 'changePasswordFrom')->name('admin.changePasswordFrom');
+            Route::post('/process-change-password', 'updatePassword')->name('admin.updatePassword');
         });
 
         //Routes For adminCategoryController
@@ -217,6 +223,6 @@ Route::prefix('admin')->group(function () {
 
         })->name('getSlug');
 
-        // Route::get('/', [HomeController::class,'logout'])->name('admin.logout');
+        Route::get('/logout', [HomeController::class,'logout'])->name('admin.logout');
     });
 });

@@ -12,7 +12,7 @@
                 <!-- Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="dashboard.html" class="nav-link">
+                    <a href="{{route('admin.dashboard')}}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>

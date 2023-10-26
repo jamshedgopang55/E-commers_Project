@@ -20,6 +20,11 @@ function staticPage(){
     $pages =page::orderBy('name','ASC')->get();
     return $pages;
 }
+function productSlug($id){
+    $productInfo = product::select('slug')->where('id',$id)->first();
+    return $productInfo->slug;
+
+}
 function orderEmail($orderId,$user = 'customer'){
     $order = order::where('id',$orderId)->with('items')->first();
     if($user == 'customer'){
@@ -36,5 +41,6 @@ function orderEmail($orderId,$user = 'customer'){
     ];
     Mail::to($email)->send(new orderEmail($mailData));
 }
+
 
 ?>

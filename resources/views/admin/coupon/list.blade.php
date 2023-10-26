@@ -72,12 +72,12 @@
                                         </td>
                                         <td>
                                             @if ($discountCoupon->start_at)
-                                            {{ $discountCoupon->start_at }}
+                                            {{carbon\Carbon::parse($discountCoupon->start_at)->format('d-M-Y')}}
                                             @endif
                                         </td>
                                         <td>
                                             @if ($discountCoupon->expires_at)
-                                            {{ $discountCoupon->expires_at }}
+                                            {{carbon\Carbon::parse($discountCoupon->expires_at)->format('d-M-Y') }}
                                             @endif
                                         </td>
                                         <td>

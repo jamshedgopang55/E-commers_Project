@@ -95,8 +95,6 @@
                                     <li class="list-group-item">
                                         <div class="row align-items-center">
                                             <div class="col-4 col-md-3 col-xl-2">
-                                                <!-- Image -->
-                                                {{-- <a href="product.html"><img src="images/product-1.jpg" alt="..." class="img-fluid"></a> --}}
                                                 @php
                                                     $product_image = image($item->product_id);
                                                 @endphp
@@ -111,7 +109,7 @@
                                             <div class="col">
                                                 <!-- Title -->
                                                 <p class="mb-4 fs-sm fw-bold">
-                                                    <a class="text-body" href="">{{ $item->name }} x
+                                                    <a class="text-body" href="{{route('front.product',productSlug($item->product_id))}}">{{ $item->name }} x
                                                         {{ $item->qty }}</a> <br>
                                                     <span class="text-muted">{{ number_format($item->total, 2) }}</span>
                                                 </p>
@@ -157,3 +155,4 @@
         </div>
     </section>
 @endsection
+

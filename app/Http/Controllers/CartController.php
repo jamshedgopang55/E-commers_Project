@@ -420,7 +420,7 @@ class CartController extends Controller
                 'message' => 'Invalid Discount Coupon'
             ]);
         } else {
-            $now = Carbon::now()->format('d-m-Y');
+            $now = Carbon::now()->setTimezone('PKT')->format('d-m-Y');
             $now = Carbon::parse($now);
 
 
@@ -435,7 +435,7 @@ class CartController extends Controller
                 }
             }
             if ($code->expires_at != '') {
-                $expiresDate = Carbon::createFromFormat('Y-m-d H:i:s', $code->expires_at)->format('d-m-Y');
+                $expiresDate = Carbon::createFromFormat('Y-m-d H:i:s', $code->expires_at)->subDays(1)->format('d-m-Y');
 
                 if ($now->gt($expiresDate)) {
                     return response()->json([

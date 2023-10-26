@@ -358,8 +358,9 @@
                     $('#shippingAmount').html(response.shippingCharge);
                     $('#discount').html(response.discount);
                     $('#discount_code').removeClass('is-invalid')
-                    $('#apply-discount').siblings('p').addClass(
-                                'invalid-feedback').html()
+                    $('#discount_code').addClass('is-valid')
+                    $('#apply-discount').siblings('p').removeClass(
+                                'invalid-feedback').addClass('valid-feedback').html('Coupon Applied Successfully')
 
                    }else{
                     $('#discount_code').addClass('is-invalid')
@@ -373,24 +374,3 @@
 @endsection
 
 
-
-{{-- if (response.status == false) {
-    let errors = response.errors
-    if (errors.code) {
-        $('#discount_code').addClass('is-invalid')
-        $('#apply-discount').siblings('p').addClass(
-            'invalid-feedback').html(errors.code)
-    }
-} else {
-    $('#discount_code').removeClass('is-invalid')
-    $('#apply-discount').siblings('p').removeClass(
-        'invalid-feedback').html("")
-        if(response.message == 'Invalid Discount Coupon'){
-            $('#discount_code').addClass('is-invalid')
-        $('#apply-discount').siblings('p').addClass(
-            'invalid-feedback').html(response.message)
-        }
-        else{
-            alert('valid coupons')
-        }
-} --}}

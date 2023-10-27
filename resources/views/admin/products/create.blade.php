@@ -159,7 +159,7 @@
                                 <div class="mb-3">
                                     <select multiple class="related_products w-100" name="related_products[]"
                                         id="related_products">
-                                       
+
                                     </select>
                                 </div>
                             </div>

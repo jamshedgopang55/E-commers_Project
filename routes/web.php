@@ -168,7 +168,7 @@ Route::prefix('admin')->group(function () {
         Route::controller(pageController::class)->group(function () {
             Route::get('/pages', 'index')->name('page.list');
             Route::get('/page/create', 'create')->name('page.create');
-            Route::post('/product/store', 'store')->name('page.store');
+            Route::post('/page/store', 'store')->name('page.store');
             Route::get('/page/{id}', 'edit')->name('page.edit');
             Route::post('/page{id}', 'update')->name('page.update');
             Route::post('/page/delete/{id}', 'destroy')->name('page.delete');

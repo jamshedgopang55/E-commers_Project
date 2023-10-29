@@ -28,12 +28,8 @@
                     @csrf
                     <h4 class="modal-title">Forget Password</h4>
                     <div class="form-group">
-                        <input type="text" class="form-control  @error('email') is-invalid @enderror" name="email" placeholder="Email"
-                            value="{{ old('email') }}">
-                        @error('email')
-                           <p class="invalid-feedback"> {{ $message }}</p>
-                        @enderror
-
+                        <input  type="text" class="form-control" id="email" name="email" placeholder="Email">
+                    <p class="invalid-feedback"></p>
                     </div>
                     <input type="submit" id="btn" class="btn btn-dark btn-block btn-lg" value="Submit">
                 </form>
@@ -61,7 +57,7 @@
                 } else {
                     let errors = response.errors
                     if (errors['email']) {
-                        $('#email').addClass('is-invalid').siblings('p').addClass('invalid-feedback').html(errors['password'])
+                        $('#email').addClass('is-invalid').siblings('p').addClass('invalid-feedback').html(errors['email'])
                     } else {
                         $('#email').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
                     }

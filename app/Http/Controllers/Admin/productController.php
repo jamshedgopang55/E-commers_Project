@@ -122,7 +122,7 @@ class productController extends Controller
         $product = product::find($id);
 
         $productArray = [];
-        
+
         $related_products = [];
         if($product->related_products != null){
             $productArray = explode(',',$product->related_products);

@@ -25,12 +25,18 @@ class ShopController extends Controller
 
         if (!empty($categorySlug)) {
             $category = category::where('slug', $categorySlug)->first();
+            if($category == null){
+                return abort(404);
+            }
             $products = $products->where('category_id', $category->id);
             $categorySelected = $category->id;
         }
 
         if (!empty($subCategorySlug)) {
             $subCategory = subCategory::where('slug', $subCategorySlug)->first();
+            if($subCategory == null){
+                return abort(404);
+            }
             $products = $products->where('sub_category_id', $subCategory->id);
             $SubCategorySelected = $subCategory->id;
         }

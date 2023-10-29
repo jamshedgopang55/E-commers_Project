@@ -40,7 +40,7 @@
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="slug">Slug*</label>
-                                            <input value="{{ $product->tittle }}" type="text" readonly name="slug"
+                                            <input value="{{ $product->slug }}" type="text" readonly name="slug"
                                                 id="slug" class="form-control" placeholder="slug">
                                             <p></p>
                                         </div>

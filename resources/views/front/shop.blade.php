@@ -5,8 +5,8 @@
         <div class="container">
             <div class="light-font">
                 <ol class="breadcrumb primary-color mb-0">
-                    <li class="breadcrumb-item"><a class="white-text" href="/">Home</a></li>
-                    <li class="breadcrumb-item active" ><a href='{{route('front.shop')}}'></a>Shop</li>
+                    <li class="breadcrumb-item"><a class="white-text" href="{{route('front.home')}}">Home</a></li>
+                    <a class="breadcrumb-item active" href='{{route('front.shop')}}'>Shop</a>
                 </ol>
             </div>
         </div>
@@ -144,7 +144,7 @@
                                 </div>
                                 </div>
                                 <div class="card-body text-center mt-3">
-                                    <a class="h6 link" href="product.php">{{$Product->tittle}}</a>
+                                    <a class="h6 link" href="{{route('front.product',$Product->slug)}}">{{$Product->tittle}}</a>
                                     <div class="price mt-2">
                                         <span class="h5"><strong>${{$Product->price}}</strong></span>
                                         <span class="h6 text-underline"><del>{{$Product->compare_price}}</del></span>
@@ -154,6 +154,8 @@
                             </div>
                         </div>
                         @endforeach
+                        @else
+                                <h2 class="text-center">Product Not Available</h2>
                         @endif
 
                         <div class="col-md-12 pt-5">

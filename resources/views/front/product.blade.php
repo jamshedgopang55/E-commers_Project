@@ -173,7 +173,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body text-center mt-3">
-                                    <a class="h6 link" href="">{{ $related_product->tittle }}</a>
+                                    <a class="h6 link" href="{{route('front.product',$related_product->slug)}}">{{ $related_product->tittle }}</a>
                                     <div class="price mt-2">
                                         <span class="h5"><strong>${{ $related_product->price }}</strong></span>
                                         @if ($related_product->compare_price)

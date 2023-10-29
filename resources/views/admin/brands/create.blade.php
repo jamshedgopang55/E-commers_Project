@@ -53,7 +53,7 @@
                 </div>
                 <div class="pb-5 pt-3">
                     <button type="submit" class="btn btn-primary">Create</button>
-                    <a href="brands.html" class="btn btn-outline-dark ml-3">Cancel</a>
+                    <a href="{{route('brand.index')}}" class="btn btn-outline-dark ml-3">Cancel</a>
                 </div>
             </form>
         </div>

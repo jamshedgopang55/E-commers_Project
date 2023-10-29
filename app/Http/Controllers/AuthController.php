@@ -248,6 +248,7 @@ class AuthController extends Controller
                 'status' => true,
                 'message' => 'Plesae Check your inbox to reset Your Password'
             ]);
+            
         }
         // $user = User::find($request->user_id);
 

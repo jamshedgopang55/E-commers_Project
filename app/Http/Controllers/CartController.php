@@ -413,7 +413,7 @@ class CartController extends Controller
     public function applyDiscount(Request $req)
     {
 
-        $code = discountCoupon::where('code', $req->code)->first();
+        $code = discountCoupon::where('code', $req->code)->where('status' ,1)->first();
         if ($code == null) {
             return response()->json([
                 'status' => false,

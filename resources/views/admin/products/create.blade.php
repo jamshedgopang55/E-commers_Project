@@ -406,7 +406,7 @@
                                     <img src="${response.image_path}"  class="card-img-top product_image" alt="...">
                                     <input type="text" hidden name="images_array[]" value="${response.image_id}">
                                     <div class="card-body">
-                                        <a href="#" onclick="deleteImae(${response.image_id})" class="btn btn-danger">Delete</a>
+                                        <a onclick="deleteImae(${response.image_id})" class="btn btn-danger">Delete</a>
                                     </div>
                                     </div>`;
                     $('#product-gallery').append(html)

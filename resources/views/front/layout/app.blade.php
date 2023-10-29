@@ -85,7 +85,7 @@
     <header class="bg-dark">
         <div class="container">
             <nav class="navbar navbar-expand-xl" id="navbar">
-                <a href="index.php" class="text-decoration-none mobile-logo">
+                <a href="{{route('front.home')}}" class="text-decoration-none mobile-logo">
                     <span class="h2 text-uppercase text-primary bg-dark">Online</span>
                     <span class="h2 text-uppercase text-white px-2">SHOP</span>
                 </a>
@@ -182,9 +182,15 @@
                     <div class="footer-card">
                         <h3>My Account</h3>
                         <ul>
-                            <li><a href="#" title="Sell">Login</a></li>
-                            <li><a href="#" title="Advertise">Register</a></li>
-                            <li><a href="#" title="Contact Us">My Orders</a></li>
+                           @if (Auth::user() == false)
+                           <li><a href="{{route('account.login')}}" title="Sell">Login</a></li>
+                           <li><a href="{{route('account.register')}}" title="Advertise">Register</a></li>
+                           @else
+                           <li><a href="{{route('account.profile')}}" title="Contact Us">Profile</a></li>
+                           <li><a href="{{route('account.wishlist')}}" title="Contact Us">WishList</a></li>
+                           <li><a href="{{route('account.orders')}}" title="Contact Us">My Orders</a></li>
+                           @endif
+
                         </ul>
                     </div>
                 </div>

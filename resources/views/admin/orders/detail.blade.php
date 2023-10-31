@@ -42,6 +42,7 @@
                                     <br>
                                     <b>Order ID:</b>{{ $order->id }}<br>
                                     <b>Total:</b>${{ number_format($order->grand_total, 2) }}<br>
+                                    <b>Payment Status : </b>{{$order->payment_status}}<br>
                                     <b>Status:</b>
 
                                     @if ($order->status == 'pending')

@@ -152,7 +152,8 @@
 
                                 <div class="d-flex justify-content-between summery-end">
                                     <div class="h6"><strong>Discount</strong></div>
-                                    <div class="h6">$<strong id="discount">{{number_format($discount, 2)}}</strong></div>
+                                    <div class="h6">$<strong
+                                            id="discount">{{ number_format($discount, 2) }}</strong></div>
                                 </div>
 
                                 <div class="d-flex justify-content-between mt-2">
@@ -214,7 +215,8 @@
 
                             </div>
                             <div class="pt-4">
-                                <button id="btn" type="submit" class="btn-dark btn btn-block w-100">Pay Now</button>
+                                <button id="btn" type="submit" class="btn-dark btn btn-block w-100">Pay
+                                    Now</button>
                             </div>
                         </div>
 
@@ -231,100 +233,183 @@
 @endsection
 @section('customJs')
     <script>
-        $('#payment_method_one').click(function() {
-            if ($(this).is(':checked') == true) {
-                $('#cart-payment-form').addClass('d-none')
-            }
-        })
-        $('#payment_method_two').click(function() {
-            if ($(this).is(':checked') == true) {
-                $('#cart-payment-form').removeClass('d-none')
-            }
-        })
+        // $('#payment_method_one').click(function() {
+        //     if ($(this).is(':checked') == true) {
+        //         $('#cart-payment-form').addClass('d-none')
+        //     }
+        // })
+        // $('#payment_method_two').click(function() {
+        //     if ($(this).is(':checked') == true) {
+        //         $('#cart-payment-form').removeClass('d-none')
+        //     }
+        // })
         $('#orderForm').submit(function(e) {
+
             $('#btn').attr('disabled', true)
             e.preventDefault();
-            $.ajax({
-                url: "{{ route('front.processCheckout') }}",
-                type: 'post',
-                data: $(this).serializeArray(),
-                dataType: "json",
-                success: function(response) {
+            if ($('#payment_method_one').is(':checked') == true){
 
-                    $('#btn').attr('disabled', false)
-                    if (response.status == false) {
-                        let errors = response.errors
-                        if (errors.first_name) {
-                            $('#first_name').addClass('is-invalid').siblings('p').addClass(
-                                'invalid-feedback').html(errors.first_name)
-                        } else {
-                            $('#first_name').removeClass('is-invalid').siblings('p').removeClass(
-                                'invalid-feedback').html("")
-                        }
-                        if (errors.last_name) {
-                            $('#last_name').addClass('is-invalid').siblings('p').addClass(
-                                'invalid-feedback').html(errors.last_name)
-                        } else {
-                            $('#last_name').removeClass('is-invalid').siblings('p').removeClass(
-                                'invalid-feedback').html("")
+                $.ajax({
+                    url: "{{ route('front.processCheckout') }}",
+                    type: 'post',
+                    data: $(this).serializeArray(),
+                    dataType: "json",
+                    success: function(response) {
+                        $('#btn').attr('disabled', false)
+                        if (response.status == false) {
+                            let errors = response.errors
+                            if (errors.first_name) {
+                                $('#first_name').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.first_name)
+                            } else {
+                                $('#first_name').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+                            }
+                            if (errors.last_name) {
+                                $('#last_name').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.last_name)
+                            } else {
+                                $('#last_name').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
 
-                        }
-                        if (errors.email) {
-                            $('#email').addClass('is-invalid').siblings('p').addClass(
-                                'invalid-feedback').html(errors.email)
+                            }
+                            if (errors.email) {
+                                $('#email').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.email)
+                            } else {
+                                $('#email').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+                            }
+                            if (errors.country) {
+                                $('#country').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.country)
+                            } else {
+                                $('#country').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+                            }
+                            if (errors.address) {
+                                $('#address').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.address)
+                            } else {
+                                $('#address').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+                            }
+                            if (errors.city) {
+                                $('#city').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.city)
+                            } else {
+                                $('#city').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+                            }
+                            if (errors.state) {
+                                $('#state').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.state)
+                            } else {
+                                $('#state').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+                            }
+                            if (errors.zip) {
+                                $('#zip').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.zip)
+                            } else {
+                                $('#zip').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+                            }
+                            if (errors.mobile) {
+                                $('#mobile').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.mobile)
+                            } else {
+                                $('#mobile').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+                            }
                         } else {
-                            $('#email').removeClass('is-invalid').siblings('p').removeClass(
-                                'invalid-feedback').html("")
-                        }
-                        if (errors.country) {
-                            $('#country').addClass('is-invalid').siblings('p').addClass(
-                                'invalid-feedback').html(errors.country)
-                        } else {
-                            $('#country').removeClass('is-invalid').siblings('p').removeClass(
-                                'invalid-feedback').html("")
-                        }
-                        if (errors.address) {
-                            $('#address').addClass('is-invalid').siblings('p').addClass(
-                                'invalid-feedback').html(errors.address)
-                        } else {
-                            $('#address').removeClass('is-invalid').siblings('p').removeClass(
-                                'invalid-feedback').html("")
-                        }
-                        if (errors.city) {
-                            $('#city').addClass('is-invalid').siblings('p').addClass(
-                                'invalid-feedback').html(errors.city)
-                        } else {
-                            $('#city').removeClass('is-invalid').siblings('p').removeClass(
-                                'invalid-feedback').html("")
-                        }
-                        if (errors.state) {
-                            $('#state').addClass('is-invalid').siblings('p').addClass(
-                                'invalid-feedback').html(errors.state)
-                        } else {
-                            $('#state').removeClass('is-invalid').siblings('p').removeClass(
-                                'invalid-feedback').html("")
-                        }
-                        if (errors.zip) {
-                            $('#zip').addClass('is-invalid').siblings('p').addClass(
-                                'invalid-feedback').html(errors.zip)
-                        } else {
-                            $('#zip').removeClass('is-invalid').siblings('p').removeClass(
-                                'invalid-feedback').html("")
-                        }
-                        if (errors.mobile) {
-                            $('#mobile').addClass('is-invalid').siblings('p').addClass(
-                                'invalid-feedback').html(errors.mobile)
-                        } else {
-                            $('#mobile').removeClass('is-invalid').siblings('p').removeClass(
-                                'invalid-feedback').html("")
+                                window.location.href = '{{ url('thanks') }}/' + response.orderId;
+
                         }
                     }
-                    else {
-                        window.location.href = '{{ url('thanks') }}/' + response.orderId;
-                        console.log(response)
+                })
+            }else{
+                $.ajax({
+                    url: "{{ route('front.stripeCall') }}",
+                    type: 'post',
+                    data: $(this).serializeArray(),
+                    dataType: "json",
+                    success: function(response) {
+                        $('#btn').attr('disabled', false)
+                        if (response.status == false) {
+                            let errors = response.errors
+                            if (errors.first_name) {
+                                $('#first_name').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.first_name)
+                            } else {
+                                $('#first_name').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+                            }
+                            if (errors.last_name) {
+                                $('#last_name').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.last_name)
+                            } else {
+                                $('#last_name').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+
+                            }
+                            if (errors.email) {
+                                $('#email').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.email)
+                            } else {
+                                $('#email').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+                            }
+                            if (errors.country) {
+                                $('#country').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.country)
+                            } else {
+                                $('#country').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+                            }
+                            if (errors.address) {
+                                $('#address').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.address)
+                            } else {
+                                $('#address').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+                            }
+                            if (errors.city) {
+                                $('#city').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.city)
+                            } else {
+                                $('#city').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+                            }
+                            if (errors.state) {
+                                $('#state').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.state)
+                            } else {
+                                $('#state').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+                            }
+                            if (errors.zip) {
+                                $('#zip').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.zip)
+                            } else {
+                                $('#zip').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+                            }
+                            if (errors.mobile) {
+                                $('#mobile').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors.mobile)
+                            } else {
+                                $('#mobile').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+                            }
+                        } else {
+                                window.location.href = response.url;
+                        }
                     }
-                }
-            })
+                })
+            }
+
+
         })
         $('#country').change(function() {
             $.ajax({
@@ -353,24 +438,23 @@
                 },
                 dataType: 'json',
                 success: function(response) {
-                   if(response.status == true){
-                    $('#grandTotal').html(response.grandTotal);
-                    $('#shippingAmount').html(response.shippingCharge);
-                    $('#discount').html(response.discount);
-                    $('#discount_code').removeClass('is-invalid')
-                    $('#discount_code').addClass('is-valid')
-                    $('#apply-discount').siblings('p').removeClass(
-                                'invalid-feedback').addClass('valid-feedback').html('Coupon Applied Successfully')
+                    if (response.status == true) {
+                        $('#grandTotal').html(response.grandTotal);
+                        $('#shippingAmount').html(response.shippingCharge);
+                        $('#discount').html(response.discount);
+                        $('#discount_code').removeClass('is-invalid')
+                        $('#discount_code').addClass('is-valid')
+                        $('#apply-discount').siblings('p').removeClass(
+                            'invalid-feedback').addClass('valid-feedback').html(
+                            'Coupon Applied Successfully')
 
-                   }else{
-                    $('#discount_code').addClass('is-invalid')
-                    $('#apply-discount').siblings('p').addClass(
-                                'invalid-feedback').html(response.message)
-                   }
+                    } else {
+                        $('#discount_code').addClass('is-invalid')
+                        $('#apply-discount').siblings('p').addClass(
+                            'invalid-feedback').html(response.message)
+                    }
                 }
             })
         })
     </script>
 @endsection
-
-

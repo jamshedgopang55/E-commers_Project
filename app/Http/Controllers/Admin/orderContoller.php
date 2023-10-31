@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 class orderContoller extends Controller
 {
     public function index(Request $req){
-        $orders = order::latest('order.created_at')->select('order.*','users.name','users.email');
+        $orders = order::latest('order.created_at')->select('order.*','users.name','users.email')->where('payment_status' ,'!=' ,'pending');
 
         $orders = $orders->leftJoin('users','users.id' , 'order.user_id');
 

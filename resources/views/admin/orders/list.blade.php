@@ -49,6 +49,7 @@
                                 <th>Name</th>
                                 <th>email</th>
                                 <th>Phone</th>
+                                <th>Payment Status</th>
                                 <th width="100">Status</th>
                                 <th width="100">Grand Total</th>
                             </tr>
@@ -61,6 +62,13 @@
                                         <td>{{ $order->name }}</td>
                                         <td>{{ $order->email }}</td>
                                         <td>{{ $order->mobile }}</td>
+                                        <td>
+                                            @if($order->payment_status == 'not paid')
+                                            <span class="badge bg-danger">Not Paid</span>
+                                            @else
+                                            <span class="badge bg-success">Paid</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             @if($order->status == 'pending')
                                             <span class="badge bg-danger">Pending</span>

@@ -58,6 +58,8 @@ Route::controller(CartController::class)->group(function () {
     Route::post('/update-cart', 'updateCart')->name('front.updateCart');
     Route::post('/delete-cart', 'deleteCart')->name('front.deleteCart');
     Route::post('/process-checkout', 'processCheckout')->name('front.processCheckout');
+    Route::post('/stripeCall', 'stripeCall')->name('front.stripeCall');
+    Route::get('/store-order', 'storeOrder')->name('front.storeOrder');
     Route::post('/get-oreder-summery', 'getOrderSummery')->name('front.getOrderSummery');
     Route::post('/Apply-discount', 'applyDiscount')->name('front.applyDiscount');
 });

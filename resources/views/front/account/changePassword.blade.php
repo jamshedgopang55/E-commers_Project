@@ -93,7 +93,7 @@
                                 $('#confirm_password').val('')
 
                                 }else{
-                                    $('#old_password').addClass('is-invalid')
+                                    $('#old_password').addClass('is-invalid').siblings('p').html('old Password Is Correct')
                                 }
                         $('#wishlist_modal .modal-body').html(response.message)
                          $('#wishlist_modal').modal('show')

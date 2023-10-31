@@ -13,15 +13,15 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     function index(){
-        $totalOrders  = order::where('status' , '!=' ,'cancelled')->count();
+        $totalOrders  = order::where('status' , '!=' ,'cancelled')->where('payment_status' ,'!=' ,'pending')->count();
         $totalProducts  = product::count();
         $totalUsers  = User::where('role' ,1)->count();
 
-        $totalSales  = order::where('status' , '!=' ,'cancelled')->sum('grand_total');
+        $totalSales  = order::where('status' , '!=' ,'cancelled')->where('payment_status' ,'!=' ,'pending')->sum('grand_total');
         ///This Month revenue
         $startOfMonth = Carbon::now()->startOfMonth()->format('Y-m-d');
         $currentData = Carbon::now()->format('Y-m-d');
-        $revenueThisMonth  = order::where('status' , '!=' ,'cancelled')
+        $revenueThisMonth  = order::where('status' , '!=' ,'cancelled')->where('payment_status' ,'!=' ,'pending')
         ->whereDate('created_at','>=', $startOfMonth)
         ->whereDate('created_at','<=', $currentData)
         ->sum('grand_total');
@@ -31,7 +31,7 @@ class HomeController extends Controller
         $lastMonthEndDate = Carbon::now()->subMonth()->endOfMonth()->format('Y-m-d');
         $lastMonthName = Carbon::now()->subMonth()->startOfMonth()->format('M');
 
-        $lastThisMonthRevenue  = order::where('status' , '!=' ,'cancelled')
+        $lastThisMonthRevenue  = order::where('status' , '!=' ,'cancelled')->where('payment_status' ,'!=' ,'pending')
         ->whereDate('created_at','>=', $lastMonthStartDate)
         ->whereDate('created_at','<=', $lastMonthEndDate)
         ->sum('grand_total');
@@ -39,7 +39,7 @@ class HomeController extends Controller
         ///last 30 Days revenue
        $lastThirtyStartDate = Carbon::now()->subDays(30)->format('Y-m-d');
 
-    $lastThirtyDaysRevenue  = order::where('status' , '!=' ,'cancelled')
+    $lastThirtyDaysRevenue  = order::where('status' , '!=' ,'cancelled')->where('payment_status' ,'!=' ,'pending')
     ->whereDate('created_at','>=', $lastThirtyStartDate)
     ->whereDate('created_at','<=', $currentData)
     ->sum('grand_total');

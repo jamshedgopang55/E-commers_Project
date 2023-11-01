@@ -542,10 +542,18 @@ class CartController extends Controller
         /////Stripe Calll
         $user_email = Auth::user()->email;
         $line_items = [];
+        $total_qty = 0;
+
+        $country = Country::where('id' , $req->country)->first();
+
+        $shippingInfo = shipping::where('country_id', $req->country)->first();
+        if($shippingInfo == null){
+             $shippingInfo = shipping::where('country_id', 'rest_of_world')->first();
+        }
 
         foreach (Cart::content() as $item) {
-            $shippingInfo = shipping::where('country_id', $req->country)->first();
-            $price = $item->price + $shippingInfo->amount;
+
+            $price = $item->price;
 
             $line_items[] = [
                 'price_data' => [
@@ -559,7 +567,32 @@ class CartController extends Controller
                 'quantity' => $item->qty
             ];
 
+            $total_qty += $item->qty;
+            $total_Shipping = $shippingInfo->amount * $total_qty * 100;
+
+          $shipping_options =   [
+                'shipping_rate_data' => [
+                  'type' => 'fixed_amount',
+                  'fixed_amount' => [
+                    'amount' => $total_Shipping,
+                    'currency' => 'usd',
+                  ],
+                  'display_name' => 'Shipping Charges',
+                  'delivery_estimate' => [
+                    'minimum' => [
+                      'unit' => 'business_day',
+                      'value' => 5,
+                    ],
+                    'maximum' => [
+                      'unit' => 'business_day',
+                      'value' => 7,
+                    ],
+                  ],
+                ],
+            ];
+
         };
+
         $stripe = new Stripe\StripeClient(env('STRIPE_SECRET'));
 
         $successUrl = route('front.thankYou', 33, true) . "?session_id={CHECKOUT_SESSION_ID}";
@@ -567,9 +600,10 @@ class CartController extends Controller
             'success_url' => $successUrl,
             'customer_email' => $user_email,
             'payment_method_types' => ['link', 'card'],
+            'shipping_address_collection' => ['allowed_countries' => [$country->code]],
+            'shipping_options' => [$shipping_options],
             'line_items' => $line_items,
             'mode' => 'payment',
-
             'allow_promotion_codes' => true
         ]);
 
@@ -673,13 +707,13 @@ class CartController extends Controller
              $orderItem->save();
 
              ///Product Stock Update
-             $productData = product::find($item->id);
-             if ($productData->track_qty == 'Yes') {
-                 $currentQty = $productData->qty;
-                 $updatedQty = $currentQty - $item->qty;
-                 $productData->qty = $updatedQty;
-                 $productData->save();
-             }
+            //  $productData = product::find($item->id);
+            //  if ($productData->track_qty == 'Yes') {
+            //      $currentQty = $productData->qty;
+            //      $updatedQty = $currentQty - $item->qty;
+            //      $productData->qty = $updatedQty;
+            //      $productData->save();
+            //  }
          }
 
          session()->flash('success', 'You have successfully placed your Order.');
@@ -697,130 +731,7 @@ class CartController extends Controller
     {
 
     }
-    // {
 
-    //     /// Save User Address
-    //     $user = Auth::user();
-    //     CustomerAddress::updateOrcreate(
-    //         ['user_id' => $user->id],
-    //         [
-    //             'user_id' => $user->id,
-    //             'first_name' => $req->first_name,
-    //             'last_name' => $req->last_name,
-    //             'email' => $req->email,
-    //             'mobile' => $req->mobile,
-    //             'country_id' => $req->country,
-    //             'address' => $req->address,
-    //             'apartment' => $req->appartment,
-    //             'city' => $req->city,
-    //             'state' => $req->state,
-    //             'zip' => $req->zip,
-    //         ]
-    //     );
-
-    //     $discount = 0;
-    //     $promoCode = null;
-    //     $coupenId = null;
-    //     ///Apply Discount Here
-    //     if (session()->has('code')) {
-    //         $code = session()->get('code');
-    //         if ($code->type == 'percent') {
-    //             $discount = ($code->discount_amount / 100) * Cart::subtotal(2, '.', '');
-    //         } else {
-    //             $discount = $code->discount_amount;
-    //         }
-    //         $promoCode = $code->code;
-
-    //         $coupenId = $code->id;
-    //     }
-
-    //     /// Store data in Order Table
-
-    //     $shipping = 0;
-
-    //     $subTotal = Cart::subtotal(2, '.', '');
-
-    //     $totalQty = 0;
-    //     $subTotal = Cart::subtotal(2, '.', '');
-    //     foreach (Cart::content() as $item) {
-    //         $totalQty += $item->qty;
-    //     }
-
-    //     $shippingInfo = shipping::where('country_id', $req->country)->first();
-
-    //     if ($shippingInfo != null) {
-    //         $shipping = $totalQty * $shippingInfo->amount;
-    //         $grandTotal = $subTotal + $shipping;
-    //     } else {
-    //         $shippingInfo = shipping::where('country_id', 'rest_of_world')->first();
-    //         $shipping = $totalQty * $shippingInfo->amount;
-    //         $grandTotal = $subTotal + $shipping;
-    //     }
-
-    //     $order = new order;
-    //     $order->user_id = $user->id;
-    //     $order->subtotal = $subTotal;
-    //     $order->shipping = $shipping;
-    //     $order->grand_total = $grandTotal - $discount;
-    //     $order->discount = $discount;
-    //     $order->coupon_code_id = $coupenId;
-    //     $order->coupon_code = $promoCode;
-
-    //     $order->payment_status = 'not paid';
-    //     $order->status = 'pending';
-
-    //     $order->first_name = $req->first_name;
-    //     $order->last_name = $req->last_name;
-    //     $order->email = $req->email;
-    //     $order->mobile = $req->mobile;
-    //     $order->country_id = $req->country;
-    //     $order->address = $req->address;
-    //     $order->apartment = $req->appartment;
-    //     $order->city = $req->city;
-    //     $order->state = $req->state;
-    //     $order->zip = $req->zip;
-    //     $order->notes = $req->order_notes;
-    //     $order->save();
-
-    //     /// Store data in Order Item Table
-
-    //     foreach (Cart::content() as $item) {
-    //         $orderItem = new order_item;
-    //         $orderItem->product_id = $item->id;
-    //         $orderItem->order_id = $order->id;
-    //         $orderItem->name = $item->name;
-    //         $orderItem->qty = $item->qty;
-    //         $orderItem->price = $item->price;
-    //         $orderItem->total = $item->price * $item->qty;
-    //         $orderItem->save();
-
-    //         //// Update Product Stock
-    //         $productData = product::find($item->id);
-    //         if ($productData->track_qty == 'Yes') {
-    //             $currentQty = $productData->qty;
-    //             $updatedQty = $currentQty - $item->qty;
-    //             $productData->qty = $updatedQty;
-    //             $productData->save();
-    //         }
-
-
-    //     }
-
-
-    //     ///Sending Email
-    //     // orderEmail($order->id ,'customer');
-
-
-    //     session()->flash('success', 'You have successfully placed your Order.');
-    //     Cart::destroy();
-    //     return response()->json([
-    //         'status' => true,
-    //         'orderId' => $order->id,
-    //         'message' => 'Order Save Successfully'
-    //     ]);
-
-
-    // }
 }
 
 

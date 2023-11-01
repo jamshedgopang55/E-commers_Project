@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Stripe;
 use App\Models\discountCoupon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -29,7 +30,7 @@ class discountCodeController extends Controller
     public function store(Request $req)
     {
         $validator = Validator::make($req->all(), [
-            'code' => 'required',
+            'code' => 'required|unique:discount_coupons,code|regex:/\\A[a-zA-Z0-9_\\-]+\\z/',
             'type' => 'required',
             'discount_amount' => 'required|numeric',
             'status' => 'required',
@@ -47,6 +48,8 @@ class discountCodeController extends Controller
                     ]);
                 }
             }
+
+
 
             //expire date must be gratert than Start Date
 
@@ -75,6 +78,32 @@ class discountCodeController extends Controller
             $discount->start_at = $req->start_at;
             $discount->expires_at = $req->expires_at;
             $discount->save();
+
+            $stripe = new Stripe\StripeClient(env('STRIPE_SECRET'));
+            if ($req->type == 'percent') {
+
+                $stripe->coupons->create([
+                    'id' => $req->code,
+                    "name" => $req->name,
+                    'currency' => 'USD',
+                    'percent_off' => $req->discount_amount,
+                    'duration' => 'once',
+                ]);
+
+            } else {
+
+                $stripe->coupons->create([
+                    'id' => $req->code,
+                    "name" => $req->name,
+                    'currency' => 'USD',
+                    'amount_off' => $req->discount_amount * 100,
+                    'minimum_amount' => $req->min_amount,
+                    'duration' => 'once',
+                ]);
+
+            }
+
+
             $req->session()->flash('success', 'Discount Coupon added successfully');
             return response()->json([
                 'status' => true,
@@ -90,18 +119,18 @@ class discountCodeController extends Controller
     public function edit(Request $req, $id)
     {
         $coupon = discountCoupon::find($id);
-        if($coupon == null){
-            session()->flash('error','Record Not Found');
+        if ($coupon == null) {
+            session()->flash('error', 'Record Not Found');
             return redirect()->route('coupons.index');
         }
         $data['coupon'] = $coupon;
-        return view('admin.coupon.edit',$data);
+        return view('admin.coupon.edit', $data);
     }
-    public function update(Request $req,$id)
+    public function update(Request $req, $id)
     {
-        $discount =  discountCoupon::find($id);
-        if($discount== null){
-            session()->flash('error','Record Not Found');
+        $discount = discountCoupon::find($id);
+        if ($discount == null) {
+            session()->flash('error', 'Record Not Found');
             return redirect()->route('coupons.index');
         }
         $validator = Validator::make($req->all(), [
@@ -111,6 +140,40 @@ class discountCodeController extends Controller
             'status' => 'required',
         ]);
         if ($validator->passes()) {
+            $stripe = new Stripe\StripeClient(env('STRIPE_SECRET'));
+            $stripe = new Stripe\StripeClient(env('STRIPE_SECRET'));
+            if ($req->type == 'percent') {
+
+
+
+                $stripe->coupons->update(
+                    $discount->code,
+                    [
+                        'metadata' => [
+                            'id' => $req->code,
+                            'name' => $req->name,
+                        ],
+                        // 'percent_off' => $req->discount_amount,
+                    ]
+                );
+
+
+            } else {
+
+                $stripe->coupons->update(
+                    $discount->code,
+                    [
+                        'metadata' => [
+                            'id' => $req->code,
+                            "name" => $req->name,
+                        ],
+                        // 'amount_off' => $req->discount_amount * 100,
+                    ]
+                );
+
+            }
+
+
 
 
 
@@ -152,21 +215,22 @@ class discountCodeController extends Controller
             ]);
         }
     }
-    public function destroy(Request $req,$id)
+    public function destroy(Request $req, $id)
     {
         $discountCoupon = discountCoupon::find($id);
 
-        if(empty($discountCoupon)){
-            session()->flash('error','Record Not Found');
+        if (empty($discountCoupon)) {
+            session()->flash('error', 'Record Not Found');
             return response()->json([
                 'status' => false,
                 'errors' => "Record Not Found"
             ]);
-        };
+        }
+        ;
 
         $discountCoupon->delete();
 
-        $req->session()->flash('success','Coupon Deleted successfully');
+        $req->session()->flash('success', 'Coupon Deleted successfully');
         return response()->json([
             'status' => true,
             'errors' => "Coupon Deleted successfully"

@@ -478,7 +478,7 @@ class CartController extends Controller
             }
             //Coupons Used
             if ($code->max_uses > 0) {
-                $couponUsed = order::where('coupon_code_id', $code->id)->count();
+                $couponUsed = order::where('coupon_code_id', $code->id)->where('payment_status' , '!=' ,'pending')->count();
                 if ($couponUsed >= $code->max_uses) {
                     return response()->json([
                         'status' => false,
@@ -490,7 +490,7 @@ class CartController extends Controller
             ///Max Uses User Check
 
             if ($code->max_uses_user > 0) {
-                $couponUsedByUser = order::where(['coupon_code_id' => $code->id, 'user_id' => Auth::user()->id])->count();
+                $couponUsedByUser = order::where(['coupon_code_id' => $code->id, 'user_id' => Auth::user()->id])->where('payment_status' , '!=' ,'pending')->count();
                 if ($couponUsedByUser >= $code->max_uses_user) {
                     return response()->json([
                         'status' => false,
@@ -517,6 +517,8 @@ class CartController extends Controller
     }
     public function stripeCall(Request $req)
     {
+
+
 
         $validator = Validator::make($req->all(), [
             'first_name' => 'required|min:5',
@@ -596,16 +598,33 @@ class CartController extends Controller
         $stripe = new Stripe\StripeClient(env('STRIPE_SECRET'));
 
         $successUrl = route('front.thankYou', 33, true) . "?session_id={CHECKOUT_SESSION_ID}";
-        $response = $stripe->checkout->sessions->create([
-            'success_url' => $successUrl,
-            'customer_email' => $user_email,
-            'payment_method_types' => ['link', 'card'],
-            'shipping_address_collection' => ['allowed_countries' => [$country->code]],
-            'shipping_options' => [$shipping_options],
-            'line_items' => $line_items,
-            'mode' => 'payment',
-            'allow_promotion_codes' => true
-        ]);
+        if (session()->has('code')) {
+            $code = session()->get('code');
+            $response = $stripe->checkout->sessions->create([
+                'success_url' => $successUrl,
+                'customer_email' => $user_email,
+                'payment_method_types' => ['link', 'card'],
+                'discounts' =>[[
+                    'coupon' => $code->code,
+                ]],
+                'shipping_address_collection' => ['allowed_countries' => [$country->code]],
+                'shipping_options' => [$shipping_options],
+                'line_items' => $line_items,
+                'mode' => 'payment',
+            ]);
+        }else{
+            $response = $stripe->checkout->sessions->create([
+                'success_url' => $successUrl,
+                'customer_email' => $user_email,
+                'payment_method_types' => ['link', 'card'],
+                'shipping_address_collection' => ['allowed_countries' => [$country->code]],
+                'shipping_options' => [$shipping_options],
+                'line_items' => $line_items,
+                'mode' => 'payment',
+            ]);
+        }
+
+
 
          ////Create Order But Not Paid.....
          $user = Auth::user();

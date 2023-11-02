@@ -13,7 +13,7 @@ class discountCodeController extends Controller
 {
     public function index(Request $request)
     {
-        $discountCoupons = discountCoupon::paginate(10);
+        $discountCoupons = discountCoupon::orderBy('id' , 'desc')->paginate(10);
 
         if ($request->get('keyword')) {
             $discountCoupons = discountCoupon::where('name', 'like', '%' . $request->get('keyword') . '%')->paginate(10);
@@ -97,7 +97,6 @@ class discountCodeController extends Controller
                     "name" => $req->name,
                     'currency' => 'USD',
                     'amount_off' => $req->discount_amount * 100,
-                    'minimum_amount' => $req->min_amount,
                     'duration' => 'once',
                 ]);
 
@@ -172,11 +171,6 @@ class discountCodeController extends Controller
                 );
 
             }
-
-
-
-
-
             //expire date must be gratert than Start Date
 
             if (!empty($req->start_at) && !empty($req->expires_at)) {

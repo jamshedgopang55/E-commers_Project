@@ -14,7 +14,7 @@ class adminCategoryController extends Controller
 {
     public function index(Request $request){
 
-        $categories = category::paginate(10);
+        $categories = category::orderBy('id' , 'desc')->paginate(10);
         if($request->get('keyword')){
             $categories = category::where('name','like','%'.$request->get('keyword').'%')->paginate(10);
 
@@ -112,7 +112,7 @@ class adminCategoryController extends Controller
                 File::copy($sPath,$dPath);
                 $category->image = $newName;
                 $category->save();
-                
+
                 $dPath  = public_path('uploads/category/thumb/'.$newName);
                 $img = Image::make($sPath);
                 $img->resize(650,650);

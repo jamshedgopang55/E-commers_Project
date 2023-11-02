@@ -11,7 +11,7 @@ class brandController extends Controller
 {
     public function index(Request $req){
 
-        $brands = brand::paginate(10);
+        $brands = brand::orderBy('id' , 'desc')->paginate(10);
         if($req->get('keyword')){
             $brands = brand::where('name','like','%'.$req->get('keyword').'%')->paginate(10);
 

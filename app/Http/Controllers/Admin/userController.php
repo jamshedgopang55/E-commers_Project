@@ -10,7 +10,7 @@ class userController extends Controller
 {
     public function index(Request $request)
     {
-        $users = User::where('role',1)->paginate(10);
+        $users = User::orderBy('id' , 'desc')->where('role',1)->paginate(10);
         if($request->get('keyword')){
             $users = User::where('name','like','%'.$request->get('keyword').'%')->where('role',1)->paginate(10);
         }

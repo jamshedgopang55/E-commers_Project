@@ -42,7 +42,7 @@
                 <div class="col-md-7">
                     <div class="bg-light right">
                         <h1>{{ $product->tittle }}</h1>
-                        <div class="d-flex mb-3">
+                        {{-- <div class="d-flex mb-3">
                             <div class="text-primary mr-2">
                                 <small class="fas fa-star"></small>
                                 <small class="fas fa-star"></small>
@@ -51,7 +51,7 @@
                                 <small class="far fa-star"></small>
                             </div>
                             <small class="pt-1">(99 Reviews)</small>
-                        </div>
+                        </div> --}}
                         @if ($product->compare_price > 0)
                             <h2 class="price text-secondary"><del>${{ $product->compare_price }}</del></h2>
                         @endif
@@ -95,11 +95,11 @@
                                     type="button" role="tab" aria-controls="shipping" aria-selected="false">Shipping &
                                     Returns</button>
                             </li>
-                            <li class="nav-item" role="presentation">
+                            {{-- <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews"
                                     type="button" role="tab" aria-controls="reviews"
                                     aria-selected="false">Reviews</button>
-                            </li>
+                            </li> --}}
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="description" role="tabpanel"
@@ -111,11 +111,11 @@
                             <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
                                 {!! $product->Shipping_Returns !!}
                             </div>
-                            <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                            {{-- <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
                                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sed debitis dolorum impedit
                                 accusantium repudiandae omnis ipsa, nesciunt expedita harum saepe voluptates quam nulla
                                 perferendis minima amet dicta! Beatae, voluptatem corporis?
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>

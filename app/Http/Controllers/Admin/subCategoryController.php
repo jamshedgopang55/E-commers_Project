@@ -39,7 +39,7 @@ class subCategoryController extends Controller
             $subCategory->status =  $req->status;
             $subCategory->name  =  $req->name;
             $subCategory->slug  =  $req->slug;
-            $subCategory->showOnHome =  $req->showOnHome;
+            // $subCategory->showOnHome =  $req->showOnHome;
             $subCategory->save();
 
 
@@ -90,7 +90,7 @@ class subCategoryController extends Controller
             $subCategory->status =  $req->status;
             $subCategory->name  =  $req->name;
             $subCategory->slug  =  $req->slug;
-            $subCategory->showOnHome =  $req->showOnHome;
+            // $subCategory->showOnHome =  $req->showOnHome;
             $subCategory->save();
 
             $req->session()->flash('success','Sub Category Edit successfully');

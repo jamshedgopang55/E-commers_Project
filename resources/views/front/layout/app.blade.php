@@ -157,9 +157,9 @@
                     <div class="footer-card">
                         <h3>Get In Touch</h3>
                         <p>No dolore ipsum accusam no lorem. <br>
-                            123 Street, New York, USA <br>
-                            exampl@example.com <br>
-                            000 000 0000</p>
+                            123 Street , Karachi, Pakistan <br>
+                            jamshedgopang283@gmail.com <br>
+                            +92 309 2881994</p>
                     </div>
                 </div>
 

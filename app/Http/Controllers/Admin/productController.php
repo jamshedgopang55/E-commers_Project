@@ -17,7 +17,7 @@ use Image;
 class productController extends Controller
 {
     public function index(Request $request){
-        $products = product::with('product_images')->paginate(10);
+        $products = product::orderBy('id' , 'desc')->with('product_images')->paginate(10);
         if($request->get('keyword')){
             $products = product::where('tittle','like','%'.$request->get('keyword').'%')->paginate(10);
         }

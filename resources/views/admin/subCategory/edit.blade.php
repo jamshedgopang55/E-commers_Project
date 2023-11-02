@@ -64,7 +64,7 @@
                                        <p></p>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="showOnHome">Show On Home</label>
                                     <select name="showOnHome" id="status" class="form-control" id="">
@@ -72,7 +72,7 @@
                                         <option value="No" {{($subCategory->showOnHome=='No') ? 'selected' : ''}} >No</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
 

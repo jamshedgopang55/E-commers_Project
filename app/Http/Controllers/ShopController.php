@@ -118,7 +118,6 @@ class ShopController extends Controller
     public function storeRating(Request $req , $id) {
         $validator = Validator::make($req->all(), [
             'name' => 'required|min:3',
-            'email' => 'required|email',
             'comment' => 'required|min:10',
             'rating' => 'required'
 
@@ -129,7 +128,7 @@ class ShopController extends Controller
                 'errors' => $validator->errors()
             ]);
         }else{
-         $count =  productRating::where('email' ,$req->email)->count();
+         $count =  productRating::where('product_id' ,$id)->where('user_id' , Auth::user()->id)->count();
 
          if(Auth::check() ==  false){
             return response()->json([
@@ -148,7 +147,7 @@ class ShopController extends Controller
             $rating->product_id =  $id;
             $rating->user_id =  Auth::user()->id;
             $rating->name = $req->name;
-            $rating->email = $req->email;
+            $rating->email = Auth::user()->email;
             $rating->comment = $req->comment;
             $rating->rating = $req->rating;
             $rating->status = 0;
@@ -157,6 +156,26 @@ class ShopController extends Controller
         return response()->json([
             'status' => true,
             'message' => "<div class='alert alert-success'>Thanks For Your Ratings</div>"
+        ]);
+    }
+
+    public function showRatigs(Request $req){
+        $reviews = productRating::where('product_id' , $req->product_id)->get();
+        $count = productRating::where('product_id' , $req->product_id)->count();
+        if($count == null){
+            $count = 0;
+        }
+        if($reviews == null){
+            return response()->json([
+                'status' => false,
+                'message' => 'not found',
+                'count' => $count
+            ]);
+        }
+        return response()->json([
+            'status' => true,
+            'reviews' => $reviews,
+            'count' => $count
         ]);
     }
 

@@ -94,8 +94,8 @@
                                     Returns</button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews"
-                                    type="button" role="tab" aria-controls="reviews"
+                                <button id="reviewsBtn" class="nav-link" id="reviews-tab" data-bs-toggle="tab"
+                                    data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews"
                                     aria-selected="false">Reviews</button>
                             </li>
                         </ul>
@@ -121,12 +121,12 @@
                                                     placeholder="Name">
                                                 <p></p>
                                             </div>
-                                            <div class="form-group col-md-6 mb-3">
+                                            {{-- <div class="form-group col-md-6 mb-3">
                                                 <label for="email">Email</label>
                                                 <input type="text" class="form-control" name="email" id="email"
                                                     placeholder="Email">
                                                 <p></p>
-                                            </div>
+                                            </div> --}}
                                             <div class="form-group mb-3">
                                                 <label for="rating">Rating</label>
                                                 <br>
@@ -165,7 +165,32 @@
                                 <div class="col-md-12 mt-5">
                                     <div class="overall-rating mb-3">
                                         <div class="d-flex">
-                                            <h1 class="h3 pe-3">4.0</h1>
+                                            <h1 id="ratingPoints" class="h3 pe-3">0</h1>
+                                            <div class="star-rating mt-2" title="70%">
+                                                <div class="back-stars">
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+
+                                                    <div class="front-stars" id="totalRatings" style="">
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="count" class="pt-2 ps-2"></div>
+                                        </div>
+
+                                    </div>
+                                    <div id="ratingsDiv">
+
+                                        {{-- <div class="rating-group mb-4">
+                                            <span> <strong>Mohit Singh </strong></span>
                                             <div class="star-rating mt-2" title="70%">
                                                 <div class="back-stars">
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -183,81 +208,34 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="pt-2 ps-2">(03 Reviews)</div>
-                                        </div>
+                                            <div class="my-3">
+                                                <p>I went with the blue model for my new apartment and an very pleased with
+                                                    the
+                                                    purchase. I'm definitely someone not used to paying this much for
+                                                    furniture,
+                                                    and I am also anxious about buying online, but I am very happy with the
+                                                    quality of this couch. For me, it is the perfect mix of cushy firmness,
+                                                    and
+                                                    it arrived defect free. It really is well made and hopefully will be my
+                                                    main
+                                                    couch for a long time. I paid for the extra delivery & box removal, and
+                                                    had
+                                                    an excellent experience as well. I do tend move my own furniture, but
+                                                    with
+                                                    an online purchase this expensive, that helped relieved my anxiety about
+                                                    having a item this big open up in my space without issues. If you need a
+                                                    functional sectional couch and like the feel of leather, this really is
+                                                    a
+                                                    great choice.
 
-                                    </div>
-                                    <div class="rating-group mb-4">
-                                        <span> <strong>Mohit Singh </strong></span>
-                                        <div class="star-rating mt-2" title="70%">
-                                            <div class="back-stars">
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                <div class="front-stars" style="width: 70%">
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                </div>
+                                                </p>
                                             </div>
-                                        </div>
-                                        <div class="my-3">
-                                            <p>I went with the blue model for my new apartment and an very pleased with the
-                                                purchase. I'm definitely someone not used to paying this much for furniture,
-                                                and I am also anxious about buying online, but I am very happy with the
-                                                quality of this couch. For me, it is the perfect mix of cushy firmness, and
-                                                it arrived defect free. It really is well made and hopefully will be my main
-                                                couch for a long time. I paid for the extra delivery & box removal, and had
-                                                an excellent experience as well. I do tend move my own furniture, but with
-                                                an online purchase this expensive, that helped relieved my anxiety about
-                                                having a item this big open up in my space without issues. If you need a
-                                                functional sectional couch and like the feel of leather, this really is a
-                                                great choice.
-
-                                            </p>
-                                        </div>
+                                        </div> --}}
                                     </div>
 
-                                    <div class="rating-group mb-4">
-                                        <span class="author"><strong>Mohit Singh </strong></span>
-                                        <div class="star-rating mt-2">
-                                            <div class="back-stars">
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
 
-                                                <div class="front-stars" style="width: 100%">
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="my-3">
-                                            <p>I went with the blue model for my new apartment and an very pleased with the
-                                                purchase. I'm definitely someone not used to paying this much for furniture,
-                                                and I am also anxious about buying online, but I am very happy with the
-                                                quality of this couch. For me, it is the perfect mix of cushy firmness, and
-                                                it arrived defect free. It really is well made and hopefully will be my main
-                                                couch for a long time. I paid for the extra delivery & box removal, and had
-                                                an excellent experience as well. I do tend move my own furniture, but with
-                                                an online purchase this expensive, that helped relieved my anxiety about
-                                                having a item this big open up in my space without issues. If you need a
-                                                functional sectional couch and like the feel of leather, this really is a
-                                                great choice.
 
-                                            </p>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
 
@@ -339,8 +317,75 @@
 @endsection
 @section('customJs')
     <script type="text/javascript">
-        $('#reviewsForm').submit(function(e) {
+        $('#reviewsBtn').click(function(e) {
+            e.preventDefault();
+            $('#totalRatings').css('width', '90%');
 
+            function showReviws() {
+                $('#totalRatings').css('width', '0%');
+                $('#ratingsDiv').html('');
+                $.ajax({
+                    url: "{{ route('front.showRatigs') }}",
+                    type: 'GET',
+                    data: {
+                        'product_id': '{{ $product->id }}',
+                    },
+                    success: function(response) {
+                        if (response.status == true) {
+                            var totalRatings = 0;
+                            var html = ''
+                            var rating = 0;
+                            response.reviews.forEach((e) => {
+                                let rating = e.rating * 20
+                                totalRatings += e.rating;
+
+
+                                html += `<div class="rating-group mb-4">
+                                            <span class="author"><strong>${e.name}</strong></span>
+                                            <div class="star-rating mt-2">
+                                                <div class="back-stars">
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+
+                                                    <div class="front-stars" style="width: ${rating}%">
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="my-3">
+                                                <p>${e.comment}</p>
+                                            </div>
+                                        </div>
+                            `
+
+                            });
+                            $('#ratingsDiv').append(html)
+                            $('#count').html(`(${response.count} Reviews )`)
+                            $('#totalRatings').css('width', totalRatings / response.count * 20 + '%');
+                            if (response.count != 0) {
+                                $('#ratingPoints').html(totalRatings / response.count)
+                            }
+
+
+                        }
+
+                    }
+
+                })
+            }
+            showReviws()
+
+        })
+
+
+        $('#reviewsForm').submit(function(e) {
             e.preventDefault();
             $.ajax({
                 url: "{{ route('front.saveRating', $product->id) }}",
@@ -380,8 +425,84 @@
                         }
 
                     } else {
+
                         $('#wishlist_modal .modal-body').html(response.message)
                         $('#wishlist_modal').modal('show')
+                        $('#name').val("");
+                        $('#email').val("");
+                        $('#comment').val("");
+                        $('#ratingsDiv').html("")
+                        $('#comment').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
+                        $('#email').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
+                        $('#name').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
+                        $('.rating-error').html('')
+
+                        function showReviws() {
+                            $('#totalRatings').css('width', '0%');
+                            $('#ratingsDiv').html('');
+                            $.ajax({
+                                url: "{{ route('front.showRatigs') }}",
+                                type: 'GET',
+                                data: {
+                                    'product_id': '{{ $product->id }}',
+                                },
+                                success: function(response) {
+                                    if (response.status == true) {
+                                        var totalRatings = 0;
+                                        var html = ''
+                                        var rating = 0;
+                                        response.reviews.forEach((e) => {
+                                            let rating = e.rating * 20
+                                            totalRatings += e.rating;
+
+
+                                            html += `<div class="rating-group mb-4">
+                                            <span class="author"><strong>${e.name}</strong></span>
+                                            <div class="star-rating mt-2">
+                                                <div class="back-stars">
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+
+                                                    <div class="front-stars" style="width: ${rating}%">
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="my-3">
+                                                <p>${e.comment}</p>
+                                            </div>
+                                        </div>
+                            `
+
+                                        });
+                                        $('#ratingsDiv').append(html)
+                                        $('#count').html(`(${response.count} Reviews )`)
+                                        $('#totalRatings').css('width', totalRatings /
+                                            response.count * 20 + '%');
+                                        if (response.count != 0) {
+                                            $('#ratingPoints').html(totalRatings / response
+                                                .count)
+
+                                        }
+
+
+                                    }
+
+                                }
+
+                            })
+                        }
+
+                        showReviws()
+
+
                     }
                 }
             })

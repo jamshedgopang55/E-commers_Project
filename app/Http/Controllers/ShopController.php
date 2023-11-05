@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\brand;
 use App\Models\product;
-use App\Models\productImage;
 use App\Models\category;
 use App\Models\tmp_image;
-use App\Models\brand;
 use App\Models\subCategory;
+use App\Models\productImage;
+use Illuminate\Http\Request;
+use App\Models\productRating;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class ShopController extends Controller
 {
@@ -110,4 +113,51 @@ class ShopController extends Controller
         return view('front.product',$data);
 
     }
+    ///////Store Rating
+
+    public function storeRating(Request $req , $id) {
+        $validator = Validator::make($req->all(), [
+            'name' => 'required|min:3',
+            'email' => 'required|email',
+            'comment' => 'required|min:10',
+            'rating' => 'required'
+
+        ]);
+        if($validator->fails()){
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ]);
+        }else{
+         $count =  productRating::where('email' ,$req->email)->count();
+
+         if(Auth::check() ==  false){
+            return response()->json([
+                'status' => false,
+                'errors' => 'plase login'
+            ]);
+         }
+
+         if($count > 0){
+            return response()->json([
+                'status'=> true,
+                'message'=> " <div class='alert alert-secondary'>you Already Rated This Product..</div>"
+                ]);
+         }
+            $rating  =  new productRating;
+            $rating->product_id =  $id;
+            $rating->user_id =  Auth::user()->id;
+            $rating->name = $req->name;
+            $rating->email = $req->email;
+            $rating->comment = $req->comment;
+            $rating->rating = $req->rating;
+            $rating->status = 0;
+            $rating->save();
+        }
+        return response()->json([
+            'status' => true,
+            'message' => "<div class='alert alert-success'>Thanks For Your Ratings</div>"
+        ]);
+    }
+
 }

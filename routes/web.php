@@ -48,6 +48,7 @@ Route::controller(ShopController::class)->group(function () {
     Route::get('shop', 'index')->name('front.shop');
     Route::get('/shop/{categorySlug?}/{subCategorySlug?}', 'index')->name('front.shop');
     Route::get('product/{slug}', 'product')->name('front.product');
+    Route::post('saveRating{productId}', 'storeRating')->name('front.saveRating');
 });
 ///Cart Routes
 Route::controller(CartController::class)->group(function () {

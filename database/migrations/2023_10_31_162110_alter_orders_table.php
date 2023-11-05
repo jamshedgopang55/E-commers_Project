@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('order', function (Blueprint $table) {
-            $table->string('session_id')->nullable()->after('id');
+            // $table->string('session_id')->nullable()->after('id');
             $table->enum('payment_status',['paid','not paid' ,'pending'])->after('grand_total')->default('not paid')->change();
         });
     }

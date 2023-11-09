@@ -41,10 +41,10 @@ class AuthController extends Controller
             $user->phone = $request->phone;
             $user->password = Hash::make($request->password);
             $user->save();
-            session()->flash('success', 'You have been registerd successfully.');
+            session()->flash('success', 'You have been registered successfully.');
             return response()->json([
                 'status' => true,
-                'message' => 'You have been registerd successfully.'
+                'message' => 'You have been registered successfully.'
             ]);
         } else {
             return response()->json([
@@ -217,7 +217,6 @@ class AuthController extends Controller
             'email' => 'required|email|exists:users,email',
         ]);
         if ($validator->fails()) {
-            // return redirect()->route('front.forgetPassword')->withErrors($validator)->withInput($req->only('email'));
             return response()->json([
                 'status' => false,
                 'errors' => $validator->errors()
@@ -243,10 +242,10 @@ class AuthController extends Controller
 
             Mail::to($req->email)->send(new resetpasswordEmail($formData));
 
-            session()->flash('success', 'Plesae Check your inbox to reset Your Password');
+            session()->flash('success', 'Please Check your inbox to reset Your Password');
             return response()->json([
                 'status' => true,
-                'message' => 'Plesae Check your inbox to reset Your Password'
+                'message' => 'Please Check your inbox to reset Your Password'
             ]);
 
         }

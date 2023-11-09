@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-md-3 sidebar">
                     <div class="sub-title">
-                        <h2>Categories</h3>
+                        <h2>Categories</h2>
                     </div>
 
                     <div class="card">
@@ -57,7 +57,7 @@
                     </div>
 
                     <div class="sub-title mt-5">
-                        <h2>Brand</h3>
+                        <h2>Brand</h2>
                     </div>
 
                     <div class="card">
@@ -80,7 +80,7 @@
                     </div>
 
                     <div class="sub-title mt-5">
-                        <h2>Price</h3>
+                        <h2>Price</h2>
                     </div>
 
                     <div class="card">
@@ -114,10 +114,10 @@
                                 <div class="product-image position-relative">
                                     @if (!empty($product_images->image))
                                     <td><img  class="card-img-top" src="{{ asset('uploads/product/small/' . $product_images->image) }}"
-                                            class="img-thumbnail" ></td>
+                                            class="img-thumbnail"  alt="error"></td>
                                 @else
                                     <td><img  class="card-img-top" src="{{ asset('admin-assets/img/default-150x150.png') }}"
-                                            class="img-thumbnail" ></td>
+                                            class="img-thumbnail"  alt="error"></td>
                                 @endif
                                 <a class="whishlist"  onclick="addToWishList({{$Product->id}})" href="javascript:void(0)"><i class="far fa-heart"></i></a>
 

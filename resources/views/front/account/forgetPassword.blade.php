@@ -63,9 +63,13 @@
                     }
                 }
             },
-            error: function(JQXHR, execption) {
-                console.log('Somothing went Wrong')
+
+            error : function () {
+                $('#wishlist_modal .modal-body').html(" <div class='alert alert-danger'>Please Check Your Internet and Try  Again</div>")
+                $('#wishlist_modal').modal('show')
+                $('#btn').attr('disabled', false)
             }
+
         })
     })
 </script>

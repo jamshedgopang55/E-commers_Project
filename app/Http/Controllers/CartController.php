@@ -50,7 +50,7 @@ class CartController extends Controller
             } else {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Product Alrady Exist In Cart'
+                    'message' => 'Product Already Exist In Cart'
                 ]);
             }
         } else {
@@ -85,7 +85,7 @@ class CartController extends Controller
                 session()->flash('success', $message);
 
             } else {
-                $message = "Requested qty(" . $req->qty . ") not avaliable in stock.";
+                $message = "Requested qty(" . $req->qty . ") not available in stock.";
                 $status = false;
                 session()->flash('error', $message);
 
@@ -494,7 +494,7 @@ class CartController extends Controller
                 if ($couponUsedByUser >= $code->max_uses_user) {
                     return response()->json([
                         'status' => false,
-                        'message' => 'youve already used this coupon.'
+                        'message' => 'you  already used this coupon.'
                     ]);
                 }
             }
@@ -541,7 +541,7 @@ class CartController extends Controller
 
 
 
-        /////Stripe Calll
+        /////Stripe Call
         $user_email = Auth::user()->email;
         $line_items = [];
         $total_qty = 0;
@@ -746,10 +746,7 @@ class CartController extends Controller
         ]);
 
     }
-    public function storeOrder(Request $req)
-    {
 
-    }
 
 }
 

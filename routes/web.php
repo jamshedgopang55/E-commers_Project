@@ -51,8 +51,10 @@ Route::controller(ShopController::class)->group(function () {
     Route::get('saveRating{productId}', 'storeRating')->name('front.saveRating');
 
     Route::get('showRatigs', 'showRatigs')->name('front.showRatigs');
-
+    Route::post('showSingleReview', 'showSingleReview')->name('front.showSingleReview');
     Route::post('saveRating{productId}', 'storeRating')->name('front.saveRating');
+    Route::post('deleteRating', 'deleteRating')->name('front.deleteRating');
+    Route::post('updateReview', 'updateReview')->name('front.updateReview');
 });
 ///Cart Routes
 Route::controller(CartController::class)->group(function () {

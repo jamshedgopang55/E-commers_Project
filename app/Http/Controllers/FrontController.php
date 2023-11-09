@@ -47,7 +47,7 @@ class FrontController extends Controller
         if ($wishlistCount > 0) {
             return response()->json([
                 'status' => true,
-                'message' => " <div class='alert alert-secondary'>Product Alredy Added In your WishList</div>"
+                'message' => " <div class='alert alert-secondary'>Product Already Added In your WishList</div>"
             ]);
         }
 
@@ -100,7 +100,7 @@ class FrontController extends Controller
                 'email' => $req->email,
                 'subject' => $req->msg_subject,
                 'message' => $req->message,
-                'mail_subject' => 'You Have a recevied a contact mail'
+                'mail_subject' => 'You Have a received a contact mail'
             ];
             $email = 'jamshedgopang283@gmail.com';
             Mail::to($email)->send(new contectMail($mailData));

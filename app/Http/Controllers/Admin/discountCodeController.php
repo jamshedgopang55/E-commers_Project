@@ -51,7 +51,7 @@ class discountCodeController extends Controller
 
 
 
-            //expire date must be gratert than Start Date
+            //expire date must be grater than Start Date
 
             if (!empty($req->start_at) && !empty($req->expires_at)) {
                 $expires_at = Carbon::createFromFormat('Y-m-d H:i:s', $req->expires_at);
@@ -59,7 +59,7 @@ class discountCodeController extends Controller
                 if ($expires_at->gt($start_at) == false) {
                     return response()->json([
                         'status' => false,
-                        'errors' => ['expires_at' => 'Expiry date must be gratert than Start Date']
+                        'errors' => ['expires_at' => 'Expiry date must be grater than Start Date']
                     ]);
                 }
             }
@@ -171,7 +171,7 @@ class discountCodeController extends Controller
                 );
 
             }
-            //expire date must be gratert than Start Date
+            //expire date must be grater than Start Date
 
             if (!empty($req->start_at) && !empty($req->expires_at)) {
                 $expires_at = Carbon::createFromFormat('Y-m-d H:i:s', $req->expires_at);
@@ -179,7 +179,7 @@ class discountCodeController extends Controller
                 if ($expires_at->gt($start_at) == false) {
                     return response()->json([
                         'status' => false,
-                        'errors' => ['expires_at' => 'Expiry date must be gratert than Start Date']
+                        'errors' => ['expires_at' => 'Expiry date must be grater than Start Date']
                     ]);
                 }
             }

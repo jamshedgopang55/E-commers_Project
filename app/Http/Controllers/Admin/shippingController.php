@@ -40,10 +40,10 @@ class shippingController extends Controller
             $shipping->country_id = $req->country;
             $shipping->amount = $req->amount;
             $shipping->save();
-            Session()->flash('success','Shipping Added Succesfully');
+            Session()->flash('success','Shipping Added Successfully');
             return response()->json([
                 'status' => true,
-                'message' => 'Shipping Added Succesfully'
+                'message' => 'Shipping Added Successfully'
             ]);
 
         }else{
@@ -60,7 +60,7 @@ class shippingController extends Controller
             Session()->flash('error','Shipping not found');
 
             return redirect()->route('shipping.create');
-            
+
         }
         $countries = country::get();
         $data['shippingCharge'] = $shippingCharge;
@@ -78,10 +78,10 @@ class shippingController extends Controller
             $shipping->country_id = $req->country;
             $shipping->amount = $req->amount;
             $shipping->save();
-            Session()->flash('success','Shipping updated Succesfully');
+            Session()->flash('success','Shipping updated Successfully');
             return response()->json([
                 'status' => true,
-                'message' => 'Shipping updated Succesfully'
+                'message' => 'Shipping updated Successfully'
             ]);
 
         }else{
@@ -102,10 +102,10 @@ class shippingController extends Controller
             ]);
         }
         $shipping->delete();
-        Session()->flash('success','Shipping deleted Succesfully');
+        Session()->flash('success','Shipping deleted Successfully');
             return response()->json([
                 'status' => true,
-                'message' => 'Shipping deleted Succesfully'
+                'message' => 'Shipping deleted Successfully'
             ]);
     }
 }

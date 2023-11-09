@@ -84,7 +84,7 @@
                     $('#email').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
                     $('#msg_subject').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
                     $('#message').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
-                    $('#message').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
+                    // $('#message').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
                     $.ajax({
                             url: '{{ route('front.sendContectEmail') }}',
                             data: $(this).serializeArray(),
@@ -145,7 +145,12 @@
                                         }
 
                                     }
-                                }
+                                },
+                                    error : function (e) {
+                                        $('#wishlist_modal .modal-body').html(" <div class='alert alert-danger'>Please Check Your Internet and Try  Again</div>")
+                                        $('#wishlist_modal').modal('show')
+                                        $('#btn').attr('disabled', false)
+                                    }
                             })
                     })
     </script>

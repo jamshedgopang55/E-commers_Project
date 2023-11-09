@@ -50,8 +50,31 @@
                                 <small class="fas fa-star-half-alt"></small>
                                 <small class="far fa-star"></small>
                             </div>
-                            <small class="pt-1">(99 Reviews)</small>
+                            <small id="count" class="pt-1">({{$count}} Reviews )</small>
                         </div> --}}
+
+
+                        <div class="d-flex mb-3  mt-2" >
+                            <div class="back-stars">
+                                <small class="fa fa-star"></small>
+                                <small class="fa fa-star"></small>
+                                <small class="fa fa-star"></small>
+                                <small class="fa fa-star"></small>
+                                <small class="fa fa-star"></small>
+
+                                <div class="front-stars" id="totalRatings2" style="width:{{$total_ratings  * 20}}%">
+                                    <small class="fa fa-star"></small>
+                                    <small class="fa fa-star"></small>
+                                    <small class="fa fa-star"></small>
+                                    <small class="fa fa-star"></small>
+                                    <small class="fa fa-star"></small>
+                                </div>
+
+                            </div>
+                            <small id="count" class="">({{ $count }} Reviews )</small>
+                        </div>
+
+
                         @if ($product->compare_price > 0)
                             <h2 class="price text-secondary"><del>${{ $product->compare_price }}</del></h2>
                         @endif
@@ -112,61 +135,64 @@
                             <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
                                 <div class="col-md-8">
                                     <div class="row">
-
-                                        <form id="reviewsForm">
-                                            <h3 class="h4 pb-3">Write a Review</h3>
-                                            <div class="form-group col-md-6 mb-3">
-                                                <label for="name">Name</label>
-                                                <input type="text" class="form-control" name="name" id="name"
-                                                    placeholder="Name">
-                                                <p></p>
-                                            </div>
-                                            {{-- <div class="form-group col-md-6 mb-3">
+                                        <h2>Reviews</h2>
+                                        @if ($showReviewsForm == true)
+                                            <form id="reviewsForm">
+                                                <h3 class="h4 pb-3">Write a Review</h3>
+                                                <div class="form-group col-md-6 mb-3">
+                                                    <label for="name">Name</label>
+                                                    <input type="text" class="form-control" name="name"
+                                                        id="name" placeholder="Name">
+                                                    <p></p>
+                                                </div>
+                                                {{-- <div class="form-group col-md-6 mb-3">
                                                 <label for="email">Email</label>
                                                 <input type="text" class="form-control" name="email" id="email"
                                                     placeholder="Email">
                                                 <p></p>
                                             </div> --}}
-                                            <div class="form-group mb-3">
-                                                <label for="rating">Rating</label>
-                                                <br>
-                                                <div class="rating" style="width: 10rem">
-                                                    <input id="rating-5" type="radio" name="rating"
-                                                        value="5" /><label for="rating-5"><i
-                                                            class="fas fa-3x fa-star"></i></label>
-                                                    <input id="rating-4" type="radio" name="rating"
-                                                        value="4" /><label for="rating-4"><i
-                                                            class="fas fa-3x fa-star"></i></label>
-                                                    <input id="rating-3" type="radio" name="rating"
-                                                        value="3" /><label for="rating-3"><i
-                                                            class="fas fa-3x fa-star"></i></label>
-                                                    <input id="rating-2" type="radio" name="rating"
-                                                        value="2" /><label for="rating-2"><i
-                                                            class="fas fa-3x fa-star"></i></label>
-                                                    <input id="rating-1" type="radio" name="rating"
-                                                        value="1" /><label for="rating-1"><i
-                                                            class="fas fa-3x fa-star"></i></label>
+                                                <div class="form-group mb-3">
+                                                    <label for="rating">Rating</label>
+                                                    <br>
+                                                    <div class="rating" style="width: 10rem">
+                                                        <input id="rating-5" type="radio" name="rating"
+                                                            value="5" /><label for="rating-5"><i
+                                                                class="fas fa-3x fa-star"></i></label>
+                                                        <input id="rating-4" type="radio" name="rating"
+                                                            value="4" /><label for="rating-4"><i
+                                                                class="fas fa-3x fa-star"></i></label>
+                                                        <input id="rating-3" type="radio" name="rating"
+                                                            value="3" /><label for="rating-3"><i
+                                                                class="fas fa-3x fa-star"></i></label>
+                                                        <input id="rating-2" type="radio" name="rating"
+                                                            value="2" /><label for="rating-2"><i
+                                                                class="fas fa-3x fa-star"></i></label>
+                                                        <input id="rating-1" type="radio" name="rating"
+                                                            value="1" /><label for="rating-1"><i
+                                                                class="fas fa-3x fa-star"></i></label>
+                                                    </div>
+                                                    <p class="rating-error text-danger"></p>
                                                 </div>
-                                                <p class="rating-error text-danger"></p>
-                                            </div>
-                                            <div class="form-group mb-3">
-                                                <label for="">How was your overall experience?</label>
-                                                <textarea name="comment" id="comment" class="form-control" cols="30" rows="10"
-                                                    placeholder="How was your overall experience?"></textarea>
-                                                <p></p>
-                                            </div>
-                                            <div>
-                                                <button type="submit" class="btn btn-dark">Submit</button>
-                                            </div>
+                                                <div class="form-group mb-3">
+                                                    <label for="">How was your overall experience?</label>
+                                                    <textarea name="comment" id="comment" class="form-control" cols="30" rows="10"
+                                                        placeholder="How was your overall experience?"></textarea>
+                                                    <p></p>
+                                                </div>
+                                                <div>
+                                                    <button type="submit" class="btn btn-dark">Submit</button>
+                                                </div>
 
-                                        </form>
+                                            </form>
+                                        @endif
+
                                     </div>
                                 </div>
                                 <div class="col-md-12 mt-5">
                                     <div class="overall-rating mb-3">
                                         <div class="d-flex">
                                             <h1 id="ratingPoints" class="h3 pe-3">0</h1>
-                                            <div class="star-rating mt-2" title="70%">
+                                            <div class="star-rating mt-2" >
                                                 <div class="back-stars">
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -189,48 +215,6 @@
                                     </div>
                                     <div id="ratingsDiv">
 
-                                        {{-- <div class="rating-group mb-4">
-                                            <span> <strong>Mohit Singh </strong></span>
-                                            <div class="star-rating mt-2" title="70%">
-                                                <div class="back-stars">
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                    <div class="front-stars" style="width: 70%">
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="my-3">
-                                                <p>I went with the blue model for my new apartment and an very pleased with
-                                                    the
-                                                    purchase. I'm definitely someone not used to paying this much for
-                                                    furniture,
-                                                    and I am also anxious about buying online, but I am very happy with the
-                                                    quality of this couch. For me, it is the perfect mix of cushy firmness,
-                                                    and
-                                                    it arrived defect free. It really is well made and hopefully will be my
-                                                    main
-                                                    couch for a long time. I paid for the extra delivery & box removal, and
-                                                    had
-                                                    an excellent experience as well. I do tend move my own furniture, but
-                                                    with
-                                                    an online purchase this expensive, that helped relieved my anxiety about
-                                                    having a item this big open up in my space without issues. If you need a
-                                                    functional sectional couch and like the feel of leather, this really is
-                                                    a
-                                                    great choice.
-
-                                                </p>
-                                            </div>
-                                        </div> --}}
                                     </div>
 
 
@@ -317,31 +301,37 @@
 @endsection
 @section('customJs')
     <script type="text/javascript">
-        $('#reviewsBtn').click(function(e) {
-            e.preventDefault();
-            $('#totalRatings').css('width', '90%');
+        function showReviws() {
+            $('#totalRatings').css('width', '0%');
+            $('#totalRatings2').css('width', '0%');
 
-            function showReviws() {
-                $('#totalRatings').css('width', '0%');
-                $('#ratingsDiv').html('');
-                $.ajax({
-                    url: "{{ route('front.showRatigs') }}",
-                    type: 'GET',
-                    data: {
-                        'product_id': '{{ $product->id }}',
-                    },
-                    success: function(response) {
-                        if (response.status == true) {
-                            var totalRatings = 0;
-                            var html = ''
-                            var rating = 0;
-                            response.reviews.forEach((e) => {
-                                let rating = e.rating * 20
-                                totalRatings += e.rating;
+            $('#ratingsDiv').html('');
 
+            $.ajax({
+                url: "{{ route('front.showRatigs') }}",
+                type: 'GET',
+                data: {
+                    'product_id': '{{ $product->id }}',
+                },
+                success: function(response) {
+                    if (response.status == true) {
+                        var totalRatings = 0;
+                        var html = ''
+                        var rating = 0;
+                        response.reviews.forEach((e) => {
+                            let rating = e.rating * 20
+                            totalRatings += e.rating;
+                            if (response.user_id == e.user_id) {
 
-                                html += `<div class="rating-group mb-4">
-                                            <span class="author"><strong>${e.name}</strong></span>
+                                html += `<div id="myReview">
+                                     <div class="rating-group mb-4" id="rating-div${e.id}" >
+                                    <div class="rating-div">
+                                                <span class="author"><strong>${e.name}</strong></span>
+                                                <div class="btn-flex">
+                                                    <button onclick="editReview(${e.id})" class='btn btn-info'>Edit</button>
+                                                    <button onclick="deleteReview(${e.id})" class='btn btn-danger'>Delete</button>
+                                                </div>
+                                            </div>
                                             <div class="star-rating mt-2">
                                                 <div class="back-stars">
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -363,25 +353,66 @@
                                                 <p>${e.comment}</p>
                                             </div>
                                         </div>
+                                    </div>
                             `
+                            } else {
+                                html += `<div class="rating-group mb-4">
 
-                            });
-                            $('#ratingsDiv').append(html)
-                            $('#count').html(`(${response.count} Reviews )`)
-                            $('#totalRatings').css('width', totalRatings / response.count * 20 + '%');
-                            if (response.count != 0) {
-                                $('#ratingPoints').html(totalRatings / response.count)
+                            <span class="author"><strong>${e.name}</strong></span>
+
+
+                            <div class="star-rating mt-2">
+                            <div class="back-stars">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+
+                                <div class="front-stars" style="width: ${rating}%">
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="my-3">
+                            <p>${e.comment}</p>
+                            </div>
+                            </div>
+                            `
                             }
 
 
+                        });
+                        $('#ratingsDiv').append(html)
+                        $('#count').html(`(${response.count} Reviews )`)
+                        $('#totalRatings').css('width', totalRatings / response.count * 20 + '%');
+                        $('#totalRatings2').css('width', totalRatings / response.count * 20 + '%');
+
+                        if (response.count != 0) {
+                            let total = totalRatings / response.count;
+
+                            $('#ratingPoints').html(total.toFixed(1))
+                        } else {
+                            $('#ratingPoints').html(0.0)
                         }
+
 
                     }
 
-                })
-            }
-            showReviws()
+                }
 
+            })
+        }
+
+
+        $('#reviewsBtn').click(function(e) {
+            e.preventDefault();
+            $('#totalRatings').css('width', '90%');
+            showReviws()
         })
 
 
@@ -432,80 +463,124 @@
                         $('#email').val("");
                         $('#comment').val("");
                         $('#ratingsDiv').html("")
-                        $('#comment').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
-                        $('#email').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
-                        $('#name').removeClass('is-invalid').siblings('p').removeClass('invalid-feedback').html("")
+                        $('#comment').removeClass('is-invalid').siblings('p').removeClass(
+                            'invalid-feedback').html("")
+                        $('#email').removeClass('is-invalid').siblings('p').removeClass(
+                            'invalid-feedback').html("")
+                        $('#name').removeClass('is-invalid').siblings('p').removeClass(
+                            'invalid-feedback').html("")
                         $('.rating-error').html('')
+                        showReviws()
+                    }
+                }
 
-                        function showReviws() {
-                            $('#totalRatings').css('width', '0%');
-                            $('#ratingsDiv').html('');
-                            $.ajax({
-                                url: "{{ route('front.showRatigs') }}",
-                                type: 'GET',
-                                data: {
-                                    'product_id': '{{ $product->id }}',
-                                },
-                                success: function(response) {
-                                    if (response.status == true) {
-                                        var totalRatings = 0;
-                                        var html = ''
-                                        var rating = 0;
-                                        response.reviews.forEach((e) => {
-                                            let rating = e.rating * 20
-                                            totalRatings += e.rating;
+            })
 
-
-                                            html += `<div class="rating-group mb-4">
-                                            <span class="author"><strong>${e.name}</strong></span>
-                                            <div class="star-rating mt-2">
-                                                <div class="back-stars">
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-
-                                                    <div class="front-stars" style="width: ${rating}%">
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                    </div>
+        })
+        function editReview(id){
+            $.ajax({
+                url: "{{ route('front.showSingleReview') }}",
+                type: 'post',
+                data: {
+                    'review_id': id,
+                },
+                success: function(response) {
+                    if(response.status === true){
+                        var ratingDiv = $('#rating-div' + id)
+                        ratingDiv.remove();
+                        let html = `<form id="editFrom" method="post" >
+                                        <div id="myReview">
+                                        <div class="rating-group mb-4" id="rating-div1">
+                                    <div class="rating-div">
+                                                <span class="author"><strong>${response.review.name}</strong></span>
+                                                <div class="btn-flex">
+                                                    <button type="submit" class='btn btn-info'>Update</button>
+                                                    <button onclick="showReviws()" class='btn btn-danger'>Canecl</button>
                                                 </div>
                                             </div>
-                                            <div class="my-3">
-                                                <p>${e.comment}</p>
-                                            </div>
-                                        </div>
-                            `
+                                            <div class="star-rating mt-2">
+                                                <div class="back-stars">
+                                                        <div class="rating2" style="width: 10rem" >
+                                                        <input id="editrating-5" type="radio" name="rating" ${(response.review.rating == 5) ? 'checked' : ''}
+                                                                           value="5" /><label for="editrating-5"><i
+                                                                                class="fas fa-3x fa-star"></i></label>
+                                                                    <input id="editrating-4" type="radio" name="rating" ${(response.review.rating == 4) ? 'checked' : ''}
+                                                                           value="4" /><label for="editrating-4"><i
+                                                                            class="fas fa-3x fa-star"></i></label>
+                                                                    <input id="editrating-3"  type="radio" name="rating" ${(response.review.rating == 3) ? 'checked' : ''}
+                                                                           value="3" /><label for="editrating-3"><i
+                                                                            class="fas fa-3x fa-star"></i></label>
+                                                                    <input id="editrating-2" type="radio" name="rating" ${(response.review.rating == 2) ? 'checked' : ''}
+                                                                           value="2" /><label for="editrating-2"><i
+                                                                            class="fas fa-3x fa-star"></i></label>
+                                                                    <input id="editrating-1" type="radio" name="rating" ${(response.review.rating == 1) ? 'checked' : ''}
+                                                                           value="1" /><label for="editrating-1"><i
+                                                                            class="fas fa-3x fa-star"></i></label>
+                                                                </div>
 
-                                        });
-                                        $('#ratingsDiv').append(html)
-                                        $('#count').html(`(${response.count} Reviews )`)
-                                        $('#totalRatings').css('width', totalRatings /
-                                            response.count * 20 + '%');
-                                        if (response.count != 0) {
-                                            $('#ratingPoints').html(totalRatings / response
-                                                .count)
+                                    </div>
+                                </div>
+                                <div class="my-3">
+                                  <textarea name="comment" id="comment" class="form-control" cols="30" rows="10"
+                        placeholder="How was your overall experience?">${response.review.comment}</textarea>
+                                        <p></p>
 
-                                        }
-
-
-                                    }
-
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                        `
+                        $('#myReview').append(html)
+                        $('#editFrom').submit(function (e){
+                            e.preventDefault();
+                            let data =  $(this).serializeArray();
+                            let rating =   data[0].value;
+                            let comment =   data[1].value;
+                            $.ajax({
+                                url : "{{route('front.updateReview')}}",
+                                type : 'POST',
+                                data : {
+                                    'rating' : rating,
+                                    'comment' : comment,
+                                    'review_id' : response.review.id
+                                },
+                                dataType : 'json' ,
+                                success : function (response) {
+                                   if(response.status === true){
+                                       $('#wishlist_modal .modal-body').html(response.message)
+                                       $('#wishlist_modal').modal('show')
+                                       showReviws()
+                                   }
                                 }
-
                             })
-                        }
-
-                        showReviws()
-
-
+                        })
+                    }else{
+                        $('#wishlist_modal .modal-body').html(response.message)
+                        $('#wishlist_modal').modal('show')
                     }
                 }
             })
-        })
+        }
+        function deleteReview(id) {
+            if (window.confirm("Are you sure you want to Delete?")) {
+                $.ajax({
+                    url: "{{ route('front.deleteRating') }}",
+                    type: 'POST',
+                    data: {
+                        'review_id': id,
+                    },
+                    success: function(response) {
+                        if (response.status == true) {
+                            $('#wishlist_modal .modal-body').html(response.message)
+                            $('#wishlist_modal').modal('show')
+                            showReviws()
+
+                        }
+                    }
+                })
+            }
+        }
+
+
     </script>
 @endsection

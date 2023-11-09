@@ -105,7 +105,7 @@
                     <div class="col-md-4">
                         <div class="card cart-summery">
                             <div class="sub-title">
-                                <h2 class="bg-white">Cart Summery</h3>
+                                <h2 class="bg-white">Cart Summery</h2>
                             </div>
                             <div class="card-body">
 

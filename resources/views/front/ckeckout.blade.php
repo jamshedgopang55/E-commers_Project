@@ -132,7 +132,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="sub-title">
-                            <h2>Order Summery</h3>
+                            <h2>Order Summery</h2>
                         </div>
                         <div class="card cart-summery">
                             <div class="card-body">
@@ -405,6 +405,11 @@
                         } else {
                                 window.location.href = response.url;
                         }
+                    },
+                    error : function (e) {
+                        $('#wishlist_modal .modal-body').html(" <div class='alert alert-danger'>Please Check Your Internet and Try  Again</div>")
+                        $('#wishlist_modal').modal('show')
+                        $('#btn').attr('disabled', false)
                     }
                 })
             }

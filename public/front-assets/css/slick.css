@@ -165,3 +165,31 @@
     color: #bb5252;
     font-size: 1.5em;
   }
+  .rating-div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+  }
+  .btn-flex{
+    display: flex;
+    gap: 10px;
+  }
+.rating2 {
+    direction: rtl;
+    unicode-bidi: bidi-override;
+    color: #ddd; /* Personal choice */
+    font-size: 8px;
+    margin-left: -15px;
+}
+.rating2 input {
+    display: none;
+}
+.rating2 label:hover,
+.rating2 label:hover ~ label,
+.rating2 input:checked + label,
+.rating2 input:checked + label ~ label {
+    color: #ffc107; /* Personal color choice. Lifted from Bootstrap 4 */
+    font-size: 8px;
+}

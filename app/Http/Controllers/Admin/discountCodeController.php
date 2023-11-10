@@ -32,6 +32,7 @@ class discountCodeController extends Controller
         $validator = Validator::make($req->all(), [
             'code' => 'required|unique:discount_coupons,code|regex:/\\A[a-zA-Z0-9_\\-]+\\z/',
             'type' => 'required',
+            'name' => 'required|unique:discount_coupons,name',
             'discount_amount' => 'required|numeric',
             'status' => 'required',
         ]);
@@ -133,9 +134,7 @@ class discountCodeController extends Controller
             return redirect()->route('coupons.index');
         }
         $validator = Validator::make($req->all(), [
-            'code' => 'required',
-            'type' => 'required',
-            'discount_amount' => 'required|numeric',
+
             'status' => 'required',
         ]);
         if ($validator->passes()) {
@@ -184,14 +183,9 @@ class discountCodeController extends Controller
                 }
             }
 
-
-            $discount->code = $req->code;
-            $discount->name = $req->name;
             $discount->description = $req->description;
             $discount->max_uses = $req->max_uses;
             $discount->max_uses_user = $req->max_uses_user;
-            $discount->type = $req->type;
-            $discount->discount_amount = $req->discount_amount;
             $discount->min_amount = $req->min_amount;
             $discount->status = $req->status;
             $discount->start_at = $req->start_at;

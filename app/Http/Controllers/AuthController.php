@@ -94,7 +94,7 @@ class AuthController extends Controller
     public function orders()
     {
         $userId = Auth()->User()->id;
-        $orders = order::where('user_id', $userId)->orderBy('created_at', 'DESC')->where('payment_status' ,'!=' ,'pending')->get();
+        $orders = order::where('user_id', $userId)->orderBy('created_at', 'DESC')->where('payment_status' ,'!=' ,'pending')->paginate(10);
         $data['orders'] = $orders;
         return view('front.account.order', $data);
     }

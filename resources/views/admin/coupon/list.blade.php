@@ -49,6 +49,7 @@
                                 <th>Code</th>
                                 <th>Name</th>
                                 <th>Dicount</th>
+                                <th>Coupons Left</th>
                                 <th>Started At</th>
                                 <th>Expaire At</th>
                                 <th width="100">Status</th>
@@ -69,6 +70,17 @@
                                             @else
                                             {{ $discountCoupon->discount_amount }}%
                                             @endif
+                                            <td>
+                                                @php
+                                                if($discountCoupon->max_uses == ''){
+                                                    echo 'Unlimited';
+                                                }else{
+                                                    $couponUsed = \App\Models\order::where('coupon_code_id', $discountCoupon->id )->where('payment_status' , '!=' ,'pending')->count();
+                                                    echo $discountCoupon->max_uses - $couponUsed;
+                                                }
+                                                @endphp
+
+                                            </td>
                                         </td>
                                         <td>
                                             @if ($discountCoupon->start_at)

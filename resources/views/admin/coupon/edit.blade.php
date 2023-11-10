@@ -24,8 +24,8 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="name">code</label>
-                                    <input type="text" name="code" value="{{ $coupon->code }}" id="code"
+                                    <label  for="name">code</label>
+                                    <input readonly type="text" name="code" value="{{ $coupon->code }}" id="code"
                                         class="form-control" placeholder="Coupon Code">
                                     <p></p>
                                 </div>
@@ -33,7 +33,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="slug">name</label>
-                                    <input type="text" name="name" id="name" value="{{ $coupon->name }}"
+                                    <input readonly type="text" name="name" id="name" value="{{ $coupon->name }}"
                                         class="form-control" placeholder="Coupon Code Name">
                                     <p></p>
                                 </div>
@@ -54,23 +54,8 @@
                                     <p></p>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="type">type</label>
-                                    <select name="type" id="type" class="form-control" id="">
-                                        <option {{ ($coupon->type == 'percent') ? 'selected' : '' }} value="percent">present</option>
-                                        <option  {{ ($coupon->type == 'fixed') ? 'selected' : '' }}  value="fixed">Fixed</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="discount_amount">Descount Amount</label>
-                                    <input type="number" name="discount_amount" value="{{ $coupon->discount_amount }}"
-                                        id="discount_amount" class="form-control" placeholder="Descount Amount">
-                                    <p></p>
-                                </div>
-                            </div>
+
+
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="min_amount">Min Amount</label>

@@ -60,11 +60,14 @@
                                                 <td colspan="4">Orders Not Found</td>
                                             </tr>
                                         @endif
-
                                     </tbody>
                                 </table>
                             </div>
+
                         </div>
+                    </div>
+                    <div class="m-3">
+                        {{$orders->links('pagination::bootstrap-5')}}
                     </div>
                 </div>
             </div>

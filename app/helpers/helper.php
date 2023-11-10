@@ -32,7 +32,7 @@ function orderEmail($orderId,$user = 'customer'){
         $email = $order->email;
     }else{
         $subject ='You have received an Order';
-        $email = env('ADMIN_EMAIL');
+        $email =  $email = Auth::user()->email;
     }
     $mailData = [
         'subject' => $subject,

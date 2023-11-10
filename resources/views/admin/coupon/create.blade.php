@@ -198,6 +198,13 @@
                                 $('#expires_at').removeClass('is-invalid').siblings('p').removeClass(
                                     'invalid-feedback').html("")
                             }
+                            if (errors['name']) {
+                                $('#name').addClass('is-invalid').siblings('p').addClass(
+                                    'invalid-feedback').html(errors['name'])
+                            } else {
+                                $('#name').removeClass('is-invalid').siblings('p').removeClass(
+                                    'invalid-feedback').html("")
+                            }
 
                         }
 

@@ -100,7 +100,7 @@ class FrontController extends Controller
                 'email' => $req->email,
                 'subject' => $req->msg_subject,
                 'message' => $req->message,
-                'mail_subject' => 'You Have a received a contact mail'
+                'mail_subject' => 'You Have received a contact mail'
             ];
             $email = 'jamshedgopang283@gmail.com';
             Mail::to($email)->send(new contectMail($mailData));

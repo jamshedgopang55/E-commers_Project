@@ -54,9 +54,7 @@
                         <h4 class="h4 mb-0"><strong>{{ Auth::guard('admin')->User()->name }}</strong></h4>
                         <div class="mb-3">{{ Auth::guard('admin')->User()->email }}</div>
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-user-cog mr-2"></i> Settings
-                        </a>
+
                         <div class="dropdown-divider"></div>
                         <a href="{{route('admin.changePasswordFrom')}}" class="dropdown-item">
                             <i class="fas fa-lock mr-2"></i> Change Password
@@ -82,7 +80,7 @@
         <!-- /.content-wrapper -->
         <footer class="main-footer">
 
-            <strong class="Copyright">Copyright &copy; 2014-2022 AmazingShop All rights reserved.
+            <strong class="Copyright">Copyright &copy; 2014-2023 AmazingShop All rights reserved.</strong>
         </footer>
 
     </div>

@@ -9,7 +9,7 @@
 </head>
 
 <body style="font-family: Arial, Helvetica, sans-serif; font-size:16px">
-    <h1>You Have a recevied a contact mail</h1>
+    <h1>You Have  recevied a contact mail</h1>
     <p>Name : {{$mailData['name']}}</p>
     <p>Email : {{$mailData['email']}}</p>
     <p>Subject : {{$mailData['subject']}}</p>

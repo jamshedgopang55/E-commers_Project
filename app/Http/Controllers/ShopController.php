@@ -98,8 +98,12 @@ class ShopController extends Controller
     {
 
         $product = product::where('slug', $slug)->with('product_images')->first();
+        if ($product == NULL) {
+            abort(404);
+        }
         $count = productRating::where('product_id', $product->id)->count();
         $reviews = productRating::where('product_id', $product->id)->orderBy('id', 'DESC')->sum('rating');
+
         if($count != 0){
             $total_ratings  = $reviews / $count;
         }else{
@@ -126,9 +130,7 @@ class ShopController extends Controller
 
         }
 
-        if ($product == NULL) {
-            abort(404);
-        }
+
 
         $related_products = [];
         $productArray = [];

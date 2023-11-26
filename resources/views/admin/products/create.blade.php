@@ -15,7 +15,7 @@
     </section>
     <style>
         .Copyright {
-            display: no
+            display: none;
         }
     </style>
     <!-- Main content -->
